@@ -1,0 +1,38 @@
+,,,,,,,,,,,,,,,,,NA = non évaluable,,,,,,,,,,,,,,Q1A,Q1B,Q2A,Q2B,Q3A,Q3B,Q4A,Q4B,Q5A,Q5B,Q6A,Q6B,Q7A,Q7B,Q8A,Q8B,Q9A,Q9B,
+,Groupe,date,Numéro,Diplôme,Date,Sexe,Lieu exercice,experience urgence 1 = oui 2 = non,Date debut,date fin,confronté situation jamais = 1 rarement = 2 parfois = 3 souvent = 4,de quand date dernière situation d'urgence,de quand date dernière situation d'urgence,formation urgence,date derniere formation urgence,date derniere formation urgence,A,B,C,D,E,F,G,H,I,J,K,L,M,N,Q1A,Q1B,Q2A,Q2B,Q3A,Q3B,Q4A,Q4B,Q5A,Q5B,Q6A,Q6B,Q7A,Q7B,Q8A,Q8B,Q9A,Q9B,Tel
+1,1,11/12 mars,2,IDE,2012,F,chir orthopédique,non,,,jamais,NA,NA,AFGSU,,2012,NA,NA,NA,6,7,8,6,7,8,8,8,5,6,8,6,6,4,8,5,7,6,8,3,6,7,4,2,6,7,7,4,6,oui
+2,1,,3,IDE,1992,F,CMCO,non,,,parfois,2, semaines,,,,6,7,7,8,8,8,8,8,8,8,8,7,7,7,5,7,5,7,5,7,5,7,5,7,5,7,5,7,8,8,5,7,oui
+3,1,,4,IDE,2010,F,PNEUMO,non,,,parfois,2, semaines,AFGSU,,2010,7,6,7,8,8,8,8,8,8,8,8,8,8,8,6,7,5,8,5,8,6,8,6,7,3,2,5,8,8,8,5,8,non
+4,1,,5,IDE,1994,F,GERIATRIE,oui,1994,1999,parfois,6,mois,,,,7,6,6,8,8,8,7,7,7,7,8,6,8,8,5,7,4,6,5,7,6,6,6,6,8,8,7,7,8,8,6,6,non
+5,1,,7,SAGE FEMME,1986,F,,oui,2003,,parfois,6,mois,,,,6,6,6,8,8,8,8,8,8,8,8,6,7,8,5,7,5,7,5,7,5,7,5,7,2,6,5,7,8,8,5,7,non
+6,1,,8,IDE,2011,F,TRAUMATO,non,,,parfois,6,mois,AFGSU,,2011,6,6,7,5,6,8,7,8,8,8,8,6,7,7,5,7,6,7,5,6,5,6,5,6,4,4,4,6,7,8,4,7,oui
+7,1,,9,IDE,1993,F,NEPHRO,non,,,parfois,4,mois,,,,6,6,6,7,8,8,8,8,8,8,8,7,8,7,5,7,6,7,5,7,6,7,5,7,6,7,5,7,7,8,6,8,non
+8,1,,10,IDE,2004,F,HEMATO,oui,,,souvent,3,ans,,,,7,6,6,8,8,8,8,8,8,8,8,7,7,7,6,8,7,8,6,7,7,8,6,7,6,7,4,7,8,8,6,7,non
+9,2,27/28 mars,1,IDE,2005,F,EHPAD,non,,,jamais,NA,NA,AFGSU,,2008,NA,NA,NA,8,8,8,8,8,8,8,8,6,8,8,4,8,6,8,5,8,5,7,4,6,6,8,4,7,8,8,5,6,oui
+10,2,,2,IDE,2006,F,HEMODIALYSE,oui,2006,2010,souvent,2,ans,soins urgence,,2006,6,5,7,8,8,8,8,8,8,8,8,6,7,7,6,7,6,7,5,6,5,6,5,6,6,7,5,6,8,8,6,7,oui
+11,2,,3,IDE,2006,F,GASTRO chir,non,,,rarement,6,mois,AFGSU,,2008,6,5,6,8,8,8,8,8,8,8,8,6,6,8,5,7,4,7,5,6,5,7,5,6,7,6,5,6,8,8,5,6,oui
+12,2,,4,IDE,2005,F,USC,oui,2011,aujourd'hui,parfois,9,mois,soins urgence,,2004,4,3,5,8,8,8,8,8,8,5,5,6,8,6,5,6,5,8,4,5,4,6,5,5,8,8,5,5,8,8,6,5,oui
+13,2,,5,AS,1982,F,centre du sommeil,non,,,jamais,NA,NA,AFGSU,,2008,6,5,5,8,8,8,6,8,8,8,8,6,6,7,6,6,5,6,6,7,6,7,4,6,4,3,2,4,8,6,4,6,non
+14,2,,6,IDE,2004,F,URGENCES,oui,FEV 2011,aujourd'hui,parfois,2,mois,AFGSU,,2009,6,4,5,8,8,8,8,8,8,8,8,6,7,7,5,6,5,6,5,6,4,6,4,6,3,6,3,5,8,8,6,7,non
+15,2,,7,IDE,1979,F,MEDECINE,non,,,rarement,3,ans,AFGSU,,2008,7,4,6,8,8,8,8,8,8,8,8,6,7,6,4,7,5,7,4,6,5,7,4,6,4,6,5,7,8,8,5,7,oui
+16,2,,8,AS,1999,F,NA,non,,,parfois,1,ans,,,2006,7,8,8,8,5,8,4,6,7,8,8,NA,8,8,6,8,8,7,8,7,8,7,6,8,8,1,4,5,8,8,7,8,non
+17,2,,9,IDE,2008,F,NA,oui,2008,2011,parfois,1,mois,NON,,,5,5,6,8,8,8,7,7,8,8,8,NA,6,6,5,7,5,8,3,6,4,6,6,6,8,2,2,6,8,8,5,6,non
+18,2,,10,IDE,2003,F,MEDECINE,non,,,parfois,3,semaines,AFPS,,1997,7,6,7,7,7,7,8,8,8,8,8,NA,8,8,7,8,7,8,7,7,6,7,6,6,4,1,7,7,8,8,6,8,oui
+19,2,,11,IDE,2006,F,SSPI,oui,2011,aujourd'hui,parfois,NA,NA,AFGSU,,2008,6,5,6,8,8,8,7,8,8,8,8,NA,8,8,5,8,6,8,5,7,6,8,6,8,5,1,5,7,8,8,7,7,oui
+20,2,,12,AS,2011,F,STE BARBE,non,,,parfois,6,mois,AFGSU,,2010,3,4,NA,4,3,4,6,5,5,5,5,5,6,7,5,7,3,7,4,7,6,7,5,6,4,5,4,6,4,7,4,6,non
+21,3,2/3/9 avril,1,IDE,2008,F,chir pediatrique,non,,,rarement,1,ans,UVIH,mars,2013,7,6,7,8,8,8,8,8,8,8,8,8,8,7,5,7,5,8,6,8,6,8,6,7,6,8,5,8,8,8,3,7,non
+22,3,,2,IDE,1994,F,EF cardio,oui,NA,NA,parfois,1,mois,UVIH,,2005,8,8,8,8,8,8,8,8,8,8,8,7,7,8,7,7,7,7,7,7,7,7,7,8,7,3,6,7,8,8,7,8,non
+23,3,,3,AS,2000,M,rea neurochir,oui,2003,aujourd'hui,souvent,6,mois,AFGSU 1,NA,NA,7,7,7,5,6,6,6,5,7,5,5,6,6,7,7,7,7,7,6,6,5,6,6,6,5,3,6,6,7,7,6,7,non
+24,3,,4,IDE,2003,F,bloc ophtalmo,oui,NA,NA,parfois,3,ans,AFPS,,1999,5,5,5,7,7,8,8,8,8,8,8,6,7,8,6,7,6,8,6,6,6,7,5,6,8,8,5,6,8,8,6,7,non
+25,3,,5,AS,1995,M,UAA,oui,2000,NA,souvent,5,jours,oui,NA,NA,8,8,8,8,8,8,8,8,8,8,8,6,7,7,7,7,6,7,6,7,7,7,6,6,6,4,6,7,8,8,6,6,non
+26,3,,6,IDE,1980,F,Bloc ,oui,1980,1983,parfois,2,ans,soins urgence,,1983,5,5,5,8,8,8,8,8,8,8,8,8,8,8,5,8,4,8,4,8,4,8,3,8,3,7,8,8,8,8,8,8,oui
+27,3,,8,IDE,2010,M,URGENCES,oui,2010,aujourd'hui,souvent,3,jours,AFGSU 2,,2009,6,6,5,8,8,8,8,8,8,8,8,6,7,7,7,7,7,7,6,7,7,7,8,7,1,1,5,7,8,8,8,7,non
+28,3,,9,IDE,2009,F,oncologie ,non,,,rarement,1,ans,NON,,,8,4,8,8,8,8,8,8,8,8,8,8,8,8,5,7,5,7,2,7,3,7,4,7,6,4,3,6,8,8,4,7,non
+29,3,,10,PPH,1999,F,pharmacie,non,,,jamais,,,AFPS,,1996,1,1,1,8,8,8,8,8,8,8,8,7,7,8,1,7,1,8,1,7,1,7,1,7,8,7,1,7,8,8,1,7,NA
+30,4,4/5/10 avril,1,MERM,2007,M,medecine nucléaire,non,,,rarement,3,mois,AFGSU2,,2006,6,6,7,8,8,8,8,8,8,8,8,7,7,7,7,7,6,8,6,7,7,7,6,7,7,6,6,7,7,8,6,8,non
+31,4,,2,AS,2010,F,long sejour,non,,,jamais,,,AFGSU1,,2010,,,,6,7,7,8,8,8,8,8,8,7,7,,7,,6,,6,,6,,6,,8,,7,,8,,6,non
+32,4,,4,AS,1999,F,centre ,non,,,parfois,5,mois,AFPS,,1998,6,6,6,8,8,8,8,8,8,8,8,8,8,8,6,8,6,8,6,8,6,8,6,8,8,4,7,6,8,8,7,6,oui
+33,4,,5,IDE,1983,F,entreprise,oui,1983,1983,parfois,1,mois,soins urgence,,1993,7,7,7,8,8,8,8,8,8,8,8,7,8,8,7,8,7,8,7,8,7,8,6,8,7,8,7,8,8,8,5,8,non
+34,4,,6,IDE,1981,f,entreprise,non,,,parfois,11,ans,NON,,,5,5,6,7,7,7,8,7,8,8,7,6,6,6,6,6,6,6,5,6,6,6,5,6,6,2,6,6,8,8,6,6,NA
+35,4,,7,IDE,2003,F,entreprise,oui,2007,2010,parfois,1,ans,AFGSU2,,2007,8,6,6,7,7,7,7,8,8,8,8,8,8,8,6,7,6,8,6,7,6,8,5,7,6,4,6,8,8,8,6,7,NA
+36,4,,8,AS,,F,,non,,,jamais,,,AFGSU1,,2012,2,4,4,6,6,8,4,6,6,6,6,7,7,7,4,8,4,7,4,6,3,7,4,7,5,8,3,6,7,7,3,6,non

@@ -131,3 +131,27 @@ c<-rbind(Q1A,Q1B)
 likert(c,main="Question Q1 (avant / après)")
 ```
 
+Calcul du SEP
+-------------
+Les questions avant/après vont de la colonne 32 à 49.
+
+Il faut d'abord transformer les valeurs de character en numeric:
+```{r}
+for(i in 32:49){data[,i]<-as.numeric(data[,i])}
+```
+On crée une liste des question "avant":
+```{r}
+avant<-seq(from=32, to=49, by=2)
+```
+On isole dans un dataframe les questions "avant":
+```{r}
+av<-data[,avant]
+```
+on calcule la somme de chaque ligne:
+```{r}
+a<-apply(av,1,sum)
+a
+```
+On fait la même opération pour après
+
+

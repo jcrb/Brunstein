@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.12.23)  6 APR 2013 12:53
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.12.23)  24 APR 2013 18:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -712,11 +712,11 @@ Overfull \hbox (85.47523pt too wide) in paragraph at lines 128--128
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
 Package color Info: Redefining color shadecolor on input line 136.
 
-<figure/unnamed-chunk-1.pdf, id=10, 505.89pt x 505.89pt>
-File: figure/unnamed-chunk-1.pdf Graphic file (type pdf)
+<../figure/unnamed-chunk-4.png, id=10, 505.89pt x 505.89pt>
+File: ../figure/unnamed-chunk-4.png Graphic file (type png)
 
-<use figure/unnamed-chunk-1.pdf>
-Package pdftex.def Info: figure/unnamed-chunk-1.pdf used on input line 142.
+<use ../figure/unnamed-chunk-4.png>
+Package pdftex.def Info: ../figure/unnamed-chunk-4.png used on input line 142.
 (pdftex.def)             Requested size: 390.0pt x 390.00737pt.
 
 Overfull \hbox (17.62482pt too wide) in paragraph at lines 142--143
@@ -730,7 +730,7 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <8> on input line 153.
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <6> on input line 153.
- [3 <./figure/unnamed-chunk-1.pdf>]
+ [3 <../figure/unnamed-chunk-4.png>]
 Overfull \hbox (0.35562pt too wide) in paragraph at lines 158--160
 []\T1/lmr/m/n/12 Il ex-iste de nom-breuses manières de représen-ter graphique-m
 ent une échelle
@@ -740,47 +740,49 @@ Package color Info: Redefining color shadecolor on input line 167.
 [4]
 Package color Info: Redefining color shadecolor on input line 186.
 Package color Info: Redefining color shadecolor on input line 208.
- <figure/Q1_boxplot.pdf, id=28, 289.08pt x 361.35pt>
+ <figure/Q1_boxplot.pdf, id=23, 289.08pt x 361.35pt>
 File: figure/Q1_boxplot.pdf Graphic file (type pdf)
 
 <use figure/Q1_boxplot.pdf>
 Package pdftex.def Info: figure/Q1_boxplot.pdf used on input line 209.
 (pdftex.def)             Requested size: 289.07928pt x 361.36566pt.
 Package color Info: Redefining color shadecolor on input line 224.
- <figure/likert_Q1.pdf, id=29, 433.62pt x 289.08pt>
-File: figure/likert_Q1.pdf Graphic file (type pdf)
 
-<use figure/likert_Q1.pdf>
-Package pdftex.def Info: figure/likert_Q1.pdf used on input line 225.
-(pdftex.def)             Requested size: 390.0pt x 260.01079pt.
+<../figure/unnamed-chunk-10.png, id=24, 505.89pt x 505.89pt>
+File: ../figure/unnamed-chunk-10.png Graphic file (type png)
+
+<use ../figure/unnamed-chunk-10.png>
+Package pdftex.def Info: ../figure/unnamed-chunk-10.png used on input line 225.
+
+(pdftex.def)             Requested size: 390.0pt x 390.00737pt.
  (./brunstein.bbl
 Underfull \hbox (badness 1412) in paragraph at lines 4--10
 \T1/lmr/m/n/12 1066, 2011.  $\T1/lmtt/m/n/12 https : / / www . amstat . org / m
 embersonly / proceedings /
  []
 
-[5] [6 <./figure/Q1_boxplot.pdf>] [7 <./figure/likert_Q1.pdf>]) [8]
-(./brunstein.aux) ) 
+[5] [6 <./figure/Q1_boxplot.pdf>] [7 <../figure/unnamed-chunk-10.png (PNG copy)
+>]) [8] (./brunstein.aux) ) 
 Here is how much of TeX's memory you used:
- 3873 strings out of 495059
- 54201 string characters out of 3182029
+ 3874 strings out of 495059
+ 54270 string characters out of 3182029
  114648 words of memory out of 3000000
  6943 multiletter control sequences out of 15000+200000
  54938 words of font info for 45 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
  38i,6n,28p,714b,293s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr/share/t
-exmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-m
-athit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}</usr/share/texmf/font
-s/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lmcsc10.pf
-b></usr/share/texmf/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf/fonts/ty
-pe1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></usr
-/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/pub
-lic/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on brunstein.pdf (8 pages, 171939 bytes).
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr
+/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips
+/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}</usr/share/te
+xmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lm
+csc10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf/
+fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.p
+fb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/t
+ype1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
+Output written on brunstein.pdf (8 pages, 177372 bytes).
 PDF statistics:
- 89 PDF objects out of 1000 (max. 8388607)
- 64 compressed objects within 1 object stream
+ 78 PDF objects out of 1000 (max. 8388607)
+ 54 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

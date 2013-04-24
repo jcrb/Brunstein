@@ -125,8 +125,8 @@ summary(diplome)
 ```
 
 ```
-##         AS        IDE SAGE FEMME 
-##          3         16          1
+##         AS        IDE       MERM        PPH SAGE FEMME 
+##          8         25          1          1          1
 ```
 
 ```r
@@ -145,8 +145,8 @@ x
 ```
 
 ```
-##  4  5  6  7 
-##  2 11  6  1
+##    1    4    5    6    7 NA's 
+##    1    3   14   10    7    1
 ```
 
 ```r
@@ -172,7 +172,7 @@ b
 
 ```
 ##  6  7  8 
-##  4 11  5
+##  5 22  9
 ```
 
 ```r
@@ -201,8 +201,8 @@ summary(a)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##     4.0     5.0     5.0     5.3     6.0     7.0
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    1.00    5.00    5.00    5.49    6.00    7.00       1
 ```
 
 ```r
@@ -211,7 +211,7 @@ summary(b)
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    6.00    7.00    7.00    7.05    7.25    8.00
+##    6.00    7.00    7.00    7.11    7.25    8.00
 ```
 
 ```r
@@ -235,13 +235,13 @@ t
 ## 	Welch Two Sample t-test
 ## 
 ## data:  a and b 
-## t = -7.795, df = 37.84, p-value = 2.181e-09
+## t = -7.147, df = 50.8, p-value = 3.252e-09
 ## alternative hypothesis: true difference in means is not equal to 0 
 ## 95 percent confidence interval:
-##  -2.205 -1.295 
+##  -2.082 -1.169 
 ## sample estimates:
 ## mean of x mean of y 
-##      5.30      7.05
+##     5.486     7.111
 ```
 
 ```r
@@ -250,7 +250,7 @@ t[["statistic"]]
 
 ```
 ##      t 
-## -7.796
+## -7.147
 ```
 
 ```r
@@ -258,8 +258,8 @@ t[["parameter"]]
 ```
 
 ```
-##    df 
-## 37.84
+##   df 
+## 50.8
 ```
 
 ```r
@@ -267,7 +267,7 @@ t[["p.value"]]
 ```
 
 ```
-## [1] 2.181e-09
+## [1] 3.252e-09
 ```
 
 Ce qui peut s'écrire avec **sweave**:
@@ -286,8 +286,8 @@ summary(as.factor(data$Q1A))
 ```
 
 ```
-##  4  5  6  7 
-##  2 11  6  1
+##    1    4    5    6    7 NA's 
+##    1    3   14   10    7    1
 ```
 
 Ce qui fausse la représentation de l'échelle de Likert. Celle-ci est exacte avec la série:
@@ -323,5 +323,44 @@ likert(c, main = "Question Q1 (avant / après)")
 ```
 
 ![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+
+
+Calcul du SEP
+-------------
+Les questions avant/après vont de la colonne 32 à 49.
+
+Il faut d'abord transformer les valeurs de character en numeric:
+
+```r
+for (i in 32:49) {
+    data[, i] <- as.numeric(data[, i])
+}
+```
+
+On crée une liste des question "avant":
+
+```r
+avant <- seq(from = 32, to = 49, by = 2)
+```
+
+On isole dans un dataframe les questions "avant":
+
+```r
+av <- data[, avant]
+```
+
+on calcule la somme de chaque ligne:
+
+```r
+a <- apply(av, 1, sum)
+a
+```
+
+```
+##  [1] 44 48 49 55 45 45 51 56 47 52 49 50 45 43 44 63 46 58 53 39 50 63 55
+## [24] 56 58 47 57 40 23 58 NA 60 61 54 55 37
+```
+
+On fait la même opération pour après
 
 

@@ -1,0 +1,129 @@
+\documentclass[12pt,english,french]{article}
+\usepackage[francais]{babel}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[utf8]{inputenc}
+\usepackage{numprint}
+\usepackage{url}
+\usepackage{makeidx}
+\makeindex
+
+
+
+\begin{document}
+
+\title{CESU - Travail Véronique Brunstein}
+\author{V.Brunstein and JCB}
+\date{\today}
+\maketitle
+
+\section{Les données}
+
+<<setup,echo=FALSE,cache=FALSE,message=FALSE,warning=FALSE>>=
+file<-"~/Documents/CESU/Travaux/Brunstein"
+setwd(file)
+library("HH", lib.loc="/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
+
+data<-read.csv("resultats.csv",header=TRUE,sep=",",na.strings="",strip.white = TRUE,skip=1,colClasses="character")
+
+names(data)
+@
+
+\section{Analyse des données}
+\subsection{Formation initiale}
+<<echo=FALSE>>=
+diplome<-as.factor(data$Diplôme)
+summary(diplome) 
+plot(diplome,main="Formation professionelle des stagiaires")
+@
+
+
+\section{Echelle de Likert}
+
+Pour chaque item de l'echelle de Likert, on présente:
+\begin{itemize}
+  \item une représentation graphique de l'echelle avant/après
+  \item une comparaison des deux moyennes au moyen du test t de Student pour séries appariées. Une différence entre les moyennes avant/après est considérée comme significative lorsque la probabilité d'observer une telle différence (p) est inférieure à $0.05$, c'est à dire trop petite pour que cette différence soit due au hasard.
+\end{itemize}
+
+Les réponses aux questions se font sur une échelle allant 1 à 8, ce qui impose une zone de "neutralité" quelque part entre 4 et 5 sans que l'on puisse donner une valeur précise puisque les unités sont entières. Par convention, les opinions négatives correspondent aux valeurs basses de l'échelle (et donc à gauche sur un axe croissant) alors que les opinions positives répondent aux valeurs les plus élevées de l'échelle (et donc à droite sur un axe croissant).
+
+Il existe de nombreuses manières de représenter graphiquement une échelle de Likert. N.B. Robbins et coll. après une analyse critique des représentations possibles recommandent d'utiliser la méthode des graphiques en barre empilées divergentes \cite{1}.
+La zone neutre coincide avec la ligne verticale zéro. Tous ceux qui sont plutôt d'accord sont représenté à droite du zéro et dans des tons bleus dont l'intensité croit avec l'accord. Ceux qui sont en désaccord avec la proposition figurent à gauche du zéro et dans des tons rouges d'intensité croissante. Les couleurs ont été choisies pour convenir aux personnes déficientes visuelles. Les réponses sont automatiquement ajustées par rapport à cette ligne de référence ce qui permet de mesurer visuellement l'évolution du groupe.
+
+\subsection{Question Q1}
+<<echo=FALSE>>=
+a<-as.integer(data$Q1A)
+b<-as.integer(data$Q1B)
+
+t<-t.test(a,b,paired=TRUE)
+# pour mémoire, le test t peut-être démembré:
+# t[['statistic']]
+# t[['parameter']]
+# t[['p.value']]
+@
+
+Avant (Q1A):
+<<echo=FALSE>>=
+summary(a)
+@
+\begin{enumerate}
+  \item \textbf{Min}imum = 4: une partie des personnes ont une opinion plutôt négative sur la proposition.
+  \item \textbf{1st. Qu}artile = 5: Le premier quartile (appelé aussi Q25) est à 5 ce qui signifie que 25\% des répondants ont une opinion négative ou neutre sur la proposition.
+  \item \textbf{Mediane} = 5: la médiane (appelée aussi Q50) correspond au deuxième quartile, c'est à dire que 50\% des répondants ont une opinion négative ou neutre et 50\% ont une opinion positive ou neutre.
+  \item \textbf{Mean} = $5.3$: la moyenne des réponses est égale à $5.3$. Les chiffres décimaux sont toujours délicats à interpréter avec des valeurs entières. La proximité de la moyenne et de la médiane est un indice en faveur de la normalité des valeurs. Si les valeurs sont normales (c'est à dire qu'elles se répartissent comme une courbe de Gauss), ont peut utiliser des tests statistiques paramétriques comme le test de Student pour comparer deux moyennes (dans le cas contraire il faudrait utiliser des tests non paramétriques).
+  \item \textbf{3rd. Qu}artile = 6: le troisième quartile (appelé aussi Q75) est égal à 6. Le troisième quartile correspond à 75\% des réponses. L'intervalle interquartile (entre Q25 et Q75) est faible. Globalement on peut dire que les personnes interrrogées ont une opinion neutre à modérément favorable par rapport à la question mais l'enthousiasme est faible.
+  \item \textbf{max}imum = 7: quelque personnes sont assez d'accord avec la proposition, mais personne n'a coché le score maximal.
+\end{enumerate}
+
+Après (Q1B):
+<<echo=FALSE>>=
+summary(b)
+@
+Après la formation l'opinion du groupe à évoluée positivement. Toutes les opinions sont franchement favorables et personne ne se situe dans la zone de neutralité(\textbf{Min}imum = 6). Le score maximal est atteint (\textbf{max}imum = 8) et le troisième quartile (q75 = $7.5$) atteint presque le score maximal.
+
+Graphiquement, cette évolution est bien visible (fig.\ref{Q1_likert}). La courbe des réponses se décale vers la droite tandis que les nuances de bleu se renforcent (Q1B) traduisant une forte augmentation des opinions positives.
+
+Il y a une différence significative entre les moyennes des scores avant et après, que l'on peut objectiver avec un test de Student pour séries appariées. L'hypothèse neutre que l'on pose à priori est qu'il n'existe pas d'évolution dans l'opinion du groupe et que la différence avant/après est due au hasard. L'hypothèse alternative est qu'au contraire, il y a une évolution dans l'opinion du groupe. Le test statistique évalue l'hypothèse neutre  et le résultat obtenu amène à rejeter l'hypothèse neutre (la différence avant/après n'est pas due au hasard) et par conséquent d'accepter l'hypothèse alternative.
+
+($t(\Sexpr{t[['parameter']]})=\Sexpr{round(t[['statistic']],3)}$,
+$p \Sexpr{ifelse(t[['p.value']]<0.001,'< 0.001',paste('=',round(t[['p.value']],3)))}$).
+(Voir figure \ref{Q1_box} page \pageref{Q1_box}).
+La valeur p indique que l'on a moins d'une chance sur $1000$ de se tromper en affirmant que l'hypothèse neutre est fausse.
+
+\begin{figure}
+\begin{center}
+<<Q1_boxplot,fig.width=4,fig.height=5,echo=FALSE>>=
+boxplot(a,b,col="yellow")
+@
+\end{center}
+\caption{Représentation sous forme de "boite à moustaches" (box-plot) de l'évolution des opinions pour la question Q1 - Avant/Après. Les rectangles jaunes correspondent à la distance interquartile (Q25-Q75) et le trait épais à la médiane. On observe que non seulement les opinions ont évolués positivement mais que l'opinion du groupe est plus consensuelle (rectangle plus petit). L'absence de chevauchement des deux rectangles indique que la différence avant/après sera statistiquement significative.}
+\label{Q1_box}
+\end{figure}
+
+<<likert_Q1_calcul,echo=FALSE>>=
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q1A[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q1A<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q1B[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q1B<-apply(a,2,sum)
+
+c<-rbind(Q1A,Q1B)
+@
+
+\begin{figure}
+\begin{center}
+<<likert_Q1,fig.width=6,fig.height=4,echo=FALSE>>=
+likert(c,main="Question Q1 (avant / après)")
+@
+\end{center}
+\caption{Evolution des opinions pour la question Q1 - Avant/Après. L'évolution fortement positive du groupe se traduit par un renforcement des nuances de bleu pour la question Q1B et le décalage de la courbe vers la droite. En abscisse figure la taille du groupe (count).}
+\label{Q1_likert}
+\end{figure}
+
+\bibliographystyle{plain} 
+\bibliography{biblio}
+
+\end{document}

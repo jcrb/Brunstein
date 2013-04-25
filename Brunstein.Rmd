@@ -6,16 +6,18 @@ Données originales
 
 1. 2013-03-28:
 2. 2013-03-30:
+3. 2013-04-20: nouvelle série de données (total 36 cas)
 
 Données transformées
 --------------------
 Les fichiers XLS sont enregistrés au format txt.csv sous le nom de *resultats.csv*. Un nouveau fichier remplace le fichier courant auquel on ajoute le suffixe *-n*, n allant de 1 à *x* de sorte que *resultats.csv* reste toujours le fichier actif.
 
-```{r}
+```{r c1}
 #cartudo: file<-"~/Bureau/Brunstein"
 file<-"~/Documents/CESU/Travaux/Brunstein"
 setwd(file)
 library("HH", lib.loc="/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
+library("gplots", lib.loc="/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
 ```
 
 Routines de l'université de Monash pour Likert:
@@ -28,12 +30,12 @@ Chargement des donnnées:
 - strip.white = TRUE: élimine les blancs inutiles
 - skip=1: la première ligne ne sert à rien
 - colClasses="character": évite que F ne soit transformé en FALSE (sexe)
-```{r}
+```{r c2}
 data<-read.csv("resultats.csv",header=TRUE,sep=",",na.strings="",strip.white = TRUE,skip=1,colClasses="character")
 ```
 Meagling des données
 --------------------
-```{r}
+```{r c3}
 groupe<-as.factor(data$Groupe)
 no<-as.integer(data$Numéro)
 diplome<-as.factor(data$Diplôme)
@@ -47,6 +49,11 @@ last_urg_t<-as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
 formation<-as.factor(data$formation.urgence)
 date_formation<-as.factor(data$date.derniere.formation.urgence)
 ```
+Nouvelle présentation
+---------------------
+```{r c4}
+names(data)
+```
 
 Historique des transformation.
 
@@ -54,26 +61,26 @@ Stat simples
 ------------
 
 ### Origine socio-professionnelle:
-```{r}
+```{r c5}
 summary(diplome) 
 plot(diplome)
 ```
 
 
 Données pour Likert:
-```{r}
+```{r c6}
 x<-summary(as.factor(data$Q1A))
 x
 #likert(x)
 ```
 Ca marche mais on obtient que 4 valeurs sur les 8 possibles et l'échelle de likert est faussée.
 Voila ce qu'on devrait obtenir:
-```{r}
+```{r c7}
 a<-c(0,0,0,2,11,6,1,0)
 likert(a)
 ```
 La question Q1 complète (avant/après):
-```{r}
+```{r c8}
 b<-summary(as.factor(data$Q1B))
 b
 Q1B<-c(0,0,0,0,0,4,11,5)
@@ -109,16 +116,16 @@ $p \Sexpr{ifelse(res[['p.value']]<0.001,'< 0.001',
 Expansion des score de likert:
 ------------------------------
 Le score de Likert pour une question varie de 1 à 8 mais tous les items ne sont pas renseignés. Par exemple pour la question Q1A on obtient le score suivant:
-```{r}
+```{r c9}
 summary(as.factor(data$Q1A))
 ```
 Ce qui fausse la représentation de l'échelle de Likert. Celle-ci est exacte avec la série:
-```{r}
+```{r c10}
 a<-c(0,0,0,2,11,6,1,0)
 ```
 Pour obtenir automatiquement une séquence complète, on peut appliquer l'algorithme suivant: pour chaque ligne de *data* on forme un vecteur z contenant huit 0. Puis on affecte 1 à la position correspondante à la valeur du score pour cette question à cette ligne. Par exemple la valeur de Q1A pour la première ligne est 6 => z[6]=1. Enfin on "colle" le vecteur z à la liste a. L'opération est répétée pour toutes les lignes.
 
-```{r}
+```{r c11}
 a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q1A[x])]<-1;a<-rbind(z)})
 a <- do.call(rbind,a)
 Q1A<-apply(a,2,sum)
@@ -131,27 +138,167 @@ c<-rbind(Q1A,Q1B)
 likert(c,main="Question Q1 (avant / après)")
 ```
 
+Application à la question 4
+---------------------------
+```{r c12}
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q4A[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q4A<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q4B[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q4B<-apply(a,2,sum)
+
+c<-rbind(Q4A,Q4B)
+likert(c,main="Question Q4 (avant / après)",xlab="'je pense que n'hésite pas à prendre des décisions en situation d'urgence'")
+
+```
+
+Application à la question 6
+---------------------------
+```{r c13}
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q6A[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q6A<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q6B[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q6B<-apply(a,2,sum)
+
+c<-rbind(Q6A,Q6B)
+likert(c,main="Question Q6 (avant / après)",xlab="'Même en situation d'urgence je préfère attendre un collègue'")
+
+```
+
+
 Calcul du SEP
 -------------
 Les questions avant/après vont de la colonne 32 à 49.
 
 Il faut d'abord transformer les valeurs de character en numeric:
-```{r}
+```{r c14}
 for(i in 32:49){data[,i]<-as.numeric(data[,i])}
 ```
 On crée une liste des question "avant":
-```{r}
+```{r c15}
 avant<-seq(from=32, to=49, by=2)
 ```
 On isole dans un dataframe les questions "avant":
-```{r}
+```{r c16}
 av<-data[,avant]
 ```
 on calcule la somme de chaque ligne:
-```{r}
+```{r c17}
 a<-apply(av,1,sum)
 a
+hist(a,breaks=5,main="Histogramme SEP avant",ylab="nombre",xlab="Sentiment d'efficacité personnel (SEP)",col="green")
 ```
 On fait la même opération pour après
+```{r c18}
+apres<-seq(from=33, to=49, by=2)
+ap<-data[,apres]
+b<-apply(ap,1,sum)
+summary(b)
+hist(b,breaks=5,main="Histogramme SEP après",ylab="nombre",xlab="Sentiment d'efficacité personnel (SEP)",col="green")
+```
+a = vecteur des SEP avant formation
+
+b = vecteur des SEP après formation
+
+Le score SEP (Sentiment d'efficacité personnelle) a progressé après la formation.
+```{r c19}
+boxplot(a,b,main="SEP avant et après la formation",col="yellow")
+```
+Et cette évolution est très significative (test t pour séries appariées):
+```{r c20}
+t <- t.test(a, b,paired = TRUE)
+t
+```
+### expérience professionnelle
+```{r c21}
+summary(exp_urg)
+```
+SEP moyen en fonction de l'expérience:
+```{r c22}
+tapply(a,exp_urg,mean,na.rm=TRUE)
+tapply(a,exp_urg,sd,na.rm=TRUE)
+x<-split(a,exp_urg)
+boxplot(x,main="SEP en fonction de l'expérience des situations d'urgence",ylab="SEP",col="orange")
+x
+t <- t.test(x$non,x$oui)
+t
+```
+Les personnes ayant une expérience de l'urgence ont en moyenne un SEP plus élevé.
+
+Analyse de la question 4
+------------------------
+*Q: je pense que n'hésite pas à prendre des décisions en situatiion d'urgence*
+```{r c23}
+summary(data[,38])
+summary(data[,39])
+```
+Il y a une progression du groupe: après la formation, davantage d'apprenants se sentent capables de prendre une décision en situation d'urgence.
+
+Analyse de la question 6
+------------------------
+*Q: Même en situation d'urgence je préfère attendre un collègue*
+```{r c24}
+summary(data[,42])
+summary(data[,43]) 
+```
+Après la formation, la position du groupe évolue peu bien que l'on note une une diminution de la moyenne, cad que les stagiaires en fin de formation attendront moins la validation de leur décision par une pair avant d'agir.
+
+### SEP et fréquence des situations d'urgence
+
+fréquence absolue et selon le lieu d'exercice:
+```{r c25}
+summary(conf_urg)
+table(travail,conf_urg)
+```
+Sep moyen et fréquence des situations d'urgence
+```{r c31}
+tapply(a,conf_urg,mean,na.rm=TRUE)
+x<-split(a,conf_urg)
+boxplot(x,main="SEP en fonction de la fréquence des situations d'urgence",ylab="SEP",col="orange")
+x<-aov(a~conf_urg)
+x
+summary(x)
+plotmeans(a~conf_urg,ylab="SEP",xlab="Confrontation aux situations d'urgence",main="SEP moyen et situations d'urgence", col="red")
+
+TukeyHSD(x)
+```
+Plus la confrontation au situations d'urgence augmente et plus le SEP est élevé.
+
+Différence significative pour *parfois-jamais*, *souvent-jamais*.
+
+Profession et SEP
+-----------------
+
+```{r c26}
+table(diplome,conf_urg)
+```
+SEP avant formation:
+```{r c27}
+tapply(a,diplome,mean,na.rm=TRUE)
+```
+SEP après formation:
+```{r c28}
+tapply(b,diplome,mean,na.rm=TRUE)
+```
+Le SEP avant formation est élevé pour les AS, IDE et MERM et particulièrement bas por les PPH. Après la formation, il augmente pour toutes les catégories mais la progression la plus spectaculaire est observée pour les PPH. Avant la formation, le SEP est significativement différent selon le métier:
+```{r c30}
+xa<-aov(a~diplome)
+summary(xa)
+plotmeans(a~diplome,ylab="SEP",xlab="Diplome",main="SEP moyen (avant) et métier", col="red")
+```
+Après la formation, il n'y a plus de différence de SEP quelque soit le métier:
+```{r c29}
+xb<-aov(b~diplome)
+summary(xb)
+plotmeans(b~diplome,ylab="SEP",xlab="Diplome",main="SEP moyen (après) et métier", col="red")
+```
+
+
+
 
 

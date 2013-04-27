@@ -3,10 +3,6 @@ Données mémoire V.Brunstein
 
 Données originales
 ------------------
-```{r}
-date()
-getwd()
-```
 
 1. 2013-03-28:
 2. 2013-03-30:
@@ -16,20 +12,16 @@ Données transformées
 --------------------
 Les fichiers XLS sont enregistrés au format txt.csv sous le nom de *resultats.csv*. Un nouveau fichier remplace le fichier courant auquel on ajoute le suffixe *-n*, n allant de 1 à *x* de sorte que *resultats.csv* reste toujours le fichier actif.
 
-```{r}
-# cartudo: file<-"~/Bureau/Brunstein"
-# file<-"~/Documents/CESU/Travaux/Brunstein-master"
-# setwd(file)
-library("HH")
-library("gplots")
-library(plyr)
+```{r c1}
+#cartudo: file<-"~/Bureau/Brunstein"
+file<-"~/Documents/CESU/Travaux/Brunstein"
+setwd(file)
+library("HH", lib.loc="/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
+library("gplots", lib.loc="/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
 ```
 
 Routines de l'université de Monash pour Likert:
-source("~/Documents/Statistiques/Likert/monash/R/likert.R")
-
-ATTENTION: pas compatible avec HH (même nom de fonction)
-```
+source("../Doc Cartudo/Statistiques/LIKERT/Likert et R/monash/R/likert.R")
 
 Chargement des donnnées:
 ------------------------
@@ -38,13 +30,12 @@ Chargement des donnnées:
 - strip.white = TRUE: élimine les blancs inutiles
 - skip=1: la première ligne ne sert à rien
 - colClasses="character": évite que F ne soit transformé en FALSE (sexe)
-```{r}
+```{r c2}
 data<-read.csv("resultats.csv",header=TRUE,sep=",",na.strings="",strip.white = TRUE,skip=1,colClasses="character")
 ```
 Meagling des données
 --------------------
-*! ATTENTION pb avec les caractères accentués sous windows*
-```{r}
+```{r c3}
 groupe<-as.factor(data$Groupe)
 no<-as.integer(data$Numéro)
 diplome<-as.factor(data$Diplôme)
@@ -60,7 +51,7 @@ date_formation<-as.factor(data$date.derniere.formation.urgence)
 ```
 Nouvelle présentation
 ---------------------
-```{r}
+```{r c4}
 names(data)
 ```
 
@@ -70,27 +61,26 @@ Stat simples
 ------------
 
 ### Origine socio-professionnelle:
-```{r}
+```{r c5}
 summary(diplome) 
 plot(diplome)
-ddply(data, .(diplome), "nrow")
 ```
 
 
-### Données pour Likert:
-```{r}
+Données pour Likert:
+```{r c6}
 x<-summary(as.factor(data$Q1A))
 x
 #likert(x)
 ```
 Ca marche mais on obtient que 4 valeurs sur les 8 possibles et l'échelle de likert est faussée.
 Voila ce qu'on devrait obtenir:
-```{r}
+```{r c7}
 a<-c(0,0,0,2,11,6,1,0)
 likert(a)
 ```
 La question Q1 complète (avant/après):
-```{r}
+```{r c8}
 b<-summary(as.factor(data$Q1B))
 b
 Q1B<-c(0,0,0,0,0,4,11,5)
@@ -126,16 +116,16 @@ $p \Sexpr{ifelse(res[['p.value']]<0.001,'< 0.001',
 Expansion des score de likert:
 ------------------------------
 Le score de Likert pour une question varie de 1 à 8 mais tous les items ne sont pas renseignés. Par exemple pour la question Q1A on obtient le score suivant:
-```{r}
+```{r c9}
 summary(as.factor(data$Q1A))
 ```
 Ce qui fausse la représentation de l'échelle de Likert. Celle-ci est exacte avec la série:
-```{r}
+```{r c10}
 a<-c(0,0,0,2,11,6,1,0)
 ```
 Pour obtenir automatiquement une séquence complète, on peut appliquer l'algorithme suivant: pour chaque ligne de *data* on forme un vecteur z contenant huit 0. Puis on affecte 1 à la position correspondante à la valeur du score pour cette question à cette ligne. Par exemple la valeur de Q1A pour la première ligne est 6 => z[6]=1. Enfin on "colle" le vecteur z à la liste a. L'opération est répétée pour toutes les lignes.
 
-```{r}
+```{r c11}
 a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q1A[x])]<-1;a<-rbind(z)})
 a <- do.call(rbind,a)
 Q1A<-apply(a,2,sum)
@@ -147,6 +137,7 @@ Q1B<-apply(a,2,sum)
 c<-rbind(Q1A,Q1B)
 likert(c,main="Question Q1 (avant / après)")
 ```
+
 Application à la question 4
 ---------------------------
 ```{r c12}
@@ -178,80 +169,71 @@ c<-rbind(Q6A,Q6B)
 likert(c,main="Question Q6 (avant / après)",xlab="'Même en situation d'urgence je préfère attendre un collègue'")
 
 ```
+
+
 Calcul du SEP
 -------------
 Les questions avant/après vont de la colonne 32 à 49.
 
 Il faut d'abord transformer les valeurs de character en numeric:
-```{r}
+```{r c14}
 for(i in 32:49){data[,i]<-as.numeric(data[,i])}
 ```
 On crée une liste des question "avant":
-```{r}
+```{r c15}
 avant<-seq(from=32, to=49, by=2)
 ```
 On isole dans un dataframe les questions "avant":
-```{r}
+```{r c16}
 av<-data[,avant]
 ```
 on calcule la somme de chaque ligne:
-```{r}
+```{r c17}
 a<-apply(av,1,sum)
 a
-summary(a)
+hist(a,breaks=5,main="Histogramme SEP avant",ylab="nombre",xlab="Sentiment d'efficacité personnel (SEP)",col="green")
 ```
 On fait la même opération pour après
-```{r}
+```{r c18}
 apres<-seq(from=33, to=49, by=2)
 ap<-data[,apres]
 b<-apply(ap,1,sum)
 summary(b)
+hist(b,breaks=5,main="Histogramme SEP après",ylab="nombre",xlab="Sentiment d'efficacité personnel (SEP)",col="green")
 ```
-Pour faciliter la compréhension on crée deux variables complémentaires, sepa (sep avant) et sepb (sep après):
-```{r}
-data$sepa<-a
-data$sepb<-b
-```
-L'étude de la différence sepb - sepa montre que si le globalement le SEP augmente après la formation (moyenne de 11 points), il régresse pour certains (-4) et augmente massivement pour d'autres (+42):
-```{r}
-s<-summary(data$sepb - data$sepa)
-h<-data$sepb - data$sepa
-s
-h
-hist(h,main="Variation du SEP avant et après la formation",ylab="Nombre",xlab="delta SEP",col="lightblue")
-abline(v=s[4], col="blue")
-```
-Progression du SEP selon le groupe socio-professionnel:
-```{r}
-round(sort(tapply(data$sepb - data$sepa,diplome,mean,na.rm=TRUE)),2)
-```
+a = vecteur des SEP avant formation
 
-
-
+b = vecteur des SEP après formation
 
 Le score SEP (Sentiment d'efficacité personnelle) a progressé après la formation.
-```{r}
-boxplot(a,b,main="SEP avant et après la formation")
+```{r c19}
+boxplot(a,b,main="SEP avant et après la formation",col="yellow")
 ```
-Et cette évolution est très significative:
-```{r}
-t <- t.test(a, b)
+Et cette évolution est très significative (test t pour séries appariées):
+```{r c20}
+t <- t.test(a, b,paired = TRUE)
 t
 ```
 ### expérience professionnelle
-```{r}
+```{r c21}
 summary(exp_urg)
 ```
 SEP moyen en fonction de l'expérience:
-```{r}
+```{r c22}
 tapply(a,exp_urg,mean,na.rm=TRUE)
+tapply(a,exp_urg,sd,na.rm=TRUE)
+x<-split(a,exp_urg)
+boxplot(x,main="SEP en fonction de l'expérience des situations d'urgence",ylab="SEP",col="orange")
+x
+t <- t.test(x$non,x$oui)
+t
 ```
-
+Les personnes ayant une expérience de l'urgence ont en moyenne un SEP plus élevé.
 
 Analyse de la question 4
 ------------------------
-*Q: je pense que n'hésite pas à prendre des décisions en situation d'urgence*
-```{r}
+*Q: je pense que n'hésite pas à prendre des décisions en situatiion d'urgence*
+```{r c23}
 summary(data[,38])
 summary(data[,39])
 ```
@@ -260,7 +242,7 @@ Il y a une progression du groupe: après la formation, davantage d'apprenants se
 Analyse de la question 6
 ------------------------
 *Q: Même en situation d'urgence je préfère attendre un collègue*
-```{r}
+```{r c24}
 summary(data[,42])
 summary(data[,43]) 
 ```
@@ -314,38 +296,6 @@ Après la formation, il n'y a plus de différence de SEP quelque soit le métier
 xb<-aov(b~diplome)
 summary(xb)
 plotmeans(b~diplome,ylab="SEP",xlab="Diplome",main="SEP moyen (après) et métier", col="red")
-```
-Expérience réelle de l'urgence
-------------------------------
-Existe t'il un lien entre le SEP et le fait d'avoir été confronté à une situation d'urgence ? On utiise l'item *de.quand.date.dernière.situation.d.urgence*. L'information est donnée sur deux colonnes: la première est un chiffre, la seconde est l'unité de temps:
-```{r}
-summary(as.factor(data$de.quand.date.dernière.situation.d.urgence.1))
-```
-La plus petite unité de mesure étant le *jour* on transforme toutes des mesures en jours. Pour ce faire on crée une nouvelle colonne **data$sem**:
-```{r}
-data$sem[data$de.quand.date.dernière.situation.d.urgence.1==NA]<-0
-data$sem[data$de.quand.date.dernière.situation.d.urgence.1=="semaines"]<-7
-data$sem[data$de.quand.date.dernière.situation.d.urgence.1=="mois"]<-30
-data$sem[data$de.quand.date.dernière.situation.d.urgence.1=="jours"]<-1
-data$sem[data$de.quand.date.dernière.situation.d.urgence.1=="ans"]<-365
-```
-On obtient une nouvelle variable appelée **data$exp** en multipliant le vecteur data$sem par data$de.quand.date.dernière.situation.d.urgence (après transformation en vecteur numérique):
-```{r}
-data$exp<-data$sem * as.numeric(data$de.quand.date.dernière.situation.d.urgence)
-summary(data$exp)
-```
-Non répondant ou sans expérience:
-```{r}
-notexp<-sum(is.na(data$exp))
-```
-soit en pourcentage du total:
-```{r}
-round(notexp*100/nrow(data),2)
-```
-Corrélation entre SEP et confrontation à situation d'urgence:
-```{r}
-fit<-lm(sepa ~ exp, data = data)
-summary(fit)
 ```
 
 

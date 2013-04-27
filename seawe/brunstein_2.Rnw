@@ -20,22 +20,48 @@
 \section{Les données}
 
 <<setup,echo=FALSE,cache=FALSE,message=FALSE,warning=FALSE>>=
-file<-"~/Documents/CESU/Travaux/Brunstein"
-setwd(file)
-library("HH", lib.loc="/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
+#file<-"~/Documents/CESU/Travaux/Brunstein"
+#setwd(file)
+library("HH")
+library("gplots")
+library(plyr)
 
-data<-read.csv("resultats.csv",header=TRUE,sep=",",na.strings="",strip.white = TRUE,skip=1,colClasses="character")
+data<-read.csv("../resultats.csv",header=TRUE,sep=",",na.strings="",strip.white = TRUE,skip=1,colClasses="character")
+
+groupe<-as.factor(data$Groupe)
+no<-as.integer(data$Numéro)
+diplome<-as.factor(data$Diplôme)
+date_diplome<-as.integer(2013-as.integer(data$Date))
+sexe<-as.factor(data$Sexe)
+travail<-as.factor(data$Lieu.exercice)
+exp_urg<-as.factor(data$experience.urgence.1...oui.2...non)
+conf_urg<-as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
+last_urg_n<-as.factor(data$de.quand.date.dernière.situation.d.urgence)
+last_urg_t<-as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
+formation<-as.factor(data$formation.urgence)
+date_formation<-as.factor(data$date.derniere.formation.urgence)
 
 names(data)
+
 @
 
 \section{Analyse des données}
+
 \subsection{Formation initiale}
-<<echo=FALSE>>=
-diplome<-as.factor(data$Diplôme)
+
+<<formation,echo=FALSE>>=
 summary(diplome) 
 plot(diplome,main="Formation professionelle des stagiaires")
 @
+
+\subsection{expérience professionnelle}
+
+Confrontation avec des situations d'urgence:
+<<experience,echo=FALSE>>=
+summary(exp_urg)
+@
+
+
 
 
 \section{Echelle de Likert}
@@ -123,7 +149,134 @@ likert(c,main="Question Q1 (avant / après)")
 \label{Q1_likert}
 \end{figure}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{ Question Q4}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+Question 4: \emph{je pense que n'hésite pas à prendre des décisions en situation d'urgence}
+
+<<q4,echo=FALSE,fig.width=6,fig.height=4>>=
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q4A[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q4A<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q4B[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q4B<-apply(a,2,sum)
+
+c<-rbind(Q4A,Q4B)
+likert(c,main="Question Q4 (avant / après)",xlab="'je pense que n'hésite pas à prendre des décisions en situation d'urgence'")
+@
+Avant la formation, une partie du groupe n'est pas d'accord avec la proposition (Q1A) ce qui peut s'interpréter comme un manque d'assurance face à ce type de situation. Après la formation, l'opinion du groupe se décale fortement sur la droite (Q1B) traduisant une augmentation importante de sa confiance en soi.
+
+<<q4summary,echo=FALSE>>=
+summary(as.factor(data[,38]))
+summary(as.factor(data[,39]))
+@
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{ Question Q6}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+question 6: \emph{Même en situation d'urgence je préfère attendre un collègue}
+
+<<q6,echo=FALSE,fig.width=6,fig.height=4>>=
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q6A[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q6A<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q6B[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q6B<-apply(a,2,sum)
+
+c<-rbind(Q6A,Q6B)
+likert(c,main="Question Q6 (avant / après)",xlab="Même en situation d'urgence je préfère attendre un collègue")
+@
+
+Cette question est à l'opposé de la question 4. Il est donc normal qu'une partie importante du groupe soit en désaccord avec cette proposition. Après la formation, la position des apprenants évolue vers un renforcement des opinions négatives ce qui est cohérent, mais cette évolution est moins marquée que pour la question 4. Ainsi à l'issue de la formation, les apprenants sont plus enclins à prendre des décisions en situation d'urgence mais l'aval d'un pair reste important.
+
+<<q6summary,echo=FALSE>>=
+summary(as.factor(data[,42]))
+summary(as.factor(data[,43]))
+@
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Sentiment d'efficacité personnelle (SEP)}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+A l'aide des questions Q1 à Q9 on construit une échelle composite répondant aux critères d'une échelle de Likert. En pratique deux échelles sont construites à partir des mêmes items mesurés avant at après la formation. Chaque échelle réalise la somme non pondérée de chaque item.
+<<sep9a,echo=FALSE>>=
+for(i in 32:49){data[,i]<-as.numeric(data[,i])}
+avant<-seq(from=32, to=49, by=2)
+av<-data[,avant]
+a<-apply(av,1,sum)
+a
+summary(a)
+data$sepa<-a
+@
+On répète l'opération pour les mesures après:
+<<sep9b,echo=FALSE>>=
+apres<-seq(from=33, to=49, by=2)
+ap<-data[,apres]
+b<-apply(ap,1,sum)
+summary(b)
+data$sepb<-b
+@
+
+Globalement le SEP augmente entre le début et la fin de la formation. Le graphe montre également une plus grande cohérence du groupe en fin de formation (resserrement autour de la moyenne).
+<<sepboxplot, echo=FALSE,fig.width=4,fig.height=6>>=
+boxplot(a,b,main="SEP avant et après la formation",ylab="SEP",col="yellow")
+@
+Et cette évolution est très significative:
+<<sept,echo=FALSE>>=
+t <- t.test(a, b)
+t
+@
+($t(\Sexpr{t[['parameter']]})=\Sexpr{round(t[['statistic']],3)}$,
+$p \Sexpr{ifelse(t[['p.value']]<0.001,'< 0.001',paste('=',round(t[['p.value']],3)))}$).
+
+
+L'étude de la différence sepb - sepa montre que si globalement le SEP augmente après la formation (moyenne de 11 points), il régresse pour certains (-4) et augmente massivement pour d'autres (+42):
+<<sep9a-b,echo=FALSE>>=
+s<-summary(data$sepb - data$sepa)
+h<-data$sepb - data$sepa
+s
+h
+hist(h,main="Variation du SEP avant et après la formation",ylab="Nombre",xlab="delta SEP",col="lightblue")
+abline(v=s[4], col="blue")
+@
+La progression la plus spectaculaire est observée pour un préparateur en pharmacie. En moyenne la progression par groupe socio-professionnel s'établit ainsi:
+<<sep9a-bmoyen,echo=FALSE>>=
+round(sort(tapply(data$sepb - data$sepa,diplome,mean,na.rm=TRUE)),2)
+@
+
+\subsection{SEP et expérience des situations d'urgence}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+SEP moyen en fonction de l'expérience:
+<<sepurg,echo=FALSE>>=
+tapply(a,exp_urg,mean,na.rm=TRUE)
+@
+Le SEP moyen est plus élevé chez ceux qui ont déjà connu des situations d'urgence.
+
+\subsection{SEP et fréquence des situations d'urgence}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+<<sepexp,echo=FALSE>>=
+sort(tapply(a,conf_urg,mean,na.rm=TRUE))
+x<-split(a,conf_urg)
+boxplot(x,main="SEP en fonction de la fréquence des situations d'urgence",ylab="SEP",col="orange")
+x<-aov(a~conf_urg)
+x
+summary(x)
+plotmeans(a~conf_urg,ylab="SEP",xlab="Confrontation aux situations d'urgence",main="SEP moyen et situations d'urgence", col="red")
+
+TukeyHSD(x)
+@
+
+
+%%%%%%%%%%%%%%%%%%
+% fin du document
+%%%%%%%%%%%%%%%%%%
+
 \bibliographystyle{plain} 
 \bibliography{biblio}
-
 \end{document}

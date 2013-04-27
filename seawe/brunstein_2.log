@@ -1,9 +1,9 @@
-This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.12.23)  24 APR 2013 18:39
+This is pdfTeX, Version 3.1415926-2.4-1.40.13 (TeX Live 2012/Debian) (format=pdflatex 2012.12.23)  28 APR 2013 00:30
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
-**brunstein.tex
-(./brunstein.tex
+**brunstein_2.tex
+(./brunstein_2.tex
 LaTeX2e <2011/06/27>
 Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, lo
 aded.
@@ -574,12 +574,12 @@ Package: url 2006/04/12  ver 3.3  Verb mode for urls, etc.
 Package: makeidx 2000/03/29 v1.0m Standard LaTeX package
 )
 \@indexfile=\write3
-\openout3 = `brunstein.idx'.
+\openout3 = `brunstein_2.idx'.
 
 
-Writing index file brunstein.idx
-(./brunstein.aux)
-\openout1 = `brunstein.aux'.
+Writing index file brunstein_2.idx
+(./brunstein_2.aux)
+\openout1 = `brunstein_2.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 68.
 LaTeX Font Info:    ... okay on input line 68.
@@ -702,87 +702,209 @@ LaTeX Font Info:    Try loading font information for T1+lmtt on input line 79.
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Overfull \hbox (85.47523pt too wide) in paragraph at lines 128--128
-[]\T1/lmtt/m/n/12 ## [11] "confronté.situation.jamais...1.rarement...2.parfois.
+Overfull \hbox (85.47523pt too wide) in paragraph at lines 130--130
+[]\T1/lmtt/m/n/12 ## [12] "confronté.situation.jamais...1.rarement...2.parfois.
 ..3.souvent...4"[] 
  []
 
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Package color Info: Redefining color shadecolor on input line 136.
+Package color Info: Redefining color shadecolor on input line 140.
 
-<../figure/unnamed-chunk-4.png, id=10, 505.89pt x 505.89pt>
-File: ../figure/unnamed-chunk-4.png Graphic file (type png)
-
-<use ../figure/unnamed-chunk-4.png>
-Package pdftex.def Info: ../figure/unnamed-chunk-4.png used on input line 142.
+<figure/formation.pdf, id=10, 505.89pt x 505.89pt>
+File: figure/formation.pdf Graphic file (type pdf)
+ <use figure/formation.pdf>
+Package pdftex.def Info: figure/formation.pdf used on input line 146.
 (pdftex.def)             Requested size: 390.0pt x 390.00737pt.
 
-Overfull \hbox (17.62482pt too wide) in paragraph at lines 142--143
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 146--147
 [][] 
  []
 
 [2]
+Package color Info: Redefining color shadecolor on input line 155.
+ [3 <./figure/formation.pdf>]
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <12> on input line 153.
+(Font)              <12> on input line 172.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <8> on input line 153.
+(Font)              <8> on input line 172.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <6> on input line 153.
- [3 <../figure/unnamed-chunk-4.png>]
-Overfull \hbox (0.35562pt too wide) in paragraph at lines 158--160
+(Font)              <6> on input line 172.
+
+Overfull \hbox (0.35562pt too wide) in paragraph at lines 177--179
 []\T1/lmr/m/n/12 Il ex-iste de nom-breuses manières de représen-ter graphique-m
 ent une échelle
  []
 
-Package color Info: Redefining color shadecolor on input line 167.
-[4]
 Package color Info: Redefining color shadecolor on input line 186.
-Package color Info: Redefining color shadecolor on input line 208.
- <figure/Q1_boxplot.pdf, id=23, 289.08pt x 361.35pt>
+LaTeX Font Info:    Try loading font information for TS1+lmtt on input line 190
+.
+(/usr/share/texmf/tex/latex/lm/ts1lmtt.fd
+File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
+) [4]
+Package color Info: Redefining color shadecolor on input line 205.
+ [5]
+Package color Info: Redefining color shadecolor on input line 227.
+
+<figure/Q1_boxplot.pdf, id=32, 289.08pt x 361.35pt>
 File: figure/Q1_boxplot.pdf Graphic file (type pdf)
 
 <use figure/Q1_boxplot.pdf>
-Package pdftex.def Info: figure/Q1_boxplot.pdf used on input line 209.
+Package pdftex.def Info: figure/Q1_boxplot.pdf used on input line 228.
 (pdftex.def)             Requested size: 289.07928pt x 361.36566pt.
-Package color Info: Redefining color shadecolor on input line 224.
+Package color Info: Redefining color shadecolor on input line 243.
+ <figure/likert_Q1.pdf, id=33, 433.62pt x 289.08pt>
+File: figure/likert_Q1.pdf Graphic file (type pdf)
 
-<../figure/unnamed-chunk-10.png, id=24, 505.89pt x 505.89pt>
-File: ../figure/unnamed-chunk-10.png Graphic file (type png)
+<use figure/likert_Q1.pdf>
+Package pdftex.def Info: figure/likert_Q1.pdf used on input line 244.
+(pdftex.def)             Requested size: 390.0pt x 260.01079pt.
+Package color Info: Redefining color shadecolor on input line 260.
+ <figure/q4.pdf, id=34, 433.62pt x 289.08pt>
+File: figure/q4.pdf Graphic file (type pdf)
 
-<use ../figure/unnamed-chunk-10.png>
-Package pdftex.def Info: ../figure/unnamed-chunk-10.png used on input line 225.
+<use figure/q4.pdf>
+Package pdftex.def Info: figure/q4.pdf used on input line 261.
+(pdftex.def)             Requested size: 390.0pt x 260.01079pt.
 
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 261--262
+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 268.
+[6 <./figure/q4.pdf>] [7 <./figure/Q1_boxplot.pdf>] [8 <./figure/likert_Q1.pdf>
+]
+Package color Info: Redefining color shadecolor on input line 286.
+ <figure/q6.pdf, id=65, 433.62pt x 289.08pt>
+File: figure/q6.pdf Graphic file (type pdf)
+ <use figure/q6.pdf>
+Package pdftex.def Info: figure/q6.pdf used on input line 287.
+(pdftex.def)             Requested size: 390.0pt x 260.01079pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 287--288
+[][] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 295.
+[9 <./figure/q6.pdf>]
+Package color Info: Redefining color shadecolor on input line 312.
+
+Overfull \hbox (79.2512pt too wide) in paragraph at lines 318--318
+[]\T1/lmtt/m/n/12 ##  [1] 44 48 49 55 45 45 51 56 47 52 49 50 45 43 44 63 46 58
+ 53 39 50 63 55[] 
+ []
+
+Package color Info: Redefining color shadecolor on input line 324.
+Package color Info: Redefining color shadecolor on input line 335.
+<figure/sepboxplot.pdf, id=75, 289.08pt x 433.62pt>
+File: figure/sepboxplot.pdf Graphic file (type pdf)
+
+<use figure/sepboxplot.pdf>
+Package pdftex.def Info: figure/sepboxplot.pdf used on input line 336.
+(pdftex.def)             Requested size: 289.07928pt x 433.63878pt.
+
+Overfull \hbox (129.64014pt too wide) in paragraph at lines 333--337
+\T1/lmr/m/n/12 ma-tion (resser-re-ment au-tour de la moyenne).  [][] 
+ []
+
+[10]
+Package color Info: Redefining color shadecolor on input line 342.
+
+Overfull \hbox (36.07521pt too wide) in paragraph at lines 355--355
+[]\T1/lmtt/m/n/12 ## alternative hypothesis: true difference in means is not eq
+ual to 0[] 
+ []
+
+
+Overfull \vbox (1.9219pt too high) detected at line 356
+ []
+
+[11 <./figure/sepboxplot.pdf>]
+Package color Info: Redefining color shadecolor on input line 365.
+
+Overfull \hbox (79.2372pt too wide) in paragraph at lines 371--371
+[]\T1/lmtt/m/n/12 ##  [1] 14 16 15  6 18 12 14 11 19  8 10  6  6 13 17 -4  9  2
+  9 19 19 -1  0[] 
+ []
+
+<figure/sep9a-b.pdf, id=88, 505.89pt x 505.89pt>
+File: figure/sep9a-b.pdf Graphic file (type pdf)
+ <use figure/sep9a-b.pdf>
+Package pdftex.def Info: figure/sep9a-b.pdf used on input line 373.
 (pdftex.def)             Requested size: 390.0pt x 390.00737pt.
- (./brunstein.bbl
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 373--374
+[][] 
+ []
+
+[12]
+Package color Info: Redefining color shadecolor on input line 379.
+Package color Info: Redefining color shadecolor on input line 392.
+ [13 <./figure/sep9a-b.pdf>]
+Package color Info: Redefining color shadecolor on input line 405.
+
+<figure/sepexp1.pdf, id=102, 505.89pt x 505.89pt>
+File: figure/sepexp1.pdf Graphic file (type pdf)
+ <use figure/sepexp1.pdf>
+Package pdftex.def Info: figure/sepexp1.pdf used on input line 411.
+(pdftex.def)             Requested size: 390.0pt x 390.00737pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 411--412
+[][] 
+ []
+
+[14 <./figure/sepexp1.pdf>]
+Overfull \hbox (11.3752pt too wide) in paragraph at lines 430--430
+[]\T1/lmtt/m/n/12 ## Signif. codes:  0 \TS1/lmtt/m/n/12 '\T1/lmtt/m/n/12 ***\TS
+1/lmtt/m/n/12 ' \T1/lmtt/m/n/12 0.001 \TS1/lmtt/m/n/12 '\T1/lmtt/m/n/12 **\TS1/
+lmtt/m/n/12 ' \T1/lmtt/m/n/12 0.01 \TS1/lmtt/m/n/12 '\T1/lmtt/m/n/12 *\TS1/lmtt
+/m/n/12 ' \T1/lmtt/m/n/12 0.05 \TS1/lmtt/m/n/12 '\T1/lmtt/m/n/12 .\TS1/lmtt/m/n
+/12 ' \T1/lmtt/m/n/12 0.1 \TS1/lmtt/m/n/12 ' ' \T1/lmtt/m/n/12 1[] 
+ []
+
+<figure/sepexp2.pdf, id=112, 505.89pt x 505.89pt>
+File: figure/sepexp2.pdf Graphic file (type pdf)
+ <use figure/sepexp2.pdf>
+Package pdftex.def Info: figure/sepexp2.pdf used on input line 432.
+(pdftex.def)             Requested size: 390.0pt x 390.00737pt.
+
+Overfull \hbox (17.62482pt too wide) in paragraph at lines 432--433
+[][] 
+ []
+
+[15]
+Overfull \vbox (1.7905pt too high) detected at line 448
+ []
+
+[16 <./figure/sepexp2.pdf>] (./brunstein_2.bbl
 Underfull \hbox (badness 1412) in paragraph at lines 4--10
 \T1/lmr/m/n/12 1066, 2011.  $\T1/lmtt/m/n/12 https : / / www . amstat . org / m
 embersonly / proceedings /
  []
 
-[5] [6 <./figure/Q1_boxplot.pdf>] [7 <../figure/unnamed-chunk-10.png (PNG copy)
->]) [8] (./brunstein.aux) ) 
+) [17] (./brunstein_2.aux) ) 
 Here is how much of TeX's memory you used:
- 3874 strings out of 495059
- 54270 string characters out of 3182029
- 114648 words of memory out of 3000000
- 6943 multiletter control sequences out of 15000+200000
- 54938 words of font info for 45 fonts, out of 3000000 for 9000
+ 3939 strings out of 495059
+ 55353 string characters out of 3182029
+ 113648 words of memory out of 3000000
+ 6999 multiletter control sequences out of 15000+200000
+ 55244 words of font info for 46 fonts, out of 3000000 for 9000
  14 hyphenation exceptions out of 8191
- 38i,6n,28p,714b,293s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/usr
-/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips
-/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}</usr/share/te
-xmf/fonts/type1/public/lm/lmbx12.pfb></usr/share/texmf/fonts/type1/public/lm/lm
-csc10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi12.pfb></usr/share/texmf/
-fonts/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr17.p
-fb></usr/share/texmf/fonts/type1/public/lm/lmri12.pfb></usr/share/texmf/fonts/t
-ype1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
-Output written on brunstein.pdf (8 pages, 177372 bytes).
+ 38i,6n,28p,716b,293s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.enc}{/us
+r/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvip
+s/lm/lm-ts1.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{/usr/share/
+texmf/fonts/enc/dvips/lm/lm-rm.enc}</usr/share/texmf/fonts/type1/public/lm/lmbx
+12.pfb></usr/share/texmf/fonts/type1/public/lm/lmcsc10.pfb></usr/share/texmf/fo
+nts/type1/public/lm/lmmi12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12.pf
+b></usr/share/texmf/fonts/type1/public/lm/lmr17.pfb></usr/share/texmf/fonts/typ
+e1/public/lm/lmri12.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy10.pfb></us
+r/share/texmf/fonts/type1/public/lm/lmtt12.pfb>
+Output written on brunstein_2.pdf (17 pages, 212231 bytes).
 PDF statistics:
- 78 PDF objects out of 1000 (max. 8388607)
- 54 compressed objects within 1 object stream
+ 163 PDF objects out of 1000 (max. 8388607)
+ 116 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 16 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 46 words of extra memory for PDF output out of 10000 (max. 10000000)
 

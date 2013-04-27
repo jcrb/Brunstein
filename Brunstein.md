@@ -4,6 +4,23 @@ Données mémoire V.Brunstein
 Données originales
 ------------------
 
+```r
+date()
+```
+
+```
+## [1] "Sat Apr 27 16:19:10 2013"
+```
+
+```r
+getwd()
+```
+
+```
+## [1] "/home/jcb/Documents/CESU/Travaux/Brunstein/Brunstein"
+```
+
+
 1. 2013-03-28:
 2. 2013-03-30:
 3. 2013-04-20: nouvelle série de données (total 36 cas)
@@ -15,9 +32,8 @@ Les fichiers XLS sont enregistrés au format txt.csv sous le nom de *resultats.c
 
 ```r
 # cartudo: file<-'~/Bureau/Brunstein'
-file <- "~/Documents/CESU/Travaux/Brunstein"
-setwd(file)
-library("HH", lib.loc = "/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
+# file<-'~/Documents/CESU/Travaux/Brunstein-master' setwd(file)
+library("HH")
 ```
 
 ```
@@ -79,7 +95,7 @@ library("HH", lib.loc = "/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
 ```
 
 ```r
-library("gplots", lib.loc = "/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
+library("gplots")
 ```
 
 ```
@@ -165,9 +181,16 @@ library("gplots", lib.loc = "/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
 ## lowess
 ```
 
+```r
+library(plyr)
+```
+
 
 Routines de l'université de Monash pour Likert:
-source("../Doc Cartudo/Statistiques/LIKERT/Likert et R/monash/R/likert.R")
+source("~/Documents/Statistiques/Likert/monash/R/likert.R")
+
+ATTENTION: pas compatible avec HH (même nom de fonction)
+```
 
 Chargement des donnnées:
 ------------------------
@@ -184,6 +207,7 @@ data <- read.csv("resultats.csv", header = TRUE, sep = ",", na.strings = "",
 
 Meagling des données
 --------------------
+*! ATTENTION pb avec les caractères accentués sous windows*
 
 ```r
 groupe <- as.factor(data$Groupe)
@@ -281,11 +305,24 @@ summary(diplome)
 plot(diplome)
 ```
 
-![plot of chunk c5](figure/c5.png) 
+![plot of chunk unnamed-chunk-6](figure/unnamed-chunk-6.png) 
+
+```r
+ddply(data, .(diplome), "nrow")
+```
+
+```
+##      diplome nrow
+## 1         AS    8
+## 2        IDE   25
+## 3       MERM    1
+## 4        PPH    1
+## 5 SAGE FEMME    1
+```
 
 
 
-Données pour Likert:
+### Données pour Likert:
 
 ```r
 x <- summary(as.factor(data$Q1A))
@@ -309,7 +346,7 @@ a <- c(0, 0, 0, 2, 11, 6, 1, 0)
 likert(a)
 ```
 
-![plot of chunk c7](figure/c7.png) 
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
 
 La question Q1 complète (avant/après):
 
@@ -338,7 +375,7 @@ c <- rbind(Q1A, Q1B)
 likert(c, main = "Question Q1 (avant / après)")
 ```
 
-![plot of chunk c8](figure/c81.png) 
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-91.png) 
 
 ```r
 
@@ -367,7 +404,7 @@ summary(b)
 boxplot(a, b)
 ```
 
-![plot of chunk c8](figure/c82.png) 
+![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-92.png) 
 
 ```r
 
@@ -470,8 +507,7 @@ c <- rbind(Q1A, Q1B)
 likert(c, main = "Question Q1 (avant / après)")
 ```
 
-![plot of chunk c11](figure/c11.png) 
-
+![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
 
 Application à la question 4
 ---------------------------
@@ -530,8 +566,6 @@ likert(c, main = "Question Q6 (avant / après)", xlab = "'Même en situation d'u
 
 ![plot of chunk c13](figure/c13.png) 
 
-
-
 Calcul du SEP
 -------------
 Les questions avant/après vont de la colonne 32 à 49.
@@ -569,11 +603,13 @@ a
 ```
 
 ```r
-hist(a, breaks = 5, main = "Histogramme SEP avant", ylab = "nombre", xlab = "Sentiment d'efficacité personnel (SEP)", 
-    col = "green")
+summary(a)
 ```
 
-![plot of chunk c17](figure/c17.png) 
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    23.0    45.0    50.0    50.2    56.0    63.0       1
+```
 
 On fait la même opération pour après
 
@@ -589,44 +625,85 @@ summary(b)
 ##    51.0    58.0    61.0    61.2    64.0    72.0
 ```
 
+Pour faciliter la compréhension on crée deux variables complémentaires, sepa (sep avant) et sepb (sep après):
+
 ```r
-hist(b, breaks = 5, main = "Histogramme SEP après", ylab = "nombre", xlab = "Sentiment d'efficacité personnel (SEP)", 
-    col = "green")
+data$sepa <- a
+data$sepb <- b
 ```
 
-![plot of chunk c18](figure/c18.png) 
+L'étude de la différence sepb - sepa montre que si le globalement le SEP augmente après la formation (moyenne de 11 points), il régresse pour certains (-4) et augmente massivement pour d'autres (+42):
 
-a = vecteur des SEP avant formation
+```r
+s <- summary(data$sepb - data$sepa)
+h <- data$sepb - data$sepa
+s
+```
 
-b = vecteur des SEP après formation
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    -4.0     6.0    10.0    11.1    16.5    42.0       1
+```
+
+```r
+h
+```
+
+```
+##  [1] 14 16 15  6 18 12 14 11 19  8 10  6  6 13 17 -4  9  2  9 19 19 -1  0
+## [24]  7  1 24  1 20 42  7 NA  4 11 -2  9 25
+```
+
+```r
+hist(h, main = "Variation du SEP avant et après la formation", ylab = "Nombre", 
+    xlab = "delta SEP", col = "lightblue")
+abline(v = s[4], col = "blue")
+```
+
+![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19.png) 
+
+Progression du SEP selon le groupe socio-professionnel:
+
+```r
+round(sort(tapply(data$sepb - data$sepa, diplome, mean, na.rm = TRUE)), 2)
+```
+
+```
+##       MERM         AS        IDE SAGE FEMME        PPH 
+##       7.00       7.29      10.76      18.00      42.00
+```
+
+
+
+
 
 Le score SEP (Sentiment d'efficacité personnelle) a progressé après la formation.
 
 ```r
-boxplot(a, b, main = "SEP avant et après la formation", col = "yellow")
+boxplot(a, b, main = "SEP avant et après la formation")
 ```
 
-![plot of chunk c19](figure/c19.png) 
+![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21.png) 
 
-Et cette évolution est très significative (test t pour séries appariées):
+Et cette évolution est très significative:
 
 ```r
-t <- t.test(a, b, paired = TRUE)
+t <- t.test(a, b)
 t
 ```
 
 ```
 ## 
-## 	Paired t-test
+## 	Welch Two Sample t-test
 ## 
 ## data:  a and b 
-## t = -7.125, df = 34, p-value = 3.104e-08
+## t = -6.843, df = 54.13, p-value = 7.339e-09
 ## alternative hypothesis: true difference in means is not equal to 0 
 ## 95 percent confidence interval:
-##  -14.211  -7.903 
+##  -14.253  -7.794 
 ## sample estimates:
-## mean of the differences 
-##                  -11.06
+## mean of x mean of y 
+##     50.17     61.19
 ```
 
 ### expérience professionnelle
@@ -651,59 +728,11 @@ tapply(a, exp_urg, mean, na.rm = TRUE)
 ## 47.58 53.25
 ```
 
-```r
-tapply(a, exp_urg, sd, na.rm = TRUE)
-```
 
-```
-##   non   oui 
-## 9.305 5.733
-```
-
-```r
-x <- split(a, exp_urg)
-boxplot(x, main = "SEP en fonction de l'expérience des situations d'urgence", 
-    ylab = "SEP", col = "orange")
-```
-
-![plot of chunk c22](figure/c22.png) 
-
-```r
-x
-```
-
-```
-## $non
-##  [1] 44 48 49 45 51 47 49 45 44 63 58 39 50 40 23 58 NA 60 54 37
-## 
-## $oui
-##  [1] 55 45 56 52 50 43 46 53 63 55 56 58 47 57 61 55
-```
-
-```r
-t <- t.test(x$non, x$oui)
-t
-```
-
-```
-## 
-## 	Welch Two Sample t-test
-## 
-## data:  x$non and x$oui 
-## t = -2.205, df = 30.46, p-value = 0.0351
-## alternative hypothesis: true difference in means is not equal to 0 
-## 95 percent confidence interval:
-##  -10.9190  -0.4231 
-## sample estimates:
-## mean of x mean of y 
-##     47.58     53.25
-```
-
-Les personnes ayant une expérience de l'urgence ont en moyenne un SEP plus élevé.
 
 Analyse de la question 4
 ------------------------
-*Q: je pense que n'hésite pas à prendre des décisions en situatiion d'urgence*
+*Q: je pense que n'hésite pas à prendre des décisions en situation d'urgence*
 
 ```r
 summary(data[, 38])
@@ -973,6 +1002,93 @@ plotmeans(b ~ diplome, ylab = "SEP", xlab = "Diplome", main = "SEP moyen (après
 ```
 
 ![plot of chunk c29](figure/c29.png) 
+
+Expérience réelle de l'urgence
+------------------------------
+Existe t'il un lien entre le SEP et le fait d'avoir été confronté à une situation d'urgence ? On utiise l'item *de.quand.date.dernière.situation.d.urgence*. L'information est donnée sur deux colonnes: la première est un chiffre, la seconde est l'unité de temps:
+
+```r
+summary(as.factor(data$de.quand.date.dernière.situation.d.urgence.1))
+```
+
+```
+##      ans    jours     mois       NA semaines     NA's 
+##       10        2       14        4        3        3
+```
+
+La plus petite unité de mesure étant le *jour* on transforme toutes des mesures en jours. Pour ce faire on crée une nouvelle colonne **data$sem**:
+
+```r
+data$sem[data$de.quand.date.dernière.situation.d.urgence.1 == NA] <- 0
+data$sem[data$de.quand.date.dernière.situation.d.urgence.1 == "semaines"] <- 7
+data$sem[data$de.quand.date.dernière.situation.d.urgence.1 == "mois"] <- 30
+data$sem[data$de.quand.date.dernière.situation.d.urgence.1 == "jours"] <- 1
+data$sem[data$de.quand.date.dernière.situation.d.urgence.1 == "ans"] <- 365
+```
+
+On obtient une nouvelle variable appelée **data$exp** en multipliant le vecteur data$sem par data$de.quand.date.dernière.situation.d.urgence (après transformation en vecteur numérique):
+
+```r
+data$exp <- data$sem * as.numeric(data$de.quand.date.dernière.situation.d.urgence)
+```
+
+```
+## Warning: NAs introduits lors de la conversion automatique
+```
+
+```r
+summary(data$exp)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##       3      30     180     419     365    4020       7
+```
+
+Non répondant ou sans expérience:
+
+```r
+notexp <- sum(is.na(data$exp))
+```
+
+soit en pourcentage du total:
+
+```r
+round(notexp * 100/nrow(data), 2)
+```
+
+```
+## [1] 19.44
+```
+
+Corrélation entre SEP et confrontation à situation d'urgence:
+
+```r
+fit <- lm(sepa ~ exp, data = data)
+summary(fit)
+```
+
+```
+## 
+## Call:
+## lm(formula = sepa ~ exp, data = data)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -12.944  -4.994   0.006   5.072  11.070 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept) 5.19e+01   1.44e+00   36.05   <2e-16 ***
+## exp         9.13e-05   1.67e-03    0.05     0.96    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 
+## Residual standard error: 6.78 on 27 degrees of freedom
+##   (7 observations deleted due to missingness)
+## Multiple R-squared: 0.000111,	Adjusted R-squared: -0.0369 
+## F-statistic: 0.003 on 1 and 27 DF,  p-value: 0.957
+```
 
 
 

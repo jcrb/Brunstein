@@ -8,6 +8,10 @@
 \usepackage{makeidx}
 \makeindex
 
+\usepackage{numprint}
+% la ligne qui suit donne un titre interne au document pdf et crée des liens cliquables en bleu sur les tables et figures
+\usepackage[pdftitle={RPU2012-Resural}, colorlinks=true, linkcolor=blue,citecolor=blue, urlcolor=blue, linktocpage=true, breaklinks=true]{hyperref}
+\makeglossary
 
 
 \begin{document}
@@ -16,6 +20,10 @@
 \author{V.Brunstein and JCB}
 \date{\today}
 \maketitle
+
+\tableofcontents
+\listoftables
+\listoffigures
 
 \section{Les données}
 
@@ -276,6 +284,10 @@ TukeyHSD(x)
 %%%%%%%%%%%%%%%%%%
 % fin du document
 %%%%%%%%%%%%%%%%%%
+
+%\begin{glossary}
+%  \item STM
+%\end{glossary}
 
 \bibliographystyle{plain} 
 \bibliography{biblio}

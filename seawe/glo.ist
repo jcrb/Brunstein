@@ -1,0 +1,3 @@
+preamble "\n\\begin{leglossaire}"
+keyword "\\glossaryentry"
+postamble "\n\\end{leglossaire}"

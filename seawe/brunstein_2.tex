@@ -61,12 +61,19 @@
 \usepackage{numprint}
 \usepackage{url}
 \usepackage{makeidx}
-\makeindex
+\makeindex 
+
+\makeglossary
+
+\makeatletter
+\newcommand{\printglossary}{\@input@{brunstein_2.gls}}
+\makeatother
+%\newcommand{\entreeglossaire}[2]{\glossary{[#1] #2}}
+
 
 \usepackage{numprint}
 % la ligne qui suit donne un titre interne au document pdf et crée des liens cliquables en bleu sur les tables et figures
 \usepackage[pdftitle={RPU2012-Resural}, colorlinks=true, linkcolor=blue,citecolor=blue, urlcolor=blue, linktocpage=true, breaklinks=true]{hyperref}
-\makeglossary
 
 
 \begin{document}
@@ -81,6 +88,10 @@
 \listoffigures
 
 \section{Les données}
+
+%\glossary{test glossaire}
+\index{test}
+%\entreeglossaire{sphere}{patate régulière}
 
 \begin{knitrout}
 \definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}\begin{kframe}
@@ -462,10 +473,10 @@ Le SEP moyen est plus élevé chez ceux qui ont déjà connu des situations d'ur
 % fin du document
 %%%%%%%%%%%%%%%%%%
 
-%\begin{glossary}
-%  \item STM
-%\end{glossary}
+%\printglossary
 
 \bibliographystyle{plain} 
 \bibliography{biblio}
+
+\printindex
 \end{document}

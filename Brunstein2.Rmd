@@ -12,6 +12,7 @@ getwd()
 2. 2013-03-30:
 3. 2013-04-20: nouvelle série de données (total 36 cas)
 4. 2013-05-15: résultats 3: 82 questionnaire. L'odre et le nom des colonnes a été totalement modifié => nécessite de reécrire la programme. Abandon du programme en cours et création de Brunstein2.
+5. 2013-05-21 Brunstein2: ne fonctionne qu'avec les données issues de *résultats enquête vs 3.0.xlsx*
 
 Données transformées
 --------------------
@@ -46,19 +47,24 @@ Meagling des données
 --------------------
 *! ATTENTION pb avec les caractères accentués sous windows*
 ```{r}
-groupe<-as.factor(data$Groupe)
-no<-as.integer(data$Numéro)
-diplome<-as.factor(data$Diplôme)
-date_diplome<-as.integer(2013-as.integer(data$Date))
-sexe<-as.factor(data$Sexe)
-travail<-as.factor(data$Lieu.exercice)
-exp_urg<-as.factor(data$experience.urgence.1...oui.2...non)
-conf_urg<-as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
-last_urg_n<-as.factor(data$de.quand.date.dernière.situation.d.urgence)
-last_urg_t<-as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
-formation<-as.factor(data$formation.urgence)
-date_formation<-as.factor(data$date.derniere.formation.urgence)
+data$groupe<-as.factor(data$Groupe)
+data$no<-as.integer(data$Numéro)
+data$diplome<-as.factor(data$Diplôme)
+data$date_diplome<-as.integer(as.integer(data$Date))
+data$sexe<-as.factor(data$Sexe)
+data$travail<-as.factor(data$Lieu.exercice)
+data$exp_urg<-as.factor(data$experience.urgence.1...oui.2...non)
+data$conf_urg<-as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
+data$last_urg_n<-as.factor(data$de.quand.date.dernière.situation.d.urgence)
+data$last_urg_t<-as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
+data$formation<-as.factor(data$formation.urgence)
+data$date_formation<-as.factor(data$date.derniere.formation.urgence)
 ```
+Suppression des colonnes redondantes: correspond aux colonnes 2,4 à 18
+```{r}
+data<-data[,c(-2,-4:-18)]
+```
+
 Nouvelle présentation
 ---------------------
 ```{r}
@@ -72,11 +78,10 @@ Stat simples
 
 ### Origine socio-professionnelle:
 ```{r}
-summary(diplome) 
-plot(diplome)
-ddply(data, .(diplome), "nrow")
+summary(data$diplome) 
+plot(data$diplome)
+ddply(data, .(data$diplome), "nrow")
 ```
-
 
 ### Données pour Likert:
 ```{r}
@@ -111,7 +116,7 @@ boxplot(a,b)
 #ma<-mean(summary(as.factor(data$Q1A)))
 #mb<-mean(summary(as.factor(data$Q1B)))
 
-t<-t.test(a,b)
+t<-t.test(a,b,paired=TRUE)
 t
 t[['statistic']]
 t[['parameter']]
@@ -159,7 +164,11 @@ a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q4B[x])]<-1;
 a <- do.call(rbind,a)
 Q4B<-apply(a,2,sum)
 
-c<-rbind(Q4A,Q4B)
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q4C[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q4C<-apply(a,2,sum)
+
+c<-rbind(Q4A,Q4B,Q4C)
 likert(c,main="Question Q4 (avant / après)",xlab="'je pense que n'hésite pas à prendre des décisions en situation d'urgence'")
 
 ```
@@ -175,23 +184,28 @@ a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q6B[x])]<-1;
 a <- do.call(rbind,a)
 Q6B<-apply(a,2,sum)
 
-c<-rbind(Q6A,Q6B)
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q6C[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q6C<-apply(a,2,sum)
+
+c<-rbind(Q6A,Q6B,Q6C)
 likert(c,main="Question Q6 (avant / après)",xlab="'Même en situation d'urgence je préfère attendre un collègue'")
 
 ```
 Calcul du SEP
 -------------
-Les questions avant/après vont de la colonne 32 à 49. Dans la version 3, l'ordre des colonnes a été totalement modifié.
+Les questions avant/après vont de la colonne 21 à 47. Dans la version 3, il y a 3 colonnes par question: A, B, C.
 
 Il faut d'abord transformer les valeurs de character en numeric:
-```{r}
-#for(i in 32:49){data[,i]<-as.numeric(data[,i])}
-for(i in "Q1A":"Q9C"){data[,i]<-as.numeric(data[,i])}
+```{r calcul sep, warning=FALSE}
+debut<-21
+fin<-47
+step<-3
+for(i in debut:fin){data[,i]<-as.numeric(data[,i])}
 ```
 On crée une liste des question "avant":
 ```{r}
-#avant<-seq(from=32, to=49, by=2)
-avant<-seq(from="Q1A", to="Q9C", by=2)
+avant<-seq(from=debut, to=fin, by=step)
 ```
 On isole dans un dataframe les questions "avant":
 ```{r}
@@ -205,8 +219,7 @@ summary(a)
 ```
 On fait la même opération pour après
 ```{r}
-#apres<-seq(from=33, to=49, by=2)
-apres<-seq(from="Q1B", to="Q9C", by=2)
+apres<-seq(from=debut+1, to=fin, by=step)
 ap<-data[,apres]
 b<-apply(ap,1,sum)
 summary(b)
@@ -230,16 +243,13 @@ Progression du SEP selon le groupe socio-professionnel:
 round(sort(tapply(data$sepb - data$sepa,diplome,mean,na.rm=TRUE)),2)
 ```
 
-
-
-
 Le score SEP (Sentiment d'efficacité personnelle) a progressé après la formation.
 ```{r}
-boxplot(a,b,main="SEP avant et après la formation")
+boxplot(data$sepa,data$sepb,main="SEP avant et après la formation")
 ```
 Et cette évolution est très significative:
 ```{r}
-t <- t.test(a, b)
+t <- t.test(data$sepa,data$sepb,paired=TRUE)
 t
 ```
 ### expérience professionnelle
@@ -248,25 +258,38 @@ summary(exp_urg)
 ```
 SEP moyen en fonction de l'expérience:
 ```{r}
-tapply(a,exp_urg,mean,na.rm=TRUE)
+t<-tapply(data$sepa,exp_urg,mean,na.rm=TRUE)
+t.test(data$sepa[data$exp_urg=="oui"],data$sepa[data$exp_urg=="non"])
 ```
+Le SEP est significativement plus élevé dans le groupe avec expérience professionnelle.
 
 
 Analyse de la question 4
 ------------------------
 *Q: je pense que n'hésite pas à prendre des décisions en situation d'urgence*
 ```{r}
-summary(data[,38])
-summary(data[,39])
+summary(data[,30])
+summary(data[,31])
+summary(data[,32])
 ```
 Il y a une progression du groupe: après la formation, davantage d'apprenants se sentent capables de prendre une décision en situation d'urgence.
+
+Analyse de la question 5
+------------------------
+```{r Q5}
+summary(data[,33])
+summary(data[,34])
+summary(data[,35])
+```
+
 
 Analyse de la question 6
 ------------------------
 *Q: Même en situation d'urgence je préfère attendre un collègue*
 ```{r}
-summary(data[,42])
-summary(data[,43]) 
+summary(data[,36])
+summary(data[,37]) 
+summary(data[,38])
 ```
 Après la formation, la position du groupe évolue peu bien que l'on note une une diminution de la moyenne, cad que les stagiaires en fin de formation attendront moins la validation de leur décision par une pair avant d'agir.
 
@@ -279,13 +302,13 @@ table(travail,conf_urg)
 ```
 Sep moyen et fréquence des situations d'urgence
 ```{r c31}
-tapply(a,conf_urg,mean,na.rm=TRUE)
-x<-split(a,conf_urg)
+tapply(data$sepa,conf_urg,mean,na.rm=TRUE)
+x<-split(data$sepa,conf_urg)
 boxplot(x,main="SEP en fonction de la fréquence des situations d'urgence",ylab="SEP",col="orange")
-x<-aov(a~conf_urg)
+x<-aov(data$sepa~conf_urg)
 x
 summary(x)
-plotmeans(a~conf_urg,ylab="SEP",xlab="Confrontation aux situations d'urgence",main="SEP moyen et situations d'urgence", col="red")
+plotmeans(data$sepa~conf_urg,ylab="SEP",xlab="Confrontation aux situations d'urgence",main="SEP moyen et situations d'urgence", col="red")
 
 TukeyHSD(x)
 ```
@@ -297,45 +320,45 @@ Profession et SEP
 -----------------
 
 ```{r c26}
-table(diplome,conf_urg)
+table(data$diplome,data$conf_urg)
 ```
 SEP avant formation:
 ```{r c27}
-tapply(a,diplome,mean,na.rm=TRUE)
+tapply(data$sepa,data$diplome,mean,na.rm=TRUE)
 ```
 SEP après formation:
 ```{r c28}
-tapply(b,diplome,mean,na.rm=TRUE)
+tapply(data$sepb,data$diplome,mean,na.rm=TRUE)
 ```
 Le SEP avant formation est élevé pour les AS, IDE et MERM et particulièrement bas por les PPH. Après la formation, il augmente pour toutes les catégories mais la progression la plus spectaculaire est observée pour les PPH. Avant la formation, le SEP est significativement différent selon le métier:
 ```{r c30}
-xa<-aov(a~diplome)
+xa<-aov(data$sepa~data$diplome)
 summary(xa)
-plotmeans(a~diplome,ylab="SEP",xlab="Diplome",main="SEP moyen (avant) et métier", col="red")
+plotmeans(data$sepa~data$diplome,ylab="SEP",xlab="Diplome",main="SEP moyen (avant) et métier", col="red")
 ```
 Après la formation, il n'y a plus de différence de SEP quelque soit le métier:
 ```{r c29}
-xb<-aov(b~diplome)
+xb<-aov(data$sepb~data$diplome)
 summary(xb)
-plotmeans(b~diplome,ylab="SEP",xlab="Diplome",main="SEP moyen (après) et métier", col="red")
+plotmeans(data$sepb~data$diplome,ylab="SEP",xlab="Diplome",main="SEP moyen (après) et métier", col="red")
 ```
 Expérience réelle de l'urgence
 ------------------------------
-Existe t'il un lien entre le SEP et le fait d'avoir été confronté à une situation d'urgence ? On utiise l'item *de.quand.date.dernière.situation.d.urgence*. L'information est donnée sur deux colonnes: la première est un chiffre, la seconde est l'unité de temps:
+Existe t'il un lien entre le SEP et le fait d'avoir été confronté à une situation d'urgence ? On utiise l'item *last_urg_n*. L'information est donnée sur deux colonnes: la première est un chiffre, la seconde est l'unité de temps:
 ```{r}
-summary(as.factor(data$de.quand.date.dernière.situation.d.urgence.1))
+summary(as.factor(data$last_urg_t))
 ```
 La plus petite unité de mesure étant le *jour* on transforme toutes des mesures en jours. Pour ce faire on crée une nouvelle colonne **data$sem**:
 ```{r}
-data$sem[data$de.quand.date.dernière.situation.d.urgence.1==NA]<-0
-data$sem[data$de.quand.date.dernière.situation.d.urgence.1=="semaines"]<-7
-data$sem[data$de.quand.date.dernière.situation.d.urgence.1=="mois"]<-30
-data$sem[data$de.quand.date.dernière.situation.d.urgence.1=="jours"]<-1
-data$sem[data$de.quand.date.dernière.situation.d.urgence.1=="ans"]<-365
+data$sem[data$last_urg_t==NA]<-0
+data$sem[data$last_urg_t=="semaines"]<-7
+data$sem[data$last_urg_t=="mois"]<-30
+data$sem[data$last_urg_t=="jours"]<-1
+data$sem[data$last_urg_t=="ans"]<-365
 ```
 On obtient une nouvelle variable appelée **data$exp** en multipliant le vecteur data$sem par data$de.quand.date.dernière.situation.d.urgence (après transformation en vecteur numérique):
 ```{r}
-data$exp<-data$sem * as.numeric(data$de.quand.date.dernière.situation.d.urgence)
+data$exp<-data$sem * as.numeric(data$last_urg_n)
 summary(data$exp)
 ```
 Non répondant ou sans expérience:
@@ -355,15 +378,18 @@ summary(fit)
 
 Calcul du SEP7
 ==============
-Le SEP7 est le SEP calculé sur les 7 premières questions. Les questions vont de la colonne 32 à la colonne 45 pour les sept premières questions. Les réponses doivent d'abord être transformées en valeurs numériques. Puis elle sont divisées en 2 groupes, avant et après. Pour chaque question, les valeurs sont sommées pour calculer la valeur du SEP avant (sep7a) et après (sep7b) la formation.
+Le SEP7 est le SEP calculé sur les 7 premières questions. Les questions vont de la colonne 21 à la colonne 42 pour les sept premières questions. Les réponses doivent d'abord être transformées en valeurs numériques. Puis elle sont divisées en 2 groupes, avant et après. Pour chaque question, les valeurs sont sommées pour calculer la valeur du SEP avant (sep7a) et après (sep7b) la formation.
 ```{r sep7}
-for(i in 32:49){data[,i]<-as.numeric(data[,i])}
-avant<-seq(from=32, to=45, by=2)
+debut<-21
+fin<-42
+step<-3
+for(i in debut:fin){data[,i]<-as.numeric(data[,i])}
+avant<-seq(from=debut, to=fin, by=step)
 av<-data[,avant]
 sep7a<-apply(av,1,sum)
 summary(sep7a)
 
-apres<-seq(from=33, to=45, by=2)
+apres<-seq(from=debut+1, to=fin, by=step)
 ap<-data[,apres]
 sep7b<-apply(ap,1,sum)
 summary(sep7b)
@@ -380,20 +406,20 @@ SEP7 et expérience de l'urgence
 -------------------------------
 Le niveau du SEP est-il différent avant la formation entre les personnes qui ont une expérience de l'urgence et les autres ?
 ```{r sep_exp_urg}
-exp_urg<-as.factor(data$experience.urgence.1...oui.2...non)
-t<-tapply(sep7a,exp_urg,mean,na.rm=TRUE)
+expurg<-as.factor(data$exp_urg)
+t<-tapply(sep7a,expurg,mean,na.rm=TRUE)
 t
 yl<-c(15,60)
-boxplot(sep7a~exp_urg,ylim=yl)
-t.test(sep7a~exp_urg)
+boxplot(sep7a~expurg,ylim=yl,ylab="SEP 7",xlab="Expérience de l'urgence",main="Avant formation")
+t.test(sep7a~expurg)
 ```
-Il existe une différence entre les deux groupes mais elle n'est pas significative.
+Il existe une différence entre les deux groupes et elle est significative.
 
 Que se passe t-il si on pose la même question après la formation ?
 ```{r}
-tapply(sep7b,exp_urg,mean,na.rm=TRUE)
-boxplot(sep7b~exp_urg,ylim=yl)
-t.test(sep7b~exp_urg)
+tapply(sep7b,expurg,mean,na.rm=TRUE)
+boxplot(sep7b~expurg,ylim=yl,ylab="SEP 7",xlab="Expérience de l'urgence",main="Après formation")
+t.test(sep7b~expurg)
 ```
 Après la formation, le niveau du SEP7 est équivalent dans les 2 groupes.
 
@@ -402,13 +428,16 @@ Calcul du SEP9
 Le SEP9 est le SEP calculé sur les 9 premières questions. Les questions vont de la colonne 32 à la colonne 49 pour les neuf premières questions. Les réponses doivent d'abord être transformées en valeurs numériques. Puis elle sont divisées en 2 groupes, avant et après. Pour chaque question, les valeurs sont sommées pour calculer la valeur du SEP avant (sep9a) et après (sep9b) la formation.
 
 ```{r sep9}
-for(i in 32:49){data[,i]<-as.numeric(data[,i])}
-avant<-seq(from=32, to=49, by=2)
+debut<-21
+fin<-47
+step<-3
+for(i in debut:fin){data[,i]<-as.numeric(data[,i])}
+avant<-seq(from=debut, to=fin, by=step)
 av<-data[,avant]
 sep9a<-apply(av,1,sum)
 summary(sep9a)
 
-apres<-seq(from=33, to=49, by=2)
+apres<-seq(from=debut+1, to=fin, by=step)
 ap<-data[,apres]
 sep9b<-apply(ap,1,sum)
 summary(sep9b)
@@ -425,20 +454,20 @@ SEP9 et expérience de l'urgence
 -------------------------------
 Le niveau du SEP est-il différent avant la formation entre les personnes qui ont une expérience de l'urgence et les autres ?
 ```{r sep9_exp_urg}
-exp_urg<-as.factor(data$experience.urgence.1...oui.2...non)
-t<-tapply(sep9a,exp_urg,mean,na.rm=TRUE)
+expurg<-as.factor(data$exp_urg)
+t<-tapply(sep9a,expurg,mean,na.rm=TRUE)
 t
 yl<-c(15,73)
-boxplot(sep9a~exp_urg,ylim=yl)
-t.test(sep9a~exp_urg)
+boxplot(sep9a~expurg,ylim=yl,xlab="expérience de l'urgence",ylab="SEP 9",main="Avant la formation")
+t.test(sep9a~expurg)
 ```
 Il existe une différence entre les deux groupes et elle est significative.
 
 Que se passe t-il si on pose la même question après la formation ?
 ```{r}
-tapply(sep9b,exp_urg,mean,na.rm=TRUE)
-boxplot(sep9b~exp_urg,ylim=yl)
-t.test(sep9b~exp_urg)
+tapply(sep9b,expurg,mean,na.rm=TRUE)
+boxplot(sep9b~expurg,ylim=yl,xlab="expérience de l'urgence",ylab="SEP 9",main="Après la formation")
+t.test(sep9b~expurg)
 ```
 Après la formation, le niveau du SEP9 est équivalent dans les 2 groupes.
 

@@ -741,6 +741,9 @@ on transforme *a* en integer:
 for(i in 1:ncol(a)){a[,i]<-as.integer(a[,i])}
 ```
 Calcul du Cronbach
+------------------
+Dans le cas particulier d'une échelle de likert utilisée avant at après, je ne sais pas si le CAC doit porter sur 9 ou 18 questions ?
+Dans le doute j'ai testé les 3 hypothèses. Le CAC est très bon pour 18 questions et les 9 questions avant. Il reste correct si on isole les questions après
 ```{r}
 cronbach(a)
 cronbach(a[,seq(1,ncol(a),2)])
@@ -769,6 +772,14 @@ alpha(a[,seq(1,ncol(a),2)])
 SEP après:
 ```{r}
 alpha(a[,seq(2,ncol(a),2)])
+```
+Calcul du cronbach sur 7 items
+-------------------------------
+Toutes les colonnes, colonnes avant et après
+```{r}
+cronbach(a[,seq(1,ncol(a)-4,1)])
+cronbach(a[,seq(1,ncol(a)-4,2)])
+cronbach(a[,seq(2,ncol(a)-4,2)])
 ```
 
 

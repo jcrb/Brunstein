@@ -193,7 +193,7 @@ hljs.initHighlightingOnLoad();
 <pre><code class="r">date()
 </code></pre>
 
-<pre><code>## [1] &quot;Sun May 26 14:40:08 2013&quot;
+<pre><code>## [1] &quot;Sun May 26 17:34:13 2013&quot;
 </code></pre>
 
 <pre><code class="r">getwd()
@@ -2318,8 +2318,260 @@ En logique, deux items sont consistants lorsqu&#39;ils ne sont pas contradictoir
 <li>0.7 &lt; cac &lt; 0.8: acceptable</li>
 <li>0.8 &lt;cac &lt;0.9: bon</li>
 <li>0.9 &lt; cac &lt; 0.95: excellent</li>
-<li>&gt; 0.95 : les items sont probablement redondants</li>
+<li>&gt; 0.95 : les items sont probablement redondants
+NB: cela suppose que tous les items sont lmesurés sur la même échelle et que le sens de la mesure est le même (sinon il faut indiquer au programme qu&#39;il inverse l&#39;échelle)</li>
 </ul>
+
+<p>Résultats avec la commande <em>alpha</em> de la librairie <em>psych</em></p>
+
+<pre><code class="r">library(&quot;psych&quot;)
+</code></pre>
+
+<pre><code>## Attaching package: &#39;psych&#39;
+</code></pre>
+
+<pre><code>## The following object(s) are masked from &#39;package:psy&#39;:
+## 
+## wkappa
+</code></pre>
+
+<pre><code>## The following object(s) are masked from &#39;package:epicalc&#39;:
+## 
+## alpha
+</code></pre>
+
+<pre><code>## The following object(s) are masked from &#39;package:gtools&#39;:
+## 
+## logit
+</code></pre>
+
+<pre><code>## The following object(s) are masked from &#39;package:HH&#39;:
+## 
+## logit
+</code></pre>
+
+<pre><code class="r">alpha(a)
+</code></pre>
+
+<pre><code>## Warning: Some items were negatively correlated with total scale and were
+## automatically reversed
+</code></pre>
+
+<pre><code>## 
+## Reliability analysis   
+## Call: alpha(x = a)
+## 
+##   raw_alpha std.alpha G6(smc) average_r mean  sd
+##       0.87      0.89    0.94      0.32    6 1.2
+## 
+##  Reliability if an item is dropped:
+##      raw_alpha std.alpha G6(smc) average_r
+## Q1A       0.85      0.88    0.93      0.31
+## Q1B       0.86      0.89    0.94      0.32
+## Q2A       0.84      0.88    0.93      0.30
+## Q2B       0.86      0.89    0.94      0.32
+## Q3A       0.85      0.88    0.93      0.30
+## Q3B       0.86      0.88    0.94      0.31
+## Q4A       0.84      0.88    0.93      0.30
+## Q4B       0.86      0.88    0.93      0.31
+## Q5A       0.85      0.88    0.93      0.30
+## Q5B       0.86      0.88    0.93      0.31
+## Q6A       0.88      0.90    0.94      0.35
+## Q6B-      0.89      0.90    0.94      0.35
+## Q7A       0.85      0.88    0.93      0.31
+## Q7B       0.86      0.89    0.94      0.32
+## Q8A       0.87      0.89    0.94      0.33
+## Q8B       0.86      0.89    0.94      0.32
+## Q9A       0.85      0.88    0.94      0.31
+## Q9B       0.86      0.89    0.94      0.32
+## 
+##  Item statistics 
+##       n    r r.cor r.drop mean   sd
+## Q1A  79 0.69  0.68   0.70  5.5 1.26
+## Q1B  81 0.56  0.54   0.41  7.1 0.72
+## Q2A  79 0.78  0.78   0.80  5.5 1.37
+## Q2B  81 0.54  0.52   0.40  7.2 0.68
+## Q3A  80 0.76  0.77   0.77  5.1 1.38
+## Q3B  81 0.72  0.71   0.60  6.7 0.87
+## Q4A  80 0.78  0.79   0.80  5.5 1.45
+## Q4B  81 0.68  0.67   0.54  7.0 0.73
+## Q5A  79 0.73  0.73   0.75  5.2 1.43
+## Q5B  81 0.68  0.67   0.55  6.7 0.82
+## Q6A  80 0.18  0.13   0.07  5.6 1.77
+## Q6B- 81 0.21  0.16   0.11  5.7 2.19
+## Q7A  79 0.68  0.67   0.63  5.1 1.55
+## Q7B  81 0.55  0.53   0.38  6.7 0.91
+## Q8A  80 0.39  0.34   0.32  7.3 1.28
+## Q8B  81 0.55  0.51   0.43  7.6 0.86
+## Q9A  80 0.67  0.66   0.67  5.3 1.52
+## Q9B  81 0.56  0.53   0.45  7.0 0.77
+## 
+## Non missing response frequency for each item
+##        1    2    3    4    5    6    7    8 miss
+## Q1A 0.01 0.01 0.03 0.11 0.30 0.34 0.15 0.04 0.05
+## Q1B 0.00 0.00 0.00 0.00 0.02 0.15 0.56 0.27 0.02
+## Q2A 0.01 0.03 0.04 0.10 0.25 0.37 0.15 0.05 0.05
+## Q2B 0.00 0.00 0.00 0.00 0.00 0.15 0.51 0.35 0.02
+## Q3A 0.01 0.04 0.05 0.18 0.34 0.25 0.10 0.04 0.04
+## Q3B 0.00 0.00 0.01 0.00 0.02 0.35 0.44 0.17 0.02
+## Q4A 0.01 0.04 0.04 0.12 0.22 0.34 0.18 0.05 0.04
+## Q4B 0.00 0.00 0.00 0.00 0.01 0.22 0.51 0.26 0.02
+## Q5A 0.01 0.04 0.06 0.14 0.30 0.30 0.09 0.05 0.05
+## Q5B 0.00 0.00 0.00 0.00 0.04 0.42 0.36 0.19 0.02
+## Q6A 0.02 0.04 0.08 0.10 0.16 0.30 0.14 0.16 0.04
+## Q6B 0.07 0.05 0.06 0.10 0.02 0.25 0.20 0.25 0.02
+## Q7A 0.03 0.05 0.08 0.15 0.25 0.30 0.10 0.04 0.05
+## Q7B 0.00 0.00 0.00 0.01 0.07 0.32 0.41 0.19 0.02
+## Q8A 0.01 0.01 0.00 0.01 0.04 0.08 0.25 0.60 0.04
+## Q8B 0.00 0.01 0.00 0.00 0.00 0.06 0.16 0.77 0.02
+## Q9A 0.02 0.02 0.05 0.14 0.28 0.28 0.15 0.06 0.04
+## Q9B 0.00 0.00 0.00 0.00 0.01 0.27 0.46 0.26 0.02
+</code></pre>
+
+<p>pour SEP avant:</p>
+
+<pre><code class="r">alpha(a[, seq(1, ncol(a), 2)])
+</code></pre>
+
+<pre><code>## 
+## Reliability analysis   
+## Call: alpha(x = a[, seq(1, ncol(a), 2)])
+## 
+##   raw_alpha std.alpha G6(smc) average_r mean  sd
+##       0.88      0.89    0.91      0.47  5.3 1.5
+## 
+##  Reliability if an item is dropped:
+##     raw_alpha std.alpha G6(smc) average_r
+## Q1A      0.86      0.87    0.90      0.45
+## Q2A      0.85      0.86    0.89      0.44
+## Q3A      0.85      0.86    0.88      0.44
+## Q4A      0.85      0.86    0.88      0.44
+## Q5A      0.86      0.87    0.89      0.45
+## Q6A      0.92      0.91    0.93      0.57
+## Q7A      0.86      0.88    0.90      0.47
+## Q8A      0.90      0.91    0.92      0.55
+## Q9A      0.86      0.87    0.90      0.46
+## 
+##  Item statistics 
+##      n    r r.cor r.drop mean  sd
+## Q1A 79 0.84  0.83   0.78  5.5 1.3
+## Q2A 79 0.87  0.87   0.82  5.5 1.4
+## Q3A 80 0.88  0.90   0.83  5.1 1.4
+## Q4A 80 0.88  0.89   0.83  5.5 1.4
+## Q5A 79 0.85  0.85   0.79  5.2 1.4
+## Q6A 80 0.31  0.19   0.16  5.6 1.8
+## Q7A 79 0.76  0.72   0.68  5.1 1.5
+## Q8A 80 0.40  0.29   0.26  7.3 1.3
+## Q9A 80 0.78  0.75   0.70  5.3 1.5
+## 
+## Non missing response frequency for each item
+##        1    2    3    4    5    6    7    8 miss
+## Q1A 0.01 0.01 0.03 0.11 0.30 0.34 0.15 0.04 0.05
+## Q2A 0.01 0.03 0.04 0.10 0.25 0.37 0.15 0.05 0.05
+## Q3A 0.01 0.04 0.05 0.18 0.34 0.25 0.10 0.04 0.04
+## Q4A 0.01 0.04 0.04 0.12 0.22 0.34 0.18 0.05 0.04
+## Q5A 0.01 0.04 0.06 0.14 0.30 0.30 0.09 0.05 0.05
+## Q6A 0.02 0.04 0.08 0.10 0.16 0.30 0.14 0.16 0.04
+## Q7A 0.03 0.05 0.08 0.15 0.25 0.30 0.10 0.04 0.05
+## Q8A 0.01 0.01 0.00 0.01 0.04 0.08 0.25 0.60 0.04
+## Q9A 0.02 0.02 0.05 0.14 0.28 0.28 0.15 0.06 0.04
+</code></pre>
+
+<p>SEP après:</p>
+
+<pre><code class="r">alpha(a[, seq(2, ncol(a), 2)])
+</code></pre>
+
+<pre><code>## Warning: Some items were negatively correlated with total scale and were
+## automatically reversed
+</code></pre>
+
+<pre><code>## 
+## Reliability analysis   
+## Call: alpha(x = a[, seq(2, ncol(a), 2)])
+## 
+##   raw_alpha std.alpha G6(smc) average_r mean  sd
+##       0.73      0.85    0.87      0.39  6.7 1.2
+## 
+##  Reliability if an item is dropped:
+##      raw_alpha std.alpha G6(smc) average_r
+## Q1B       0.69      0.82    0.84      0.37
+## Q2B       0.69      0.83    0.85      0.38
+## Q3B       0.67      0.82    0.84      0.36
+## Q4B       0.67      0.81    0.83      0.35
+## Q5B       0.67      0.82    0.84      0.36
+## Q6B-      0.88      0.88    0.88      0.48
+## Q7B       0.70      0.83    0.85      0.38
+## Q8B       0.70      0.84    0.86      0.40
+## Q9B       0.69      0.83    0.86      0.39
+## 
+##  Item statistics 
+##       n    r r.cor r.drop mean   sd
+## Q1B  81 0.74  0.71  0.590  7.1 0.72
+## Q2B  81 0.71  0.67  0.560  7.2 0.68
+## Q3B  81 0.79  0.77  0.657  6.7 0.87
+## Q4B  81 0.83  0.83  0.704  7.0 0.73
+## Q5B  81 0.80  0.79  0.669  6.7 0.82
+## Q6B- 81 0.24  0.11  0.075  5.7 2.19
+## Q7B  81 0.68  0.64  0.443  6.7 0.91
+## Q8B  81 0.62  0.53  0.461  7.6 0.86
+## Q9B  81 0.67  0.60  0.549  7.0 0.77
+## 
+## Non missing response frequency for each item
+##        1    2    3    4    5    6    7    8 miss
+## Q1B 0.00 0.00 0.00 0.00 0.02 0.15 0.56 0.27 0.02
+## Q2B 0.00 0.00 0.00 0.00 0.00 0.15 0.51 0.35 0.02
+## Q3B 0.00 0.00 0.01 0.00 0.02 0.35 0.44 0.17 0.02
+## Q4B 0.00 0.00 0.00 0.00 0.01 0.22 0.51 0.26 0.02
+## Q5B 0.00 0.00 0.00 0.00 0.04 0.42 0.36 0.19 0.02
+## Q6B 0.07 0.05 0.06 0.10 0.02 0.25 0.20 0.25 0.02
+## Q7B 0.00 0.00 0.00 0.01 0.07 0.32 0.41 0.19 0.02
+## Q8B 0.00 0.01 0.00 0.00 0.00 0.06 0.16 0.77 0.02
+## Q9B 0.00 0.00 0.00 0.00 0.01 0.27 0.46 0.26 0.02
+</code></pre>
+
+<h2>Calcul du cronbach sur 7 items</h2>
+
+<p>Toutes les colonnes, colonnes avant et après</p>
+
+<pre><code class="r">cronbach(a[, seq(1, ncol(a) - 4, 1)])
+</code></pre>
+
+<pre><code>## $sample.size
+## [1] 77
+## 
+## $number.of.items
+## [1] 14
+## 
+## $alpha
+## [1] 0.8232
+</code></pre>
+
+<pre><code class="r">cronbach(a[, seq(1, ncol(a) - 4, 2)])
+</code></pre>
+
+<pre><code>## $sample.size
+## [1] 77
+## 
+## $number.of.items
+## [1] 7
+## 
+## $alpha
+## [1] 0.8821
+</code></pre>
+
+<pre><code class="r">cronbach(a[, seq(2, ncol(a) - 4, 2)])
+</code></pre>
+
+<pre><code>## $sample.size
+## [1] 81
+## 
+## $number.of.items
+## [1] 7
+## 
+## $alpha
+## [1] 0.6147
+</code></pre>
 
 </body>
 

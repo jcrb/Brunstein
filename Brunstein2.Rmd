@@ -3,6 +3,9 @@ Données mémoire V.Brunstein
 
 Données originales
 ------------------
+les données sont préparées par *Brunstein_prepare_data.Rmd*.
+
+elles se récupère avec *load("Brunstein.Rdata")*.
 ```{r}
 date()
 getwd()
@@ -24,7 +27,8 @@ Les fichiers XLS sont enregistrés au format txt.csv sous le nom de *resultats.c
 # setwd(file)
 library("HH")
 library("gplots")
-library(plyr)
+library("plyr")
+library("epicalc")
 ```
 
 Routines de l'université de Monash pour Likert:
@@ -35,34 +39,8 @@ ATTENTION: pas compatible avec HH (même nom de fonction)
 
 Chargement des donnnées:
 ------------------------
-
-- na.strings="": permet de remplacer les cases vides par des NA
-- strip.white = TRUE: élimine les blancs inutiles
-- skip=1: la première ligne ne sert à rien
-- colClasses="character": évite que F ne soit transformé en FALSE (sexe)
 ```{r}
-data<-read.csv("resultats.csv",header=TRUE,sep=",",na.strings="",strip.white = TRUE,skip=1,colClasses="character")
-```
-Meagling des données
---------------------
-*! ATTENTION pb avec les caractères accentués sous windows*
-```{r}
-data$groupe<-as.factor(data$Groupe)
-data$no<-as.integer(data$Numéro)
-data$diplome<-as.factor(data$Diplôme)
-data$date_diplome<-as.integer(as.integer(data$Date))
-data$sexe<-as.factor(data$Sexe)
-data$travail<-as.factor(data$Lieu.exercice)
-data$exp_urg<-as.factor(data$experience.urgence.1...oui.2...non)
-data$conf_urg<-as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
-data$last_urg_n<-as.factor(data$de.quand.date.dernière.situation.d.urgence)
-data$last_urg_t<-as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
-data$formation<-as.factor(data$formation.urgence)
-data$date_formation<-as.factor(data$date.derniere.formation.urgence)
-```
-Suppression des colonnes redondantes: correspond aux colonnes 2,4 à 18
-```{r}
-data<-data[,c(-2,-4:-18)]
+load("Brunstein.Rdata")
 ```
 
 Nouvelle présentation
@@ -474,14 +452,27 @@ Après la formation, le niveau du SEP9 est équivalent dans les 2 groupes.
 Etude des questions A, B, C
 ============================
 Préparation
-```{r abc}
+```{r abc, warning=FALSE}
+
+use(data)
+pack()
+
+label.var(A, "J'ai su trouver ma place au sein de l'équipe")
+label.var(B, "Je suis content de moi")
+label.var(C, "Le médecin semblait content de moi")
+
+label.var(D, "J'ai été encouragé à échanger avec le reste du groupe")
+label.var(E, "J'ai pu observer les PEC des autres et donner mon avis")
+label.var(F, "L'ambiance était propice à mon apprentissage et ma participation")
+label.var(G, "Dans les MES j'ai pu dédider des actios à entreprendre")
+
 summary(as.factor(data$A))
 summary(as.factor(data$B))
 summary(as.factor(data$C))        
 ```
 likert.
 
-```{r}
+```{r warning=FALSE}
 a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$A[x])]<-1;a<-rbind(z)})
 a <- do.call(rbind,a)
 QA<-apply(a,2,sum)
@@ -508,6 +499,34 @@ plot(as.factor(data$A),sep9a,ylab="SEP 9",xlab="J'ai su trouver ma place au sein
 plot(as.factor(data$B),sep9a,ylab="SEP 9",xlab="")
 plot(as.factor(data$C),sep9a,ylab="SEP 9",xlab="")
 ```
+Analyse de la question C
+------------------------
+La question C note la manière dont les apprenants se situent par rapport au jugement du médecin sur leur action. On considère que ceux qui se sont attribués une note inférieure à 5 ont ressenti négativement l'opinion du médecin. Comment évolue le SEP dans ce groupe ?
+On sépare le groupe en 2 sous-groupes, inf à 5 et sup ou égal à 5:
+```{r}
+v<-as.factor(ifelse(data$C < 5,1,2))
+summary(v)
+```
+Groupe 1 = sentiment négatif, groupe 2 = sentiment positif.
+
+Une majorité est satisfaite, un petit groupr est insatisfait, 3ne se prononcent pas. Calcul du SEP correspondant:
+```{r}
+a<-tapply(sep7a,v,mean,na.rm=TRUE)
+a
+```
+SEP après:
+```{r}
+b<-tapply(sep7b,v,mean,na.rm=TRUE)
+b
+```
+Comment évolue le SEP en fonction du groupe ?
+```{r}
+b-a
+```
+C'est le sous-groupe qui s'estime jugé péjorativement par le médecin qui progresse le plus.
+
+
+
 
 Questions d à n
 ================
@@ -578,6 +597,7 @@ use(data)
 pack()
 
 label.var(A, "J'ai su trouver ma place au sein de l'équipe")
+label.var(C, "Le médecin semblait content de moi")
 label.var(D, "J'ai été encouragé à échanger avec le reste du groupe")
 label.var(E, "J'ai pu observer les PEC des autres et donner mon avis")
 label.var(F, "L'ambiance était propice à mon apprentissage et ma participation")
@@ -592,3 +612,163 @@ summ(D,ylab="Nombre de réponses",main="J'ai été encouragé à échanger avec 
 Note: pour transformer des variables en interger, on peut utilise *unclass(liste des var)*.
 
 Dans **Epicalc** utiliser *label.var* pour ajouter un commentaire aux items de Likert. Ex: label.var(A, "J'ai su trouver ma place au sein de l'équipe")
+
+Analyse par groupe
+==================
+La population de l'étude est compsée de 8 groupes d'apprenants. Le groupe 8 est particulier car composé exclusivement d'AS. Ce groupe homogène se comporte t'il différemment des autres groupes qui sont hétérogènes du point de vue de leur composition ?
+```{r}
+summary(data$groupe)
+```
+NB: les groupes 4, 6 et 8 ont des non réponses
+
+Calcul du **SEP7** avant-après par groupe
+-------------------------------------------
+```{r}
+data$sepa<-sep7a
+data$sepb<-sep7b
+```
+SEP total avant et après la formation (pas informatif car les goupes ne sont pas de la même taille)
+```{r}
+tapply(data$sepa,data$groupe,sum,na.rm=TRUE)
+tapply(data$sepb,data$groupe,sum,na.rm=TRUE)
+```
+SEP moyen par groupe avant et après la formation:
+```{r}
+tapply(data$sepa,data$groupe,mean,na.rm=TRUE)
+tapply(data$sepb,data$groupe,mean,na.rm=TRUE)
+```
+
+Le SEP est-il en moyenne différent entre les groupes avant la formation ?
+```{r}
+x<-aov(data$sepa~data$groupe)
+x
+summary(x)
+```
+Pas de différences entre les groupes avant la formation.
+
+Même question après:
+```{r}
+y<-aov(data$sepb~data$groupe)
+y
+summary(y)          
+```
+Il existe une différence de SEP entre les groupes après la formation:
+```{r}
+plotmeans(data$sepb~data$groupe,xlab="Groupes d'apprenants",ylab="SEP 7")
+TukeyHSD(y)
+```
+Le test de Tukey confirme que deux groupes ont un SEP moyen différents (groupes 2 et 6 ).
+
+On forme une nouvelle colonne *gp* pour former 2 groupes:
+- le groupe 8 constitué uniquement d'AS: homo
+- tous les autres:hetero
+```{r}
+data$gp[data$groupe==8]<-"homo"
+data$gp[data$groupe!=8]<-"hetero"
+```
+et on teste:
+```{r}
+tapply(data$sepa,data$gp,mean,na.rm=TRUE)
+tapply(data$sepb,data$gp,mean,na.rm=TRUE)
+```
+Par acquis de conscience:
+```{r}
+t.test(data$sepb~data$gp)
+```
+Conclusions: pas de différence de score SEP entre les groupes homo et hetero. Il daut noter que l'effectif du groupe *homo* est trop faible pour pouvoir conclure.
+
+Calcul du **SEP9** avant-après par groupe
+-------------------------------------------
+```{r}
+data$sepa<-sep9a
+data$sepb<-sep9b
+
+tapply(data$sepa,data$groupe,sum,na.rm=TRUE)
+tapply(data$sepb,data$groupe,sum,na.rm=TRUE)
+tapply(data$sepa,data$groupe,mean,na.rm=TRUE)
+tapply(data$sepb,data$groupe,mean,na.rm=TRUE)
+```
+Le SEP est-il en moyenne différent entre les groupes avant la formation ?
+```{r}
+x<-aov(data$sepa~data$groupe)
+x
+summary(x)
+```
+Pas de différences entre les groupes avant la formation.
+
+Même question après:
+```{r}
+y<-aov(data$sepb~data$groupe)
+y
+summary(y)          
+```
+Il existe une différence de SEP entre les groupes après la formation:
+```{r}
+plotmeans(data$sepb~data$groupe,xlab="Groupes d'apprenants",ylab="SEP 9")
+TukeyHSD(y)
+```
+On forme une nouvelle colonne *gp* pour former 2 groupes:
+- le groupe 8: homo
+- tous les autres:hetero
+```{r}
+data$gp[data$groupe==8]<-"homo"
+data$gp[data$groupe!=8]<-"hetero"
+```
+et on teste:
+```{r}
+tapply(data$sepa,data$gp,mean,na.rm=TRUE)
+tapply(data$sepb,data$gp,mean,na.rm=TRUE)
+```
+Par acquis de conscience:
+```{r}
+t.test(data$sepb~data$gp)
+```
+Conclusions: pas de différence de score SEP entre les groupes homo et hetero. Il daut noter que l'effectif du groupe *homo* est trop faible pour pouvoir conclure.
+
+Calcul alpha de Cronbach
+========================
+```{r}
+library("psy", lib.loc="/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
+```
+
+on extraitles colonnes 21 à 47 correspondant aux questions 1 à 9 puis on élimine les colonnes correspondant aux questions de type C qui commencent à la colonne 3 et progressent par pas de 3.
+```{r cron}
+a<-cbind(data[21:47])
+a<-a[,-seq(3,47,3)]
+```
+on transforme *a* en integer:
+```{r}
+for(i in 1:ncol(a)){a[,i]<-as.integer(a[,i])}
+```
+Calcul du Cronbach
+```{r}
+cronbach(a)
+cronbach(a[,seq(1,ncol(a),2)])
+cronbach(a[,seq(2,ncol(a),2)])
+```
+Le coefficient alpha de Cronbach (cac) (Lee Chronbach 1951) est un indice statistique qui mesure la consistance interne (ou homogénéité ou cohérence interne) d'un instrument d'évaluation composé d'un ensemble d'items qui tous contribuent à appréhender une même entité: niveau de connaissance ou de compétence sur un thème, niveau d'aptitude, de motivation ou d'intérêt pour un sujet donné.
+En logique, deux items sont consistants lorsqu'ils ne sont pas contradictoires. Dans le cas d'une échelle de Likert, c'est une mesure indirecte de la corrélation entre les items. De ce fait, le *cac* varie entre 0 et 1 et on l'interprète habituellement de cette façon:
+- cac < 0.5: pas acceptable
+- 0.6 < cac < 0.5: pauvre
+- 0.6< cac < 0.7: faible
+- 0.7 < cac < 0.8: acceptable
+- 0.8 <cac <0.9: bon
+- 0.9 < cac < 0.95: excellent
+- > 0.95 : les items sont probablement redondants
+NB: cela suppose que tous les items sont lmesurés sur la même échelle et que le sens de la mesure est le même (sinon il faut indiquer au programme qu'il inverse l'échelle)
+
+Résultats avec la commande *alpha* de la librairie *psych*
+```{r}
+library("psych")
+alpha(a)
+```
+pour SEP avant:
+```{r}
+alpha(a[,seq(1,ncol(a),2)])
+```
+SEP après:
+```{r}
+alpha(a[,seq(2,ncol(a),2)])
+```
+
+

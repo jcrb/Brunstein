@@ -3,13 +3,16 @@ Données mémoire V.Brunstein
 
 Données originales
 ------------------
+les données sont préparées par *Brunstein_prepare_data.Rmd*.
+
+elles se récupère avec *load("Brunstein.Rdata")*.
 
 ```r
 date()
 ```
 
 ```
-## [1] "Wed May 22 23:29:50 2013"
+## [1] "Sun May 26 14:40:08 2013"
 ```
 
 ```r
@@ -37,7 +40,8 @@ Les fichiers XLS sont enregistrés au format txt.csv sous le nom de *resultats.c
 # file<-'~/Documents/CESU/Travaux/Brunstein-master' setwd(file)
 library("HH")
 library("gplots")
-library(plyr)
+library("plyr")
+library("epicalc")
 ```
 
 
@@ -50,39 +54,8 @@ ATTENTION: pas compatible avec HH (même nom de fonction)
 Chargement des donnnées:
 ------------------------
 
-- na.strings="": permet de remplacer les cases vides par des NA
-- strip.white = TRUE: élimine les blancs inutiles
-- skip=1: la première ligne ne sert à rien
-- colClasses="character": évite que F ne soit transformé en FALSE (sexe)
-
 ```r
-data <- read.csv("resultats.csv", header = TRUE, sep = ",", na.strings = "", 
-    strip.white = TRUE, skip = 1, colClasses = "character")
-```
-
-Meagling des données
---------------------
-*! ATTENTION pb avec les caractères accentués sous windows*
-
-```r
-data$groupe <- as.factor(data$Groupe)
-data$no <- as.integer(data$Numéro)
-data$diplome <- as.factor(data$Diplôme)
-data$date_diplome <- as.integer(as.integer(data$Date))
-data$sexe <- as.factor(data$Sexe)
-data$travail <- as.factor(data$Lieu.exercice)
-data$exp_urg <- as.factor(data$experience.urgence.1...oui.2...non)
-data$conf_urg <- as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
-data$last_urg_n <- as.factor(data$de.quand.date.dernière.situation.d.urgence)
-data$last_urg_t <- as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
-data$formation <- as.factor(data$formation.urgence)
-data$date_formation <- as.factor(data$date.derniere.formation.urgence)
-```
-
-Suppression des colonnes redondantes: correspond aux colonnes 2,4 à 18
-
-```r
-data <- data[, c(-2, -4:-18)]
+load("Brunstein.Rdata")
 ```
 
 
@@ -142,17 +115,15 @@ summary(data$diplome)
 ```
 
 ```
-##         AP         AS        IDE       MERM        PPH SAGE FEMME 
-##          1         29         45          2          1          3 
-##       NA's 
-##          2
+##    AS Autre   IDE  NA's 
+##    30     6    45     2
 ```
 
 ```r
 plot(data$diplome)
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+![plot of chunk unnamed-chunk-5](figure/unnamed-chunk-5.png) 
 
 ```r
 ddply(data, .(data$diplome), "nrow")
@@ -160,13 +131,10 @@ ddply(data, .(data$diplome), "nrow")
 
 ```
 ##   data$diplome nrow
-## 1           AP    1
-## 2           AS   29
+## 1           AS   30
+## 2        Autre    6
 ## 3          IDE   45
-## 4         MERM    2
-## 5          PPH    1
-## 6   SAGE FEMME    3
-## 7         <NA>    2
+## 4         <NA>    2
 ```
 
 
@@ -194,7 +162,7 @@ a <- c(0, 0, 0, 2, 11, 6, 1, 0)
 likert(a)
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-9.png) 
+![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
 
 La question Q1 complète (avant/après):
 
@@ -223,7 +191,7 @@ c <- rbind(Q1A, Q1B)
 likert(c, main = "Question Q1 (avant / après)")
 ```
 
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-101.png) 
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-81.png) 
 
 ```r
 
@@ -259,7 +227,7 @@ summary(b)
 boxplot(a, b)
 ```
 
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-102.png) 
+![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-82.png) 
 
 ```r
 
@@ -369,7 +337,7 @@ c <- rbind(Q1A, Q1B)
 likert(c, main = "Question Q1 (avant / après)")
 ```
 
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
+![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
 
 Application à la question 4
 ---------------------------
@@ -561,7 +529,7 @@ hist(h, main = "Variation du SEP avant et après la formation", ylab = "Nombre",
 abline(v = s[4], col = "blue")
 ```
 
-![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19.png) 
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-17.png) 
 
 Progression du SEP selon le groupe socio-professionnel:
 
@@ -580,7 +548,7 @@ Le score SEP (Sentiment d'efficacité personnelle) a progressé après la format
 boxplot(data$sepa, data$sepb, main = "SEP avant et après la formation")
 ```
 
-![plot of chunk unnamed-chunk-21](figure/unnamed-chunk-21.png) 
+![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-19.png) 
 
 Et cette évolution est très significative:
 
@@ -845,14 +813,11 @@ table(data$diplome, data$conf_urg)
 ```
 
 ```
-##             
-##              jamais parfois rarement souvent
-##   AP              0       0        1       0
-##   AS              4      12        5       8
-##   IDE             4      25       10       6
-##   MERM            0       1        1       0
-##   PPH             1       0        0       0
-##   SAGE FEMME      1       1        1       0
+##        
+##         jamais parfois rarement souvent
+##   AS         4      12        6       8
+##   Autre      2       2        2       0
+##   IDE        4      25       10       6
 ```
 
 SEP avant formation:
@@ -862,8 +827,8 @@ tapply(data$sepa, data$diplome, mean, na.rm = TRUE)
 ```
 
 ```
-##         AP         AS        IDE       MERM        PPH SAGE FEMME 
-##        NaN      50.27      50.98      56.50      23.00      47.33
+##    AS Autre   IDE 
+## 50.27 46.33 50.98
 ```
 
 SEP après formation:
@@ -873,8 +838,8 @@ tapply(data$sepb, data$diplome, mean, na.rm = TRUE)
 ```
 
 ```
-##         AP         AS        IDE       MERM        PPH SAGE FEMME 
-##      67.00      60.38      62.53      62.50      65.00      58.67
+##    AS Autre   IDE 
+## 60.60 61.00 62.53
 ```
 
 Le SEP avant formation est élevé pour les AS, IDE et MERM et particulièrement bas por les PPH. Après la formation, il augmente pour toutes les catégories mais la progression la plus spectaculaire est observée pour les PPH. Avant la formation, le SEP est significativement différent selon le métier:
@@ -885,21 +850,15 @@ summary(xa)
 ```
 
 ```
-##              Df Sum Sq Mean Sq F value Pr(>F)  
-## data$diplome  4    869   217.2    2.74  0.035 *
-## Residuals    72   5711    79.3                 
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+##              Df Sum Sq Mean Sq F value Pr(>F)
+## data$diplome  2    115    57.3    0.66   0.52
+## Residuals    74   6465    87.4               
 ## 6 observations deleted due to missingness
 ```
 
 ```r
 plotmeans(data$sepa ~ data$diplome, ylab = "SEP", xlab = "Diplome", main = "SEP moyen (avant) et métier", 
     col = "red")
-```
-
-```
-## Warning: production de NaN
 ```
 
 ![plot of chunk c30](figure/c30.png) 
@@ -913,28 +872,14 @@ summary(xb)
 
 ```
 ##              Df Sum Sq Mean Sq F value Pr(>F)
-## data$diplome  5    150    29.9    1.21   0.31
-## Residuals    75   1857    24.8               
+## data$diplome  2     70    35.2    1.42   0.25
+## Residuals    78   1936    24.8               
 ## 2 observations deleted due to missingness
 ```
 
 ```r
 plotmeans(data$sepb ~ data$diplome, ylab = "SEP", xlab = "Diplome", main = "SEP moyen (après) et métier", 
     col = "red")
-```
-
-```
-## Warning: production de NaN
-```
-
-```
-## Warning: un flèche de longueur nulle n'a pas d'angle déterminé et est
-## ignorée
-```
-
-```
-## Warning: un flèche de longueur nulle n'a pas d'angle déterminé et est
-## ignorée
 ```
 
 ![plot of chunk c29](figure/c29.png) 
@@ -1075,7 +1020,7 @@ hist(h, main = "Variation du SEP7 avant et après la formation", ylab = "Nombre"
 abline(v = s[4], col = "blue")
 ```
 
-![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33.png) 
+![plot of chunk unnamed-chunk-31](figure/unnamed-chunk-31.png) 
 
 SEP7 et expérience de l'urgence
 -------------------------------
@@ -1136,7 +1081,7 @@ boxplot(sep7b ~ expurg, ylim = yl, ylab = "SEP 7", xlab = "Expérience de l'urge
     main = "Après formation")
 ```
 
-![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-34.png) 
+![plot of chunk unnamed-chunk-32](figure/unnamed-chunk-32.png) 
 
 ```r
 t.test(sep7b ~ expurg)
@@ -1213,7 +1158,7 @@ hist(h, main = "Variation du SEP9 avant et après la formation", ylab = "Nombre"
 abline(v = s[4], col = "blue")
 ```
 
-![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-35.png) 
+![plot of chunk unnamed-chunk-33](figure/unnamed-chunk-33.png) 
 
 SEP9 et expérience de l'urgence
 -------------------------------
@@ -1274,7 +1219,7 @@ boxplot(sep9b ~ expurg, ylim = yl, xlab = "expérience de l'urgence", ylab = "SE
     main = "Après la formation")
 ```
 
-![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-36.png) 
+![plot of chunk unnamed-chunk-34](figure/unnamed-chunk-34.png) 
 
 ```r
 t.test(sep9b ~ expurg)
@@ -1301,6 +1246,19 @@ Etude des questions A, B, C
 Préparation
 
 ```r
+
+use(data)
+pack()
+
+label.var(A, "J'ai su trouver ma place au sein de l'équipe")
+label.var(B, "Je suis content de moi")
+label.var(C, "Le médecin semblait content de moi")
+
+label.var(D, "J'ai été encouragé à échanger avec le reste du groupe")
+label.var(E, "J'ai pu observer les PEC des autres et donner mon avis")
+label.var(F, "L'ambiance était propice à mon apprentissage et ma participation")
+label.var(G, "Dans les MES j'ai pu dédider des actios à entreprendre")
+
 summary(as.factor(data$A))
 ```
 
@@ -1337,25 +1295,6 @@ a <- lapply(1:nrow(data), function(x) {
     z[as.integer(data$A[x])] <- 1
     a <- rbind(z)
 })
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```r
 a <- do.call(rbind, a)
 QA <- apply(a, 2, sum)
 a <- lapply(1:nrow(data), function(x) {
@@ -1364,29 +1303,6 @@ a <- lapply(1:nrow(data), function(x) {
     z[as.integer(data$B[x])] <- 1
     a <- rbind(z)
 })
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```r
 a <- do.call(rbind, a)
 QB <- apply(a, 2, sum)
 a <- lapply(1:nrow(data), function(x) {
@@ -1395,37 +1311,6 @@ a <- lapply(1:nrow(data), function(x) {
     z[as.integer(data$C[x])] <- 1
     a <- rbind(z)
 })
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```
-## Warning: NAs introduits lors de la conversion automatique
-```
-
-```r
 a <- do.call(rbind, a)
 QC <- apply(a, 2, sum)
 c <- rbind(QA, QB, QC)
@@ -1443,7 +1328,7 @@ c
 likert(c)
 ```
 
-![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-37.png) 
+![plot of chunk unnamed-chunk-35](figure/unnamed-chunk-35.png) 
 
 Corrélation SEP 7 et questions a,b,c
 
@@ -1451,19 +1336,19 @@ Corrélation SEP 7 et questions a,b,c
 plot(as.factor(data$A), sep7a, ylab = "SEP 7", xlab = "J'ai su trouver ma place au sein de l'équipe")
 ```
 
-![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-381.png) 
+![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-361.png) 
 
 ```r
 plot(as.factor(data$B), sep7a, ylab = "SEP 7", xlab = "")
 ```
 
-![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-382.png) 
+![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-362.png) 
 
 ```r
 plot(as.factor(data$C), sep7a, ylab = "SEP 7", xlab = "")
 ```
 
-![plot of chunk unnamed-chunk-38](figure/unnamed-chunk-383.png) 
+![plot of chunk unnamed-chunk-36](figure/unnamed-chunk-363.png) 
 
 
 Corrélation SEP 9 et questions a,b,c
@@ -1472,19 +1357,75 @@ Corrélation SEP 9 et questions a,b,c
 plot(as.factor(data$A), sep9a, ylab = "SEP 9", xlab = "J'ai su trouver ma place au sein de l'équipe")
 ```
 
-![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-391.png) 
+![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-371.png) 
 
 ```r
 plot(as.factor(data$B), sep9a, ylab = "SEP 9", xlab = "")
 ```
 
-![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-392.png) 
+![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-372.png) 
 
 ```r
 plot(as.factor(data$C), sep9a, ylab = "SEP 9", xlab = "")
 ```
 
-![plot of chunk unnamed-chunk-39](figure/unnamed-chunk-393.png) 
+![plot of chunk unnamed-chunk-37](figure/unnamed-chunk-373.png) 
+
+Analyse de la question C
+------------------------
+La question C note la manière dont les apprenants se situent par rapport au jugement du médecin sur leur action. On considère que ceux qui se sont attribués une note inférieure à 5 ont ressenti négativement l'opinion du médecin. Comment évolue le SEP dans ce groupe ?
+On sépare le groupe en 2 sous-groupes, inf à 5 et sup ou égal à 5:
+
+```r
+v <- as.factor(ifelse(data$C < 5, 1, 2))
+summary(v)
+```
+
+```
+##    1    2 NA's 
+##    9   71    3
+```
+
+Groupe 1 = sentiment négatif, groupe 2 = sentiment positif.
+
+Une majorité est satisfaite, un petit groupr est insatisfait, 3ne se prononcent pas. Calcul du SEP correspondant:
+
+```r
+a <- tapply(sep7a, v, mean, na.rm = TRUE)
+a
+```
+
+```
+##     1     2 
+## 37.44 45.97
+```
+
+SEP après:
+
+```r
+b <- tapply(sep7b, v, mean, na.rm = TRUE)
+b
+```
+
+```
+##     1     2 
+## 48.44 46.94
+```
+
+Comment évolue le SEP en fonction du groupe ?
+
+```r
+b - a
+```
+
+```
+##       1       2 
+## 11.0000  0.9731
+```
+
+C'est le sous-groupe qui s'estime jugé péjorativement par le médecin qui progresse le plus.
+
+
 
 
 Questions d à n
@@ -1639,44 +1580,11 @@ c
 likert(c)
 ```
 
-![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-401.png) 
+![plot of chunk unnamed-chunk-42](figure/unnamed-chunk-421.png) 
 
 ```r
 
 library("epicalc")
-```
-
-```
-## Loading required package: foreign
-```
-
-```
-## Loading required package: nnet
-```
-
-```
-## Attaching package: 'epicalc'
-```
-
-```
-## The following object(s) are masked from 'package:reshape':
-## 
-## expand, rename
-```
-
-```
-## The following object(s) are masked from 'package:plyr':
-## 
-## rename
-```
-
-```
-## The following object(s) are masked from 'package:lattice':
-## 
-## dotplot
-```
-
-```r
 
 data$D <- as.numeric(data$D)
 data$E <- as.numeric(data$E)
@@ -1708,6 +1616,7 @@ use(data)
 pack()
 
 label.var(A, "J'ai su trouver ma place au sein de l'équipe")
+label.var(C, "Le médecin semblait content de moi")
 label.var(D, "J'ai été encouragé à échanger avec le reste du groupe")
 label.var(E, "J'ai pu observer les PEC des autres et donner mon avis")
 label.var(F, "L'ambiance était propice à mon apprentissage et ma participation")
@@ -1789,19 +1698,13 @@ des()
 ## 67 sepb                       numeric        
 ## 68 sem                        numeric        
 ## 69 exp                        numeric        
-## 70 b                          numeric        
-## 71 expurg                     factor         
-## 72 h                          numeric        
-## 73 sep7a                      numeric        
-## 74 sep7b                      numeric        
-## 75 sep9a                      numeric        
-## 76 sep9b                      numeric        
+## 70 v                          factor         
 ##    Description                                                     
 ## 1                                                                  
 ## 2                                                                  
 ## 3  J'ai su trouver ma place au sein de l'équipe                    
 ## 4                                                                  
-## 5                                                                  
+## 5  Le médecin semblait content de moi                              
 ## 6                                                                  
 ## 7                                                                  
 ## 8                                                                  
@@ -1866,13 +1769,7 @@ des()
 ## 67                                                                 
 ## 68                                                                 
 ## 69                                                                 
-## 70                                                                 
-## 71                                                                 
-## 72                                                                 
-## 73                                                                 
-## 74                                                                 
-## 75                                                                 
-## 76
+## 70
 ```
 
 ```r
@@ -1963,7 +1860,7 @@ summ()
 ## 53 X.5                                                                  
 ## 54 groupe                     83   4.783   5       2.353   1      8     
 ## 55 no                         81   6.51    6       3.59    1      15    
-## 56 diplome                    81   2.778   3       0.88    1      6     
+## 56 diplome                    81   2.185   3       0.95    1      3     
 ## 57 date_diplome               80   1999.94 2003    9.45    1979   2012  
 ## 58 sexe                       81   2.086   2       0.424   1      4     
 ## 59 travail                    78   26.205  26.5    13.682  1      47    
@@ -1977,20 +1874,14 @@ summ()
 ## 67 sepb                       81   61.7    62      5.01    47     72    
 ## 68 sem                        59   143.75  30      166.21  1      365   
 ## 69 exp                        59   689.56  300     1023.81 1      4380  
-## 70 b                          81   61.7    62      5.01    47     72    
-## 71 expurg                     81   1.383   1       0.489   1      2     
-## 72 h                          77   11.51   11      8.96    -4     42    
-## 73 sep7a                      77   44.97   45      8.21    17     64    
-## 74 sep7b                      81   47.1    47      4.25    38     56    
-## 75 sep9a                      77   50.38   50      9.3     19     72    
-## 76 sep9b                      81   61.7    62      5.01    47     72
+## 70 v                          80   1.888   2       0.318   1      2
 ```
 
 ```r
 summ(D, ylab = "Nombre de réponses", main = "J'ai été encouragé à échanger avec le reste du groupe")
 ```
 
-![plot of chunk unnamed-chunk-40](figure/unnamed-chunk-402.png) 
+![plot of chunk unnamed-chunk-42](figure/unnamed-chunk-422.png) 
 
 ```
 ##   obs. mean   median  s.d.   min.   max.  
@@ -2000,3 +1891,555 @@ summ(D, ylab = "Nombre de réponses", main = "J'ai été encouragé à échanger
 Note: pour transformer des variables en interger, on peut utilise *unclass(liste des var)*.
 
 Dans **Epicalc** utiliser *label.var* pour ajouter un commentaire aux items de Likert. Ex: label.var(A, "J'ai su trouver ma place au sein de l'équipe")
+
+Analyse par groupe
+==================
+La population de l'étude est compsée de 8 groupes d'apprenants. Le groupe 8 est particulier car composé exclusivement d'AS. Ce groupe homogène se comporte t'il différemment des autres groupes qui sont hétérogènes du point de vue de leur composition ?
+
+```r
+summary(data$groupe)
+```
+
+```
+##  1  2  3  4  5  6  7  8 
+##  8 12  9  7 11 10 13 13
+```
+
+NB: les groupes 4, 6 et 8 ont des non réponses
+
+Calcul du **SEP7** avant-après par groupe
+-------------------------------------------
+
+```r
+data$sepa <- sep7a
+```
+
+```
+## Error: objet 'sep7a' introuvable
+```
+
+```r
+data$sepb <- sep7b
+```
+
+```
+## Error: objet 'sep7b' introuvable
+```
+
+SEP total avant et après la formation (pas informatif car les goupes ne sont pas de la même taille)
+
+```r
+tapply(data$sepa, data$groupe, sum, na.rm = TRUE)
+```
+
+```
+##   1   2   3   4   5   6   7   8 
+## 393 589 449 325 619 414 645 445
+```
+
+```r
+tapply(data$sepb, data$groupe, sum, na.rm = TRUE)
+```
+
+```
+##   1   2   3   4   5   6   7   8 
+## 499 703 562 439 704 573 834 684
+```
+
+SEP moyen par groupe avant et après la formation:
+
+```r
+tapply(data$sepa, data$groupe, mean, na.rm = TRUE)
+```
+
+```
+##     1     2     3     4     5     6     7     8 
+## 49.12 49.08 49.89 54.17 56.27 46.00 49.62 49.44
+```
+
+```r
+tapply(data$sepb, data$groupe, mean, na.rm = TRUE)
+```
+
+```
+##     1     2     3     4     5     6     7     8 
+## 62.38 58.58 62.44 62.71 64.00 57.30 64.15 62.18
+```
+
+
+Le SEP est-il en moyenne différent entre les groupes avant la formation ?
+
+```r
+x <- aov(data$sepa ~ data$groupe)
+x
+```
+
+```
+## Call:
+##    aov(formula = data$sepa ~ data$groupe)
+## 
+## Terms:
+##                 data$groupe Residuals
+## Sum of Squares          691      5889
+## Deg. of Freedom           7        69
+## 
+## Residual standard error: 9.238 
+## Estimated effects may be unbalanced
+## 6 observations deleted due to missingness
+```
+
+```r
+summary(x)
+```
+
+```
+##             Df Sum Sq Mean Sq F value Pr(>F)
+## data$groupe  7    691    98.7    1.16   0.34
+## Residuals   69   5889    85.3               
+## 6 observations deleted due to missingness
+```
+
+Pas de différences entre les groupes avant la formation.
+
+Même question après:
+
+```r
+y <- aov(data$sepb ~ data$groupe)
+y
+```
+
+```
+## Call:
+##    aov(formula = data$sepb ~ data$groupe)
+## 
+## Terms:
+##                 data$groupe Residuals
+## Sum of Squares          465      1542
+## Deg. of Freedom           7        73
+## 
+## Residual standard error: 4.596 
+## Estimated effects may be unbalanced
+## 2 observations deleted due to missingness
+```
+
+```r
+summary(y)
+```
+
+```
+##             Df Sum Sq Mean Sq F value Pr(>F)   
+## data$groupe  7    465    66.4    3.15 0.0058 **
+## Residuals   73   1542    21.1                  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 2 observations deleted due to missingness
+```
+
+Il existe une différence de SEP entre les groupes après la formation:
+
+```r
+plotmeans(data$sepb ~ data$groupe, xlab = "Groupes d'apprenants", ylab = "SEP 7")
+```
+
+![plot of chunk unnamed-chunk-49](figure/unnamed-chunk-49.png) 
+
+```r
+TukeyHSD(y)
+```
+
+```
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = data$sepb ~ data$groupe)
+## 
+## $`data$groupe`
+##         diff      lwr     upr  p adj
+## 2-1 -3.79167 -10.3376  2.7543 0.6171
+## 3-1  0.06944  -6.8992  7.0381 1.0000
+## 4-1  0.33929  -7.0831  7.7617 1.0000
+## 5-1  1.62500  -5.0389  8.2889 0.9946
+## 6-1 -5.07500 -11.8777  1.7277 0.2930
+## 7-1  1.77885  -4.6656  8.2233 0.9885
+## 8-1 -0.19318  -6.8571  6.4707 1.0000
+## 3-2  3.86111  -2.4629 10.1851 0.5519
+## 4-2  4.13095  -2.6898 10.9517 0.5621
+## 5-2  5.41667  -0.5698 11.4031 0.1050
+## 6-2 -1.28333  -7.4240  4.8573 0.9979
+## 7-2  5.57051  -0.1707 11.3117 0.0636
+## 8-2  3.59848  -2.3880  9.5849 0.5716
+## 4-3  0.26984  -6.9576  7.4973 1.0000
+## 5-3  1.55556  -4.8904  8.0016 0.9949
+## 6-3 -5.14444 -11.7339  1.4450 0.2400
+## 7-3  1.70940  -4.5095  7.9283 0.9888
+## 8-3 -0.26263  -6.7086  6.1834 1.0000
+## 5-4  1.28571  -5.6483  8.2197 0.9990
+## 6-4 -5.41429 -12.4818  1.6533 0.2616
+## 7-4  1.43956  -5.2838  8.1629 0.9976
+## 8-4 -0.53247  -7.4665  6.4015 1.0000
+## 6-5 -6.70000 -12.9662 -0.4338 0.0277
+## 7-5  0.15385  -5.7215  6.0292 1.0000
+## 8-5 -1.81818  -7.9334  4.2970 0.9823
+## 7-6  6.85385   0.8215 12.8862 0.0151
+## 8-6  4.88182  -1.3844 11.1480 0.2424
+## 8-7 -1.97203  -7.8473  3.9033 0.9652
+```
+
+Le test de Tukey confirme que deux groupes ont un SEP moyen différents (groupes 2 et 6 ).
+
+On forme une nouvelle colonne *gp* pour former 2 groupes:
+- le groupe 8 constitué uniquement d'AS: homo
+- tous les autres:hetero
+
+```r
+data$gp[data$groupe == 8] <- "homo"
+data$gp[data$groupe != 8] <- "hetero"
+```
+
+et on teste:
+
+```r
+tapply(data$sepa, data$gp, mean, na.rm = TRUE)
+```
+
+```
+## hetero   homo 
+##  50.50  49.44
+```
+
+```r
+tapply(data$sepb, data$gp, mean, na.rm = TRUE)
+```
+
+```
+## hetero   homo 
+##  61.63  62.18
+```
+
+Par acquis de conscience:
+
+```r
+t.test(data$sepb ~ data$gp)
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  data$sepb by data$gp 
+## t = -0.3666, df = 14.2, p-value = 0.7193
+## alternative hypothesis: true difference in means is not equal to 0 
+## 95 percent confidence interval:
+##  -3.786  2.679 
+## sample estimates:
+## mean in group hetero   mean in group homo 
+##                61.63                62.18
+```
+
+Conclusions: pas de différence de score SEP entre les groupes homo et hetero. Il daut noter que l'effectif du groupe *homo* est trop faible pour pouvoir conclure.
+
+Calcul du **SEP9** avant-après par groupe
+-------------------------------------------
+
+```r
+data$sepa <- sep9a
+```
+
+```
+## Error: objet 'sep9a' introuvable
+```
+
+```r
+data$sepb <- sep9b
+```
+
+```
+## Error: objet 'sep9b' introuvable
+```
+
+```r
+
+tapply(data$sepa, data$groupe, sum, na.rm = TRUE)
+```
+
+```
+##   1   2   3   4   5   6   7   8 
+## 393 589 449 325 619 414 645 445
+```
+
+```r
+tapply(data$sepb, data$groupe, sum, na.rm = TRUE)
+```
+
+```
+##   1   2   3   4   5   6   7   8 
+## 499 703 562 439 704 573 834 684
+```
+
+```r
+tapply(data$sepa, data$groupe, mean, na.rm = TRUE)
+```
+
+```
+##     1     2     3     4     5     6     7     8 
+## 49.12 49.08 49.89 54.17 56.27 46.00 49.62 49.44
+```
+
+```r
+tapply(data$sepb, data$groupe, mean, na.rm = TRUE)
+```
+
+```
+##     1     2     3     4     5     6     7     8 
+## 62.38 58.58 62.44 62.71 64.00 57.30 64.15 62.18
+```
+
+Le SEP est-il en moyenne différent entre les groupes avant la formation ?
+
+```r
+x <- aov(data$sepa ~ data$groupe)
+x
+```
+
+```
+## Call:
+##    aov(formula = data$sepa ~ data$groupe)
+## 
+## Terms:
+##                 data$groupe Residuals
+## Sum of Squares          691      5889
+## Deg. of Freedom           7        69
+## 
+## Residual standard error: 9.238 
+## Estimated effects may be unbalanced
+## 6 observations deleted due to missingness
+```
+
+```r
+summary(x)
+```
+
+```
+##             Df Sum Sq Mean Sq F value Pr(>F)
+## data$groupe  7    691    98.7    1.16   0.34
+## Residuals   69   5889    85.3               
+## 6 observations deleted due to missingness
+```
+
+Pas de différences entre les groupes avant la formation.
+
+Même question après:
+
+```r
+y <- aov(data$sepb ~ data$groupe)
+y
+```
+
+```
+## Call:
+##    aov(formula = data$sepb ~ data$groupe)
+## 
+## Terms:
+##                 data$groupe Residuals
+## Sum of Squares          465      1542
+## Deg. of Freedom           7        73
+## 
+## Residual standard error: 4.596 
+## Estimated effects may be unbalanced
+## 2 observations deleted due to missingness
+```
+
+```r
+summary(y)
+```
+
+```
+##             Df Sum Sq Mean Sq F value Pr(>F)   
+## data$groupe  7    465    66.4    3.15 0.0058 **
+## Residuals   73   1542    21.1                  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 2 observations deleted due to missingness
+```
+
+Il existe une différence de SEP entre les groupes après la formation:
+
+```r
+plotmeans(data$sepb ~ data$groupe, xlab = "Groupes d'apprenants", ylab = "SEP 9")
+```
+
+![plot of chunk unnamed-chunk-56](figure/unnamed-chunk-56.png) 
+
+```r
+TukeyHSD(y)
+```
+
+```
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = data$sepb ~ data$groupe)
+## 
+## $`data$groupe`
+##         diff      lwr     upr  p adj
+## 2-1 -3.79167 -10.3376  2.7543 0.6171
+## 3-1  0.06944  -6.8992  7.0381 1.0000
+## 4-1  0.33929  -7.0831  7.7617 1.0000
+## 5-1  1.62500  -5.0389  8.2889 0.9946
+## 6-1 -5.07500 -11.8777  1.7277 0.2930
+## 7-1  1.77885  -4.6656  8.2233 0.9885
+## 8-1 -0.19318  -6.8571  6.4707 1.0000
+## 3-2  3.86111  -2.4629 10.1851 0.5519
+## 4-2  4.13095  -2.6898 10.9517 0.5621
+## 5-2  5.41667  -0.5698 11.4031 0.1050
+## 6-2 -1.28333  -7.4240  4.8573 0.9979
+## 7-2  5.57051  -0.1707 11.3117 0.0636
+## 8-2  3.59848  -2.3880  9.5849 0.5716
+## 4-3  0.26984  -6.9576  7.4973 1.0000
+## 5-3  1.55556  -4.8904  8.0016 0.9949
+## 6-3 -5.14444 -11.7339  1.4450 0.2400
+## 7-3  1.70940  -4.5095  7.9283 0.9888
+## 8-3 -0.26263  -6.7086  6.1834 1.0000
+## 5-4  1.28571  -5.6483  8.2197 0.9990
+## 6-4 -5.41429 -12.4818  1.6533 0.2616
+## 7-4  1.43956  -5.2838  8.1629 0.9976
+## 8-4 -0.53247  -7.4665  6.4015 1.0000
+## 6-5 -6.70000 -12.9662 -0.4338 0.0277
+## 7-5  0.15385  -5.7215  6.0292 1.0000
+## 8-5 -1.81818  -7.9334  4.2970 0.9823
+## 7-6  6.85385   0.8215 12.8862 0.0151
+## 8-6  4.88182  -1.3844 11.1480 0.2424
+## 8-7 -1.97203  -7.8473  3.9033 0.9652
+```
+
+On forme une nouvelle colonne *gp* pour former 2 groupes:
+- le groupe 8: homo
+- tous les autres:hetero
+
+```r
+data$gp[data$groupe == 8] <- "homo"
+data$gp[data$groupe != 8] <- "hetero"
+```
+
+et on teste:
+
+```r
+tapply(data$sepa, data$gp, mean, na.rm = TRUE)
+```
+
+```
+## hetero   homo 
+##  50.50  49.44
+```
+
+```r
+tapply(data$sepb, data$gp, mean, na.rm = TRUE)
+```
+
+```
+## hetero   homo 
+##  61.63  62.18
+```
+
+Par acquis de conscience:
+
+```r
+t.test(data$sepb ~ data$gp)
+```
+
+```
+## 
+## 	Welch Two Sample t-test
+## 
+## data:  data$sepb by data$gp 
+## t = -0.3666, df = 14.2, p-value = 0.7193
+## alternative hypothesis: true difference in means is not equal to 0 
+## 95 percent confidence interval:
+##  -3.786  2.679 
+## sample estimates:
+## mean in group hetero   mean in group homo 
+##                61.63                62.18
+```
+
+Conclusions: pas de différence de score SEP entre les groupes homo et hetero. Il daut noter que l'effectif du groupe *homo* est trop faible pour pouvoir conclure.
+
+Calcul alpha de Cronbach
+========================
+
+```r
+library("psy", lib.loc = "/home/jcb/R/x86_64-pc-linux-gnu-library/2.15")
+```
+
+
+on extraitles colonnes 21 à 47 correspondant aux questions 1 à 9 puis on élimine les colonnes correspondant aux questions de type C qui commencent à la colonne 3 et progressent par pas de 3.
+
+```r
+a <- cbind(data[21:47])
+a <- a[, -seq(3, 47, 3)]
+```
+
+on transforme *a* en integer:
+
+```r
+for (i in 1:ncol(a)) {
+    a[, i] <- as.integer(a[, i])
+}
+```
+
+Calcul du Cronbach
+
+```r
+cronbach(a)
+```
+
+```
+## $sample.size
+## [1] 77
+## 
+## $number.of.items
+## [1] 18
+## 
+## $alpha
+## [1] 0.8463
+```
+
+```r
+cronbach(a[, seq(1, ncol(a), 2)])
+```
+
+```
+## $sample.size
+## [1] 77
+## 
+## $number.of.items
+## [1] 9
+## 
+## $alpha
+## [1] 0.8842
+```
+
+```r
+cronbach(a[, seq(2, ncol(a), 2)])
+```
+
+```
+## $sample.size
+## [1] 81
+## 
+## $number.of.items
+## [1] 9
+## 
+## $alpha
+## [1] 0.6831
+```
+
+Le coefficient alpha de Cronbach (cac) (Lee Chronbach 1951) est un indice statistique qui mesure la consistance interne (ou homogénéité ou cohérence interne) d'un instrument d'évaluation composé d'un ensemble d'items qui tous contribuent à appréhender une même entité: niveau de connaissance ou de compétence sur un thème, niveau d'aptitude, de motivation ou d'intérêt pour un sujet donné.
+En logique, deux items sont consistants lorsqu'ils ne sont pas contradictoires. Dans le cas d'une échelle de Likert, c'est une mesure indirecte de la corrélation entre les items. De ce fait, le *cac* varie entre 0 et 1 et on l'interprète habituellement de cette façon:
+- cac < 0.5: pas acceptable
+- 0.6 < cac < 0.5: pauvre
+- 0.6< cac < 0.7: faible
+- 0.7 < cac < 0.8: acceptable
+- 0.8 <cac <0.9: bon
+- 0.9 < cac < 0.95: excellent
+- > 0.95 : les items sont probablement redondants
+

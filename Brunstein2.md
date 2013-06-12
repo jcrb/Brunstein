@@ -12,7 +12,7 @@ date()
 ```
 
 ```
-## [1] "Sun May 26 17:34:13 2013"
+## [1] "Wed Jun 12 18:21:43 2013"
 ```
 
 ```r
@@ -534,11 +534,13 @@ abline(v = s[4], col = "blue")
 Progression du SEP selon le groupe socio-professionnel:
 
 ```r
-round(sort(tapply(data$sepb - data$sepa, diplome, mean, na.rm = TRUE)), 2)
+round(sort(tapply(data$sepb - data$sepa, data$diplome, mean, na.rm = TRUE)), 
+    2)
 ```
 
 ```
-## Error: objet 'diplome' introuvable
+##    AS   IDE Autre 
+## 10.69 11.56 14.67
 ```
 
 
@@ -574,24 +576,18 @@ t
 ### expérience professionnelle
 
 ```r
-summary(exp_urg)
+summary(data$exp_urg)
 ```
 
 ```
-## Error: objet 'exp_urg' introuvable
+##  non  oui NA's 
+##   50   31    2
 ```
 
 SEP moyen en fonction de l'expérience:
 
 ```r
-t <- tapply(data$sepa, exp_urg, mean, na.rm = TRUE)
-```
-
-```
-## Error: objet 'exp_urg' introuvable
-```
-
-```r
+t <- tapply(data$sepa, data$exp_urg, mean, na.rm = TRUE)
 t.test(data$sepa[data$exp_urg == "oui"], data$sepa[data$exp_urg == "non"])
 ```
 
@@ -715,61 +711,106 @@ Après la formation, la position du groupe évolue peu bien que l'on note une un
 fréquence absolue et selon le lieu d'exercice:
 
 ```r
-summary(conf_urg)
+summary(data$conf_urg)
 ```
 
 ```
-## Error: objet 'conf_urg' introuvable
+##   jamais  parfois rarement  souvent     NA's 
+##       10       39       18       14        2
 ```
 
 ```r
-table(travail, conf_urg)
+table(data$travail, data$conf_urg)
 ```
 
 ```
-## Error: objet 'travail' introuvable
+##                     
+##                      jamais parfois rarement souvent
+##   Bloc                    0       1        0       0
+##   bloc ophtalmo           0       1        0       0
+##   centre                  0       1        0       0
+##   centre du sommeil       1       0        0       0
+##   chir orthopédique       1       0        0       0
+##   chir pediatrique        0       0        1       0
+##   chirurgie               1       0        2       0
+##   chirurgie générale      0       1        0       0
+##   CIC                     0       1        0       0
+##   CMCO                    0       2        0       0
+##   EF cardio               0       1        0       0
+##   EHPAD                   1       0        0       0
+##   entreprise              0       3        0       0
+##   GASTRO chir             0       0        1       0
+##   GERIATRIE               0       1        0       0
+##   gériatrie               0       0        1       0
+##   geronto psy             0       0        1       0
+##   gyneco                  1       0        1       1
+##   HEMODIALYSE             0       0        0       1
+##   long sejour             1       0        1       0
+##   maternité               1       0        0       0
+##   medecine                0       2        1       0
+##   MEDECINE                0       2        1       0
+##   médecine                0       1        0       1
+##   medecine nucléaire      0       0        1       0
+##   MIRNED                  0       0        1       0
+##   NA                      0       5        0       0
+##   NEPHRO                  0       1        0       0
+##   neurologie              0       1        0       0
+##   NHC                     0       1        0       0
+##   obstetrique             0       0        2       0
+##   oncologie               1       0        1       0
+##   ORL                     0       0        0       1
+##   pharmacie               1       0        0       0
+##   PNEUMO                  0       2        1       0
+##   POOL MCO                0       1        0       0
+##   radio                   0       1        0       0
+##   rea neurochir           0       0        0       1
+##   SI HEMATO               0       0        0       1
+##   SSPI                    0       1        0       0
+##   ste anne                0       1        0       0
+##   STE BARBE               0       2        0       0
+##   STRASBOURG              0       0        1       0
+##   TRAUMATO                0       2        0       0
+##   UAA                     0       0        0       1
+##   URGENCES                0       2        0       6
+##   USC                     0       1        0       1
 ```
 
 Sep moyen et fréquence des situations d'urgence
 
 ```r
-tapply(data$sepa, conf_urg, mean, na.rm = TRUE)
+tapply(data$sepa, data$conf_urg, mean, na.rm = TRUE)
 ```
 
 ```
-## Error: objet 'conf_urg' introuvable
-```
-
-```r
-x <- split(data$sepa, conf_urg)
-```
-
-```
-## Error: objet 'conf_urg' introuvable
+##   jamais  parfois rarement  souvent 
+##    41.33    50.39    46.88    60.14
 ```
 
 ```r
+x <- split(data$sepa, data$conf_urg)
 boxplot(x, main = "SEP en fonction de la fréquence des situations d'urgence", 
     ylab = "SEP", col = "orange")
 ```
 
-![plot of chunk c31](figure/c31.png) 
+![plot of chunk c31](figure/c311.png) 
 
 ```r
-x <- aov(data$sepa ~ conf_urg)
-```
-
-```
-## Error: objet 'conf_urg' introuvable
-```
-
-```r
+x <- aov(data$sepa ~ data$conf_urg)
 x
 ```
 
 ```
-##    1    2    3    4    5    6    7    8   NA NA's 
-##    1    1    2    9   24   27   12    3    1    3
+## Call:
+##    aov(formula = data$sepa ~ data$conf_urg)
+## 
+## Terms:
+##                 data$conf_urg Residuals
+## Sum of Squares           2268      4313
+## Deg. of Freedom             3        73
+## 
+## Residual standard error: 7.686 
+## Estimated effects may be unbalanced
+## 6 observations deleted due to missingness
 ```
 
 ```r
@@ -777,18 +818,20 @@ summary(x)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    1.00    1.25    3.00    8.30   11.20   27.00
+##               Df Sum Sq Mean Sq F value  Pr(>F)    
+## data$conf_urg  3   2268     756    12.8 8.3e-07 ***
+## Residuals     73   4313      59                    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 6 observations deleted due to missingness
 ```
 
 ```r
-plotmeans(data$sepa ~ conf_urg, ylab = "SEP", xlab = "Confrontation aux situations d'urgence", 
+plotmeans(data$sepa ~ data$conf_urg, ylab = "SEP", xlab = "Confrontation aux situations d'urgence", 
     main = "SEP moyen et situations d'urgence", col = "red")
 ```
 
-```
-## Error: objet 'conf_urg' introuvable
-```
+![plot of chunk c31](figure/c312.png) 
 
 ```r
 
@@ -796,8 +839,19 @@ TukeyHSD(x)
 ```
 
 ```
-## Error: pas de méthode pour 'TukeyHSD' applicable pour un objet de classe
-## "c('integer', 'numeric')"
+##   Tukey multiple comparisons of means
+##     95% family-wise confidence level
+## 
+## Fit: aov(formula = data$sepa ~ data$conf_urg)
+## 
+## $`data$conf_urg`
+##                    diff    lwr    upr  p adj
+## parfois-jamais    9.061  1.570 16.553 0.0114
+## rarement-jamais   5.542 -2.878 13.962 0.3156
+## souvent-jamais   18.810 10.176 27.443 0.0000
+## rarement-parfois -3.520 -9.542  2.503 0.4212
+## souvent-parfois   9.748  3.430 16.066 0.0007
+## souvent-rarement 13.268  5.872 20.663 0.0001
 ```
 
 Plus la confrontation au situations d'urgence augmente et plus le SEP est élevé.
@@ -1139,6 +1193,12 @@ summary(sep9b)
 ##    47.0    58.0    62.0    61.7    65.0    72.0       2
 ```
 
+```r
+
+data$sep9a <- sep9a
+data$sep9b <- sep9b
+```
+
 On calcule la différence avant-après et on trace le graphique représentatif:
 
 ```r
@@ -1412,6 +1472,12 @@ b
 ## 48.44 46.94
 ```
 
+```r
+
+data$sepa <- sep7a
+data$sepb <- sep7b
+```
+
 Comment évolue le SEP en fonction du groupe ?
 
 ```r
@@ -1620,7 +1686,7 @@ label.var(C, "Le médecin semblait content de moi")
 label.var(D, "J'ai été encouragé à échanger avec le reste du groupe")
 label.var(E, "J'ai pu observer les PEC des autres et donner mon avis")
 label.var(F, "L'ambiance était propice à mon apprentissage et ma participation")
-label.var(G, "Dans les MES j'ai pu dédider des actios à entreprendre")
+label.var(G, "Dans les MES j'ai pu décider des actios à entreprendre")
 
 des()
 ```
@@ -1698,7 +1764,9 @@ des()
 ## 67 sepb                       numeric        
 ## 68 sem                        numeric        
 ## 69 exp                        numeric        
-## 70 v                          factor         
+## 70 sep9a                      numeric        
+## 71 sep9b                      numeric        
+## 72 v                          factor         
 ##    Description                                                     
 ## 1                                                                  
 ## 2                                                                  
@@ -1712,7 +1780,7 @@ des()
 ## 10 J'ai été encouragé à échanger avec le reste du groupe           
 ## 11 J'ai pu observer les PEC des autres et donner mon avis          
 ## 12 L'ambiance était propice à mon apprentissage et ma participation
-## 13 Dans les MES j'ai pu dédider des actios à entreprendre          
+## 13 Dans les MES j'ai pu décider des actios à entreprendre          
 ## 14                                                                 
 ## 15                                                                 
 ## 16                                                                 
@@ -1769,7 +1837,9 @@ des()
 ## 67                                                                 
 ## 68                                                                 
 ## 69                                                                 
-## 70
+## 70                                                                 
+## 71                                                                 
+## 72
 ```
 
 ```r
@@ -1870,11 +1940,13 @@ summ()
 ## 63 last_urg_t                 77   2.688   3       1.249   1      5     
 ## 64 formation                  73   5.89    6       2.951   1      11    
 ## 65 date_formation             4    2       2       0.816   1      3     
-## 66 sepa                       77   50.38   50      9.3     19     72    
-## 67 sepb                       81   61.7    62      5.01    47     72    
+## 66 sepa                       77   44.97   45      8.21    17     64    
+## 67 sepb                       81   47.1    47      4.25    38     56    
 ## 68 sem                        59   143.75  30      166.21  1      365   
 ## 69 exp                        59   689.56  300     1023.81 1      4380  
-## 70 v                          80   1.888   2       0.318   1      2
+## 70 sep9a                      77   50.38   50      9.3     19     72    
+## 71 sep9b                      81   61.7    62      5.01    47     72    
+## 72 v                          80   1.888   2       0.318   1      2
 ```
 
 ```r
@@ -1910,21 +1982,9 @@ NB: les groupes 4, 6 et 8 ont des non réponses
 Calcul du **SEP7** avant-après par groupe
 -------------------------------------------
 
-```r
-data$sepa <- sep7a
-```
+data$sepa<-sep7a
 
-```
-## Error: objet 'sep7a' introuvable
-```
-
-```r
-data$sepb <- sep7b
-```
-
-```
-## Error: objet 'sep7b' introuvable
-```
+data$sepb<-sep7b
 
 SEP total avant et après la formation (pas informatif car les goupes ne sont pas de la même taille)
 
@@ -1934,7 +1994,7 @@ tapply(data$sepa, data$groupe, sum, na.rm = TRUE)
 
 ```
 ##   1   2   3   4   5   6   7   8 
-## 393 589 449 325 619 414 645 445
+## 352 523 400 292 553 371 573 399
 ```
 
 ```r
@@ -1943,7 +2003,7 @@ tapply(data$sepb, data$groupe, sum, na.rm = TRUE)
 
 ```
 ##   1   2   3   4   5   6   7   8 
-## 499 703 562 439 704 573 834 684
+## 380 531 427 337 537 438 640 525
 ```
 
 SEP moyen par groupe avant et après la formation:
@@ -1954,7 +2014,7 @@ tapply(data$sepa, data$groupe, mean, na.rm = TRUE)
 
 ```
 ##     1     2     3     4     5     6     7     8 
-## 49.12 49.08 49.89 54.17 56.27 46.00 49.62 49.44
+## 44.00 43.58 44.44 48.67 50.27 41.22 44.08 44.33
 ```
 
 ```r
@@ -1963,7 +2023,7 @@ tapply(data$sepb, data$groupe, mean, na.rm = TRUE)
 
 ```
 ##     1     2     3     4     5     6     7     8 
-## 62.38 58.58 62.44 62.71 64.00 57.30 64.15 62.18
+## 47.50 44.25 47.44 48.14 48.82 43.80 49.23 47.73
 ```
 
 
@@ -1980,10 +2040,10 @@ x
 ## 
 ## Terms:
 ##                 data$groupe Residuals
-## Sum of Squares          691      5889
+## Sum of Squares          565      4557
 ## Deg. of Freedom           7        69
 ## 
-## Residual standard error: 9.238 
+## Residual standard error: 8.127 
 ## Estimated effects may be unbalanced
 ## 6 observations deleted due to missingness
 ```
@@ -1994,8 +2054,8 @@ summary(x)
 
 ```
 ##             Df Sum Sq Mean Sq F value Pr(>F)
-## data$groupe  7    691    98.7    1.16   0.34
-## Residuals   69   5889    85.3               
+## data$groupe  7    565    80.7    1.22    0.3
+## Residuals   69   4557    66.0               
 ## 6 observations deleted due to missingness
 ```
 
@@ -2014,10 +2074,10 @@ y
 ## 
 ## Terms:
 ##                 data$groupe Residuals
-## Sum of Squares          465      1542
+## Sum of Squares        312.2    1131.1
 ## Deg. of Freedom           7        73
 ## 
-## Residual standard error: 4.596 
+## Residual standard error: 3.936 
 ## Estimated effects may be unbalanced
 ## 2 observations deleted due to missingness
 ```
@@ -2027,9 +2087,9 @@ summary(y)
 ```
 
 ```
-##             Df Sum Sq Mean Sq F value Pr(>F)   
-## data$groupe  7    465    66.4    3.15 0.0058 **
-## Residuals   73   1542    21.1                  
+##             Df Sum Sq Mean Sq F value Pr(>F)  
+## data$groupe  7    312    44.6    2.88   0.01 *
+## Residuals   73   1131    15.5                 
 ## ---
 ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
 ## 2 observations deleted due to missingness
@@ -2041,7 +2101,7 @@ Il existe une différence de SEP entre les groupes après la formation:
 plotmeans(data$sepb ~ data$groupe, xlab = "Groupes d'apprenants", ylab = "SEP 7")
 ```
 
-![plot of chunk unnamed-chunk-49](figure/unnamed-chunk-49.png) 
+![plot of chunk unnamed-chunk-48](figure/unnamed-chunk-48.png) 
 
 ```r
 TukeyHSD(y)
@@ -2054,35 +2114,35 @@ TukeyHSD(y)
 ## Fit: aov(formula = data$sepb ~ data$groupe)
 ## 
 ## $`data$groupe`
-##         diff      lwr     upr  p adj
-## 2-1 -3.79167 -10.3376  2.7543 0.6171
-## 3-1  0.06944  -6.8992  7.0381 1.0000
-## 4-1  0.33929  -7.0831  7.7617 1.0000
-## 5-1  1.62500  -5.0389  8.2889 0.9946
-## 6-1 -5.07500 -11.8777  1.7277 0.2930
-## 7-1  1.77885  -4.6656  8.2233 0.9885
-## 8-1 -0.19318  -6.8571  6.4707 1.0000
-## 3-2  3.86111  -2.4629 10.1851 0.5519
-## 4-2  4.13095  -2.6898 10.9517 0.5621
-## 5-2  5.41667  -0.5698 11.4031 0.1050
-## 6-2 -1.28333  -7.4240  4.8573 0.9979
-## 7-2  5.57051  -0.1707 11.3117 0.0636
-## 8-2  3.59848  -2.3880  9.5849 0.5716
-## 4-3  0.26984  -6.9576  7.4973 1.0000
-## 5-3  1.55556  -4.8904  8.0016 0.9949
-## 6-3 -5.14444 -11.7339  1.4450 0.2400
-## 7-3  1.70940  -4.5095  7.9283 0.9888
-## 8-3 -0.26263  -6.7086  6.1834 1.0000
-## 5-4  1.28571  -5.6483  8.2197 0.9990
-## 6-4 -5.41429 -12.4818  1.6533 0.2616
-## 7-4  1.43956  -5.2838  8.1629 0.9976
-## 8-4 -0.53247  -7.4665  6.4015 1.0000
-## 6-5 -6.70000 -12.9662 -0.4338 0.0277
-## 7-5  0.15385  -5.7215  6.0292 1.0000
-## 8-5 -1.81818  -7.9334  4.2970 0.9823
-## 7-6  6.85385   0.8215 12.8862 0.0151
-## 8-6  4.88182  -1.3844 11.1480 0.2424
-## 8-7 -1.97203  -7.8473  3.9033 0.9652
+##         diff       lwr     upr  p adj
+## 2-1 -3.25000  -8.85648  2.3565 0.6162
+## 3-1 -0.05556  -6.02411  5.9130 1.0000
+## 4-1  0.64286  -5.71429  7.0000 1.0000
+## 5-1  1.31818  -4.38932  7.0257 0.9961
+## 6-1 -3.70000  -9.52643  2.1264 0.5011
+## 7-1  1.73077  -3.78878  7.2503 0.9761
+## 8-1  0.22727  -5.48023  5.9348 1.0000
+## 3-2  3.19444  -2.22193  8.6108 0.5952
+## 4-2  3.89286  -1.94896  9.7347 0.4377
+## 5-2  4.56818  -0.55911  9.6955 0.1161
+## 6-2 -0.45000  -5.70934  4.8093 1.0000
+## 7-2  4.98077   0.06356  9.8980 0.0449
+## 8-2  3.47727  -1.65002  8.6046 0.4145
+## 4-3  0.69841  -5.49173  6.8886 1.0000
+## 5-3  1.37374  -4.14714  6.8946 0.9938
+## 6-3 -3.64444  -9.28818  1.9993 0.4792
+## 7-3  1.78632  -3.54002  7.1127 0.9654
+## 8-3  0.28283  -5.23805  5.8037 1.0000
+## 5-4  0.67532  -5.26352  6.6142 1.0000
+## 6-4 -4.34286 -10.39608  1.7104 0.3416
+## 7-4  1.08791  -4.67053  6.8464 0.9989
+## 8-4 -0.41558  -6.35443  5.5233 1.0000
+## 6-5 -5.01818 -10.38509  0.3487 0.0838
+## 7-5  0.41259  -4.61950  5.4447 1.0000
+## 8-5 -1.09091  -6.32848  4.1467 0.9980
+## 7-6  5.43077   0.26419 10.5973 0.0324
+## 8-6  3.92727  -1.43964  9.2942 0.3167
+## 8-7 -1.50350  -6.53559  3.5286 0.9818
 ```
 
 Le test de Tukey confirme que deux groupes ont un SEP moyen différents (groupes 2 et 6 ).
@@ -2104,7 +2164,7 @@ tapply(data$sepa, data$gp, mean, na.rm = TRUE)
 
 ```
 ## hetero   homo 
-##  50.50  49.44
+##  45.06  44.33
 ```
 
 ```r
@@ -2113,7 +2173,7 @@ tapply(data$sepb, data$gp, mean, na.rm = TRUE)
 
 ```
 ## hetero   homo 
-##  61.63  62.18
+##  47.00  47.73
 ```
 
 Par acquis de conscience:
@@ -2127,13 +2187,13 @@ t.test(data$sepb ~ data$gp)
 ## 	Welch Two Sample t-test
 ## 
 ## data:  data$sepb by data$gp 
-## t = -0.3666, df = 14.2, p-value = 0.7193
+## t = -0.6349, df = 15.82, p-value = 0.5346
 ## alternative hypothesis: true difference in means is not equal to 0 
 ## 95 percent confidence interval:
-##  -3.786  2.679 
+##  -3.158  1.703 
 ## sample estimates:
 ## mean in group hetero   mean in group homo 
-##                61.63                62.18
+##                47.00                47.73
 ```
 
 Conclusions: pas de différence de score SEP entre les groupes homo et hetero. Il daut noter que l'effectif du groupe *homo* est trop faible pour pouvoir conclure.
@@ -2142,22 +2202,8 @@ Calcul du **SEP9** avant-après par groupe
 -------------------------------------------
 
 ```r
-data$sepa <- sep9a
-```
-
-```
-## Error: objet 'sep9a' introuvable
-```
-
-```r
-data$sepb <- sep9b
-```
-
-```
-## Error: objet 'sep9b' introuvable
-```
-
-```r
+data$sepa <- data$sep9a
+data$sepb <- data$sep9b
 
 tapply(data$sepa, data$groupe, sum, na.rm = TRUE)
 ```
@@ -2268,7 +2314,7 @@ Il existe une différence de SEP entre les groupes après la formation:
 plotmeans(data$sepb ~ data$groupe, xlab = "Groupes d'apprenants", ylab = "SEP 9")
 ```
 
-![plot of chunk unnamed-chunk-56](figure/unnamed-chunk-56.png) 
+![plot of chunk unnamed-chunk-55](figure/unnamed-chunk-55.png) 
 
 ```r
 TukeyHSD(y)
@@ -2387,6 +2433,9 @@ for (i in 1:ncol(a)) {
 ```
 
 Calcul du Cronbach
+------------------
+Dans le cas particulier d'une échelle de likert utilisée avant at après, je ne sais pas si le CAC doit porter sur 9 ou 18 questions ?
+Dans le doute j'ai testé les 3 hypothèses. Le CAC est très bon pour 18 questions et les 9 questions avant. Il reste correct si on isole les questions après
 
 ```r
 cronbach(a)

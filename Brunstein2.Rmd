@@ -218,7 +218,7 @@ abline(v=s[4], col="blue")
 ```
 Progression du SEP selon le groupe socio-professionnel:
 ```{r}
-round(sort(tapply(data$sepb - data$sepa,diplome,mean,na.rm=TRUE)),2)
+round(sort(tapply(data$sepb - data$sepa,data$diplome,mean,na.rm=TRUE)),2)
 ```
 
 Le score SEP (Sentiment d'efficacité personnelle) a progressé après la formation.
@@ -232,11 +232,11 @@ t
 ```
 ### expérience professionnelle
 ```{r}
-summary(exp_urg)
+summary(data$exp_urg)
 ```
 SEP moyen en fonction de l'expérience:
 ```{r}
-t<-tapply(data$sepa,exp_urg,mean,na.rm=TRUE)
+t<-tapply(data$sepa,data$exp_urg,mean,na.rm=TRUE)
 t.test(data$sepa[data$exp_urg=="oui"],data$sepa[data$exp_urg=="non"])
 ```
 Le SEP est significativement plus élevé dans le groupe avec expérience professionnelle.
@@ -275,18 +275,18 @@ Après la formation, la position du groupe évolue peu bien que l'on note une un
 
 fréquence absolue et selon le lieu d'exercice:
 ```{r c25}
-summary(conf_urg)
-table(travail,conf_urg)
+summary(data$conf_urg)
+table(data$travail,data$conf_urg)
 ```
 Sep moyen et fréquence des situations d'urgence
 ```{r c31}
-tapply(data$sepa,conf_urg,mean,na.rm=TRUE)
-x<-split(data$sepa,conf_urg)
+tapply(data$sepa,data$conf_urg,mean,na.rm=TRUE)
+x<-split(data$sepa,data$conf_urg)
 boxplot(x,main="SEP en fonction de la fréquence des situations d'urgence",ylab="SEP",col="orange")
-x<-aov(data$sepa~conf_urg)
+x<-aov(data$sepa~data$conf_urg)
 x
 summary(x)
-plotmeans(data$sepa~conf_urg,ylab="SEP",xlab="Confrontation aux situations d'urgence",main="SEP moyen et situations d'urgence", col="red")
+plotmeans(data$sepa~data$conf_urg,ylab="SEP",xlab="Confrontation aux situations d'urgence",main="SEP moyen et situations d'urgence", col="red")
 
 TukeyHSD(x)
 ```
@@ -419,6 +419,9 @@ apres<-seq(from=debut+1, to=fin, by=step)
 ap<-data[,apres]
 sep9b<-apply(ap,1,sum)
 summary(sep9b)
+
+data$sep9a<-sep9a
+data$sep9b<-sep9b
 ```
 On calcule la différence avant-après et on trace le graphique représentatif:
 ```{r}
@@ -518,6 +521,9 @@ SEP après:
 ```{r}
 b<-tapply(sep7b,v,mean,na.rm=TRUE)
 b
+
+data$sepa<-sep7a
+data$sepb<-sep7b
 ```
 Comment évolue le SEP en fonction du groupe ?
 ```{r}
@@ -601,7 +607,7 @@ label.var(C, "Le médecin semblait content de moi")
 label.var(D, "J'ai été encouragé à échanger avec le reste du groupe")
 label.var(E, "J'ai pu observer les PEC des autres et donner mon avis")
 label.var(F, "L'ambiance était propice à mon apprentissage et ma participation")
-label.var(G, "Dans les MES j'ai pu dédider des actios à entreprendre")
+label.var(G, "Dans les MES j'ai pu décider des actios à entreprendre")
 
 des()
 tableStack(D:N,minlevel=1,maxlevel=8,means=TRUE,medians=TRUE,na.rm=TRUE,dataFrame=data,var.labels = TRUE, var.labels.trunc =150)
@@ -623,10 +629,11 @@ NB: les groupes 4, 6 et 8 ont des non réponses
 
 Calcul du **SEP7** avant-après par groupe
 -------------------------------------------
-```{r}
+
 data$sepa<-sep7a
+
 data$sepb<-sep7b
-```
+
 SEP total avant et après la formation (pas informatif car les goupes ne sont pas de la même taille)
 ```{r}
 tapply(data$sepa,data$groupe,sum,na.rm=TRUE)
@@ -680,8 +687,8 @@ Conclusions: pas de différence de score SEP entre les groupes homo et hetero. I
 Calcul du **SEP9** avant-après par groupe
 -------------------------------------------
 ```{r}
-data$sepa<-sep9a
-data$sepb<-sep9b
+data$sepa<-data$sep9a
+data$sepb<-data$sep9b
 
 tapply(data$sepa,data$groupe,sum,na.rm=TRUE)
 tapply(data$sepb,data$groupe,sum,na.rm=TRUE)

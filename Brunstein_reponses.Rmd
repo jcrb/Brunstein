@@ -1,0 +1,310 @@
+Etude V.Brunstein
+========================================================
+Petite note méthodologique:
+1. pour que les résultats soient interprétable, il faut que la taille des groupes soit suffisante, en pratique au moins 30. Le non dit de cette affirmation est qu'elle s'applique à l'échantillon mais par récursivité au sous-groupes. Je m'explique:
+- l'échantillon comporte environ 80 éléments. Pour calculer l'age moyen, pas de problème, l'age moyen est représentatif de la population. Cet échantillon est constitué en gros de deux catégories socio-proffessionnelles (AS et IDE) soit 2 groupes d'environ 40 personnes. Si on s'intéresse aux IDE ayant une expérience de l'urgence, on tombe aux environs de 20. Sachant que l'évaluation se fait avec une échelle de 8 valeurs, cela fait en moyenne des sous groupes de 2 ou 3 personnes soit 10 fois mons que chiffre théorique de 30.
+Concusions: plus on divise léchantillon et plus il faut être prudent dans les conclusions que l'on tire surtout si les résultats ne sont pas significatifs. Pour une prochaine étude il est peut être préférable d'utiliser une échelle classique à 5 items.
+2. revoir la formulation de certaines questions. On ne comprend pas l'objectif poursuivi ?
+3. attention à la formulation: pour un ordinateur AFGSU 2 n'est pas la même chose que AFGSU2.
+4. incohérence dans la colonne formation à l'urgence: OUI, NON, AFGSU...
+
+Résultats commentés
+-------------------
+```{r echo=FALSE,message=FALSE}
+library("HH")
+library("gplots")
+library("plyr")
+library("epicalc")
+load("Brunstein.Rdata")
+```
+
+
+éléments
+========
+
+1. Pour les catégories professionnelles : rassembler dans autres ce qui n’est ni AS ni IDE. Mettre AP avec groupe AS.
+#### Origine socio-professionnelle:
+```{r}
+summary(data$diplome) 
+plot(data$diplome,xlab="Profession",ylab="Nombre",main="Catégories socio-professionnelles")
+ddply(data, .(data$diplome), "nrow")
+```
+
+#### 2a. évaluer le SEP au départ questions 1 à 7 au total
+
+```{r sep7, warning = FALSE, echo=FALSE}
+debut<-21
+fin<-42
+step<-3
+for(i in debut:fin){data[,i]<-as.numeric(data[,i])}
+
+avant<-seq(from=debut, to=fin, by=step)
+av<-data[,avant]
+sep7a<-apply(av,1,sum)
+print("SEP7 avant la formation:")
+summary(sep7a)
+data$sep7a<-sep7a
+
+apres<-seq(from=debut+1, to=fin, by=step)
+ap<-data[,apres]
+sep7b<-apply(ap,1,sum)
+print("SEP7 après la formation:")
+summary(sep7b)
+data$sep7b<-sep7b
+```
+Evolution du SEP7 (différence Avant- Après)
+```{r echo=FALSE}
+s<-summary(sep7b-sep7a)
+h<-sep7b-sep7a
+s
+hist(h,main="Variation du SEP7 avant et après la formation",ylab="Nombre",xlab="delta SEP7",col="lightblue")
+abline(v=s[4], col="blue")
+```
+#### 2b. évaluer le SEP au départ questions 1 à 7 selon les catégories professionnelles
+```{r echo=FALSE}
+print("SEP7 avant moyen selon la catégorie socio-prof:")
+a<-tapply(sep7a,data$diplome,mean,na.rm=TRUE)
+a
+tapply(sep7a,data$diplome,sd,na.rm=TRUE)
+boxplot(sep7a~data$diplome,xlab="Catégorie socio-professionnelle",ylab="SEP 7 avant formation")
+b<-aov(sep7a~data$diplome)
+summary(b)
+print("Pas de différence entre les groupes")
+```
+
+
+#### 3. évaluerle SEP questions _4 / 6/ 8 à part 
+```{r echo=FALSE}
+sep4a<-as.integer(data[,"Q4A"])
+sep4b<-as.integer(data[,"Q4B"])
+
+sep6a<-as.integer(data[,"Q6A"])
+sep6b<-as.integer(data[,"Q6B"])
+
+sep8a<-as.integer(data[,"Q8A"])
+sep8b<-as.integer(data[,"Q8B"])
+
+print("Q4")
+mean(sep4a,na.rm=T)
+mean(sep4b,na.rm=T)
+print("Q6")
+mean(sep6a,na.rm=T)
+mean(sep6b,na.rm=T)
+print("Q8")
+mean(sep8a,na.rm=T)
+mean(sep8b,na.rm=T)
+```
+
+
+#### 4. évaluer question 3 par rapport niveau global du SEP
+```{r}
+sep3a<-as.integer(data[,"Q3A"])
+sep3b<-as.integer(data[,"Q3B"])
+mean(sep3a,na.rm=T)
+mean(sep3b,na.rm=T)
+```
+
+
+#### 5. impact du SEP de départ et experience de service d'urgence en faisant un ratio selon l'ancienneté de l'experience ?
+```{r}
+boxplot(data$sep7a~data$exp_urg,ylab="SEP 7 avant",xlab="Expérience de l'urgence")
+a<-t.test(data$sep7a~data$exp_urg)
+a
+```
+
+
+#### 6. impact du SEP et type de formation à l'urgence avec date
+
+ les formations sont trop dispersées: 
+```{r}
+a<-as.character(data$formation)
+a[a=="AFGSU 1"]<-"AFGSU1"
+a[a=="AFGSU 2"]<-"AFGSU2"
+summary(as.factor(a))
+boxplot(data$sep7a~a,las=2,ylab="SEP 7 avant")
+```
+Les IDE SMUR se détachent du lot mais il n'y en a que deux.
+
+#### 7. impact du SEP avec les questions A B C total et de manière individuelle est ce que C a plus d'impact que A
+
+- a  j'ai su trouver ma place au sein de l'équipe
+- b	j'étais satisfait de ma prise en charge
+- c	j'ai eu l'impression que le médecin à son arrivée était satisfait des actions entrepriseslabel.var(E, "J'a
+
+```{r echo=FALSE}
+a<-data[,"A"]
+tapply(data$sep7a,as.factor(a),mean,na.rm=TRUE)
+boxplot(data$sep7a~as.factor(a),ylab="Score SEP 7 moyen",main="j'ai su trouver ma place au sein de l'équipe",xlab="1 = pas d'accord, 8 = tout à fait d'accord, NA = NSP")
+
+a<-data[,"B"]
+tapply(data$sep7a,as.factor(a),mean,na.rm=TRUE)
+boxplot(data$sep7a~as.factor(a),ylab="Score SEP 7 moyen",main="j'étais satisfait de ma prise en charge",xlab="1 = pas d'accord, 8 = tout à fait d'accord, NA = NSP")
+
+a<-data[,"C"]
+tapply(data$sep7a,as.factor(a),mean,na.rm=TRUE)
+boxplot(data$sep7a~as.factor(a),na.rm=TRUE,ylab="Score SEP 7 moyen",main="j'ai eu l'impression que le médecin à son arrivée\n était satisfait des actions entreprises",xlab="1 = pas d'accord, 8 = tout à fait d'accord, NA = NSP")
+```
+
+
+#### 8. ceci au total et par catégorie professionnelle et avec variante experience de l'urgence
+
+```{r}
+a<-data[data$diplome=="IDE",c("A","sep7a","exp_urg")]
+
+tapply(a$sep7a,a$A,mean,na.rm=TRUE)
+boxplot(a$sep7a~as.factor(a$A),ylab="Score SEP 7 moyen",main="j'ai su trouver ma place au sein de l'équipe\n IDE",xlab="1 = pas d'accord, 8 = tout à fait d'accord, NA = NSP")
+```
+
+Avec ou sans expérience de l'urgence:
+```{r}
+a1<-a[a$exp_urg=="oui",]
+a2<-a[a$exp_urg=="non",]
+summary(a1$sep7a)
+summary(a2$sep7a)
+
+```
+
+
+
+#### 9. idem pour ceux qui ont vécu une situaiton d'urgence post formation avec évolution A/B/C entre avant et après formation 
+
+#### 10. évolution du SEP par catégorie professionnelle et totale entre début fin de formation
+
+#### 11. idem avec évaluation à 1 mois
+
+#### 12. évolution du SEP pour AS en séparant AS du groupe 8 par rapport aux autres AS
+
+ Effectif trop faible
+
+#### 13.évaluation des questions D à N et impact sur SEP fin de formation ou sur l'évaluation du SEP entre début et fin de formation
+
+** PAS COMPRIS LA QUESTION ???**
+
+```{r warning=FALSE, echo=FALSE}
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$D[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QD<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$E[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QE<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$F[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QF<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$G[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QG<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$H[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QH<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$I[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QI<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$J[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QJ<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$K[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QK<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$L[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QL<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$M[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QM<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$N[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+QN<-apply(a,2,sum)
+
+c<-rbind(QD,QE,QF,QG,QH,QI,QJ,QK,QL,QM,QN)
+
+use(data)
+
+data$D<-as.numeric(data$D)
+data$E<-as.numeric(data$E)
+data$F<-as.numeric(data$F)
+data$G<-as.numeric(data$G)
+data$H<-as.numeric(data$H)
+data$I<-as.numeric(data$I)
+data$J<-as.numeric(data$J)
+data$K<-as.numeric(data$K)
+data$L<-as.numeric(data$L)
+data$M<-as.numeric(data$M)
+data$N<-as.numeric(data$N)
+
+label.var(D, "j'ai été encouragé à échanger discuter et argumenter avec le reste du groupe")
+label.var(E, "J'ai pu observer les PEC des autres et donner mon avis")
+label.var(F, "j'ai trouvé que l'ambiance était propice à mon apprentissage et à ma participation")
+label.var(G, "lorsque j'ai participé à des MES j'ai pu décider des actions à entreprendre")
+label.var(H, "lorsque j'ai participé à des MES j'ai eu l'occasion de réfléchir par rapport à ma prestation")
+label.var(I, "lorsque j'ai participé à des MES j'ai eu l'occasion de m'exprimer par rapport à ma prestation ")
+label.var(J, "lorsque j'ai participé à des MES j'ai obtenu un feed back sur ma prestation")
+label.var(K, "j'ai trouvé le feed back positif")
+label.var(L, "j'ai le sentiment d'avoir été efficace dans la PEC des situations d'urgence au cours de la formation")
+label.var(M, "je pense pouvoir appliquer les connaissances acquises lors de cette formation dans ma pratique professionnelle ")
+label.var(N, "je me sens capable d'agir plus efficacement grâce à cette formation")
+
+print("Résumé des réponses au questions d à n évéluées après la formation")
+c
+pack()
+likert(c)
+```
+
+#### 14. idem pour les aspects suivants par type de questions
+
+#### 15. évaluation questions D et E (vicariant)
+```{r echo=FALSE}
+x<-as.integer(data$D)+as.integer(data$E)
+boxplot(data$sep7b~x,ylab="SEP 7 post-formation",xlab="Question D et E",main="Vicariant")
+a<-lm(data$sep7b~x)
+summary(a)
+```
+
+#### 16.évaluation questions H / I / J /K (persuasion verbale)  
+```{r echo=FALSE}
+x<-as.integer(data$H)+as.integer(data$I)+as.integer(data$J)+as.integer(data$K)
+boxplot(data$sep7b~x,ylab="SEP 7 post-formation",xlab="Question H,I,J et K",main="Persuasion verbale")
+a<-lm(data$sep7b~x)
+summary(a)
+```
+
+
+#### 17.évaluation questions  G / L / N (maitrise)
+
+#### 18.évaluation questions F (état psychologique émotionnel)
+
+#### 19.évaluation question M (transférabilité)
+
+#### 20.évaluation G seul et  G /L / N par catégorie professionnelle ???
+```{r echo=FALSE}
+summary(as.numeric(data$G))
+tapply(as.numeric(data$G),data$diplome,summary,na.rm=T)
+boxplot(as.numeric(data$G)~data$diplome,ylab="Score question G")
+plot(as.numeric(data$sep7a)~as.numeric(data$G),xlab="lorsque j'ai participé à des MES\n j'ai pu décider des actions à entreprendre",ylab="SEP7 avant formation")
+plot(as.numeric(data$sep7b)~as.numeric(data$G),xlab="lorsque j'ai participé à des MES\n j'ai pu décider des actions à entreprendre",ylab="SEP7 après formation")
+```
+
+ 
+
+questions:
+==========
+faut il classifier les services d'activité par categorie medecine / chirurgie / urgence et soins continus
+
+ 
+
+est ce que tu as le temps pour qu'on en discute la semaine prochaine?
+
+tu crois que tu peux me donner des résultats pour quand?
+
+ 
+
+je sais que cela fait beaucoup en peu de temps

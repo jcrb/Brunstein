@@ -339,6 +339,31 @@ On obtient une nouvelle variable appelée **data$exp** en multipliant le vecteur
 data$exp<-data$sem * as.numeric(data$last_urg_n)
 summary(data$exp)
 ```
+Répartition en 3 groupes:
+- moins de 6 mois
+- moins d'un an
+- plus d'un an
+```{r}
+a<-cut(data$exp,c(0,365*0.5,365,4380))
+summary(a)
+
+tapply(data$sep7a,a,mean,na.rm=T)
+x<-aov(data$sep7a~a)
+summary(x)
+```
+Oar ailleurs la corrélation entre sep7a et exp est faible:
+```{r}
+cor(data$sep7a,data$exp,use="complete.obs")
+cor(data$sep7a,data$exp,use="complete.obs",method="spearman")
+cor(data$sep7a,data$exp,use="complete.obs",method="kendall")
+
+cor.test(data$sep7a,data$exp)
+cor.test(data$sep7a,data$exp,method="kendall")
+cor.test(data$sep7a,data$exp,method="spearman")
+```
+Il existe une corrélation négative entre le SEP et ancienneté de l'expérience: plus l'expérience est ancienne, plus le SEP à tendence à diminiuer. Cette corrétation est à la limite de la significativité p-value = 0.04301 et reste faible rho = -0.2666848 (c'est à dire que l'ancienneté de l'expérience n'explique que 26% de la variabilité du SEP
+
+
 Non répondant ou sans expérience:
 ```{r}
 notexp<-sum(is.na(data$exp))

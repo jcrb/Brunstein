@@ -151,8 +151,14 @@ boxplot(data$sep7a~as.factor(a),na.rm=TRUE,ylab="Score SEP 7 moyen",main="j'ai e
 ```{r}
 a<-data[data$diplome=="IDE",c("A","sep7a","exp_urg")]
 
+# suppression des lignes où "A" = NA
+a<-a[a$A != "NA",]
+
 tapply(a$sep7a,a$A,mean,na.rm=TRUE)
 boxplot(a$sep7a~as.factor(a$A),ylab="Score SEP 7 moyen",main="j'ai su trouver ma place au sein de l'équipe\n IDE",xlab="1 = pas d'accord, 8 = tout à fait d'accord, NA = NSP")
+
+lm<-lm(a$sep7a~as.factor(a$A))
+summary(lm)
 ```
 
 Avec ou sans expérience de l'urgence:
@@ -299,12 +305,4 @@ questions:
 ==========
 faut il classifier les services d'activité par categorie medecine / chirurgie / urgence et soins continus
 
- 
-
-est ce que tu as le temps pour qu'on en discute la semaine prochaine?
-
-tu crois que tu peux me donner des résultats pour quand?
-
- 
-
-je sais que cela fait beaucoup en peu de temps
+data$service<-data[data$travail==""]<-""

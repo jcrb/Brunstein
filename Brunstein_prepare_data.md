@@ -9,7 +9,7 @@ date()
 ```
 
 ```
-## [1] "Thu May 23 19:15:56 2013"
+## [1] "Mon Jun 17 22:34:44 2013"
 ```
 
 ```r
@@ -60,55 +60,142 @@ data <- read.csv("resultats.csv", header = TRUE, sep = ",", na.strings = "",
     strip.white = TRUE, skip = 1, colClasses = "character")
 ```
 
+```
+## Error: more columns than column names
+```
+
 Meagling des données
 --------------------
 *! ATTENTION pb avec les caractères accentués sous windows*
 
 ```r
 data$groupe <- as.factor(data$Groupe)
-data$no <- as.integer(data$NumÃ.ro)
 ```
 
 ```
-## Error: replacement has 0 rows, data has 83
+## Error: objet de type 'closure' non indiçable
 ```
 
 ```r
-data$diplome <- as.factor(data$DiplÃ.me)
+data$no <- as.integer(data$Numéro)
 ```
 
 ```
-## Error: replacement has 0 rows, data has 83
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
+data$diplome <- as.factor(data$Diplôme)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
 ```
 
 ```r
 data$date_diplome <- as.integer(as.integer(data$Date))
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 data$sexe <- as.factor(data$Sexe)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 data$travail <- as.factor(data$Lieu.exercice)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 data$exp_urg <- as.factor(data$experience.urgence.1...oui.2...non)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 data$conf_urg <- as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 data$last_urg_n <- as.factor(data$de.quand.date.dernière.situation.d.urgence)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 data$last_urg_t <- as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 data$formation <- as.factor(data$formation.urgence)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 data$date_formation <- as.factor(data$date.derniere.formation.urgence)
 ```
 
+```
+## Error: objet de type 'closure' non indiçable
+```
+
 Regrouppement des métiers: on constitue 3 groupes: AS et AP, IDE, Tous les autres:
+
+```r
+data$diplome <- as.character(data$diplome)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 ```r
 data$diplome[data$diplome == "AP"] <- "AS"
 ```
 
 ```
-## Error: replacement has 0 rows, data has 83
+## Error: objet de type 'closure' non indiçable
 ```
 
 ```r
-data$diplome[data$diplome != "AP" & data$diplome != "IDE"] <- "Autre"
+data$diplome[data$diplome != "AS" & data$diplome != "IDE"] <- "Autre"
 ```
 
 ```
-## Error: replacement has 0 rows, data has 83
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
+data$diplome <- as.factor(data$diplome)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
 ```
 
 
@@ -116,6 +203,10 @@ Suppression des colonnes redondantes: correspond aux colonnes 2,4 à 18
 
 ```r
 data <- data[, c(-2, -4:-18)]
+```
+
+```
+## Error: objet de type 'closure' non indiçable
 ```
 
 
@@ -127,38 +218,7 @@ names(data)
 ```
 
 ```
-##  [1] "X"                          "date"                      
-##  [3] "A"                          "B"                         
-##  [5] "C"                          "situation.depuis.formation"
-##  [7] "A.après.formation"          "B.après.formation"         
-##  [9] "C.après.formation"          "D"                         
-## [11] "E"                          "F"                         
-## [13] "G"                          "H"                         
-## [15] "I"                          "J"                         
-## [17] "K"                          "L"                         
-## [19] "M"                          "N"                         
-## [21] "Q1A"                        "Q1B"                       
-## [23] "Q1C"                        "Q2A"                       
-## [25] "Q2B"                        "Q2C"                       
-## [27] "Q3A"                        "Q3B"                       
-## [29] "Q3C"                        "Q4A"                       
-## [31] "Q4B"                        "Q4C"                       
-## [33] "Q5A"                        "Q5B"                       
-## [35] "Q5C"                        "Q6A"                       
-## [37] "Q6B"                        "Q6C"                       
-## [39] "Q7A"                        "Q7B"                       
-## [41] "Q7C"                        "Q8A"                       
-## [43] "Q8B"                        "Q8C"                       
-## [45] "Q9A"                        "Q9B"                       
-## [47] "Q9C"                        "Tel"                       
-## [49] "X.1"                        "X.2"                       
-## [51] "X.3"                        "X.4"                       
-## [53] "X.5"                        "groupe"                    
-## [55] "date_diplome"               "sexe"                      
-## [57] "travail"                    "exp_urg"                   
-## [59] "conf_urg"                   "last_urg_n"                
-## [61] "last_urg_t"                 "formation"                 
-## [63] "date_formation"
+## NULL
 ```
 
 
@@ -166,11 +226,7 @@ Sauvegarde
 ----------
 
 ```r
-
-write(data.frame(data), file = "Brunstein.Rdata")
-```
-
-```
-## Error: argument 1 (type 'list') pas encore traité par cat
+# write.table(data,'Brunstein.Rdata',sep=',',quote=TRUE,na='NA')
+save(data, file = "Brunstein.Rdata")
 ```
 

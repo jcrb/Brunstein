@@ -46,6 +46,8 @@ data<-read.csv("resultats.csv",header=TRUE,sep=",",na.strings="",strip.white = T
 Meagling des données
 --------------------
 *! ATTENTION pb avec les caractères accentués sous windows*
+- Toutres les colones doivent avoir un nom
+- deux colonnes ne doivent pas avoir le même nom
 ```{r}
 data$groupe<-as.factor(data$Groupe)
 data$no<-as.integer(data$Numéro)

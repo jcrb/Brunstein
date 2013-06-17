@@ -185,7 +185,7 @@ hljs.initHighlightingOnLoad();
 <pre><code class="r">date()
 </code></pre>
 
-<pre><code>## [1] &quot;Thu May 23 19:15:56 2013&quot;
+<pre><code>## [1] &quot;Mon Jun 17 22:34:44 2013&quot;
 </code></pre>
 
 <pre><code class="r">getwd()
@@ -232,46 +232,109 @@ data &lt;- read.csv(&quot;resultats.csv&quot;, header = TRUE, sep = &quot;,&quot
     strip.white = TRUE, skip = 1, colClasses = &quot;character&quot;)
 </code></pre>
 
+<pre><code>## Error: more columns than column names
+</code></pre>
+
 <h2>Meagling des données</h2>
 
 <p><em>! ATTENTION pb avec les caractères accentués sous windows</em></p>
 
 <pre><code class="r">data$groupe &lt;- as.factor(data$Groupe)
-data$no &lt;- as.integer(data$NumÃ.ro)
 </code></pre>
 
-<pre><code>## Error: replacement has 0 rows, data has 83
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
 </code></pre>
 
-<pre><code class="r">data$diplome &lt;- as.factor(data$DiplÃ.me)
+<pre><code class="r">data$no &lt;- as.integer(data$Numéro)
 </code></pre>
 
-<pre><code>## Error: replacement has 0 rows, data has 83
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
+<pre><code class="r">data$diplome &lt;- as.factor(data$Diplôme)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
 </code></pre>
 
 <pre><code class="r">data$date_diplome &lt;- as.integer(as.integer(data$Date))
-data$sexe &lt;- as.factor(data$Sexe)
-data$travail &lt;- as.factor(data$Lieu.exercice)
-data$exp_urg &lt;- as.factor(data$experience.urgence.1...oui.2...non)
-data$conf_urg &lt;- as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
-data$last_urg_n &lt;- as.factor(data$de.quand.date.dernière.situation.d.urgence)
-data$last_urg_t &lt;- as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
-data$formation &lt;- as.factor(data$formation.urgence)
-data$date_formation &lt;- as.factor(data$date.derniere.formation.urgence)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
+<pre><code class="r">data$sexe &lt;- as.factor(data$Sexe)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
+<pre><code class="r">data$travail &lt;- as.factor(data$Lieu.exercice)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
+<pre><code class="r">data$exp_urg &lt;- as.factor(data$experience.urgence.1...oui.2...non)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
+<pre><code class="r">data$conf_urg &lt;- as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
+<pre><code class="r">data$last_urg_n &lt;- as.factor(data$de.quand.date.dernière.situation.d.urgence)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
+<pre><code class="r">data$last_urg_t &lt;- as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
+<pre><code class="r">data$formation &lt;- as.factor(data$formation.urgence)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
+<pre><code class="r">data$date_formation &lt;- as.factor(data$date.derniere.formation.urgence)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
 </code></pre>
 
 <p>Regrouppement des métiers: on constitue 3 groupes: AS et AP, IDE, Tous les autres:</p>
 
+<pre><code class="r">data$diplome &lt;- as.character(data$diplome)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
 <pre><code class="r">data$diplome[data$diplome == &quot;AP&quot;] &lt;- &quot;AS&quot;
 </code></pre>
 
-<pre><code>## Error: replacement has 0 rows, data has 83
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
 </code></pre>
 
-<pre><code class="r">data$diplome[data$diplome != &quot;AP&quot; &amp; data$diplome != &quot;IDE&quot;] &lt;- &quot;Autre&quot;
+<pre><code class="r">data$diplome[data$diplome != &quot;AS&quot; &amp; data$diplome != &quot;IDE&quot;] &lt;- &quot;Autre&quot;
 </code></pre>
 
-<pre><code>## Error: replacement has 0 rows, data has 83
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
+<pre><code class="r">data$diplome &lt;- as.factor(data$diplome)
+</code></pre>
+
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
 </code></pre>
 
 <p>Suppression des colonnes redondantes: correspond aux colonnes 2,4 à 18</p>
@@ -279,52 +342,21 @@ data$date_formation &lt;- as.factor(data$date.derniere.formation.urgence)
 <pre><code class="r">data &lt;- data[, c(-2, -4:-18)]
 </code></pre>
 
+<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+</code></pre>
+
 <h2>Nouvelle présentation</h2>
 
 <pre><code class="r">names(data)
 </code></pre>
 
-<pre><code>##  [1] &quot;X&quot;                          &quot;date&quot;                      
-##  [3] &quot;A&quot;                          &quot;B&quot;                         
-##  [5] &quot;C&quot;                          &quot;situation.depuis.formation&quot;
-##  [7] &quot;A.après.formation&quot;          &quot;B.après.formation&quot;         
-##  [9] &quot;C.après.formation&quot;          &quot;D&quot;                         
-## [11] &quot;E&quot;                          &quot;F&quot;                         
-## [13] &quot;G&quot;                          &quot;H&quot;                         
-## [15] &quot;I&quot;                          &quot;J&quot;                         
-## [17] &quot;K&quot;                          &quot;L&quot;                         
-## [19] &quot;M&quot;                          &quot;N&quot;                         
-## [21] &quot;Q1A&quot;                        &quot;Q1B&quot;                       
-## [23] &quot;Q1C&quot;                        &quot;Q2A&quot;                       
-## [25] &quot;Q2B&quot;                        &quot;Q2C&quot;                       
-## [27] &quot;Q3A&quot;                        &quot;Q3B&quot;                       
-## [29] &quot;Q3C&quot;                        &quot;Q4A&quot;                       
-## [31] &quot;Q4B&quot;                        &quot;Q4C&quot;                       
-## [33] &quot;Q5A&quot;                        &quot;Q5B&quot;                       
-## [35] &quot;Q5C&quot;                        &quot;Q6A&quot;                       
-## [37] &quot;Q6B&quot;                        &quot;Q6C&quot;                       
-## [39] &quot;Q7A&quot;                        &quot;Q7B&quot;                       
-## [41] &quot;Q7C&quot;                        &quot;Q8A&quot;                       
-## [43] &quot;Q8B&quot;                        &quot;Q8C&quot;                       
-## [45] &quot;Q9A&quot;                        &quot;Q9B&quot;                       
-## [47] &quot;Q9C&quot;                        &quot;Tel&quot;                       
-## [49] &quot;X.1&quot;                        &quot;X.2&quot;                       
-## [51] &quot;X.3&quot;                        &quot;X.4&quot;                       
-## [53] &quot;X.5&quot;                        &quot;groupe&quot;                    
-## [55] &quot;date_diplome&quot;               &quot;sexe&quot;                      
-## [57] &quot;travail&quot;                    &quot;exp_urg&quot;                   
-## [59] &quot;conf_urg&quot;                   &quot;last_urg_n&quot;                
-## [61] &quot;last_urg_t&quot;                 &quot;formation&quot;                 
-## [63] &quot;date_formation&quot;
+<pre><code>## NULL
 </code></pre>
 
 <h2>Sauvegarde</h2>
 
-<pre><code class="r">
-write(data.frame(data), file = &quot;Brunstein.Rdata&quot;)
-</code></pre>
-
-<pre><code>## Error: argument 1 (type &#39;list&#39;) pas encore traité par cat
+<pre><code class="r"># write.table(data,&#39;Brunstein.Rdata&#39;,sep=&#39;,&#39;,quote=TRUE,na=&#39;NA&#39;)
+save(data, file = &quot;Brunstein.Rdata&quot;)
 </code></pre>
 
 </body>

@@ -170,6 +170,27 @@ c<-rbind(Q6A,Q6B,Q6C)
 likert(c,main="Question Q6 (avant / après)",xlab="'Même en situation d'urgence je préfère attendre un collègue'")
 
 ```
+
+Application à la question 1
+---------------------------
+```{r c1}
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q1A[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q1A<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q1B[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q1B<-apply(a,2,sum)
+
+a<-lapply(1:nrow(data),function(x){z<-0;z[1:8]<-0;z[as.integer(data$Q1C[x])]<-1;a<-rbind(z)})
+a <- do.call(rbind,a)
+Q1C<-apply(a,2,sum)
+
+c<-rbind(Q1A,Q1B,Q1C)
+likert(c,main="Question Q1 (avant / après)",xlab="je pense que j'arrive à faire face aux pbs inattendus dans mon activité professionnelle")
+
+```
+
 Calcul du SEP
 -------------
 Les questions avant/après vont de la colonne 21 à 47. Dans la version 3, il y a 3 colonnes par question: A, B, C.

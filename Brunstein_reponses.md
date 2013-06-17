@@ -628,6 +628,174 @@ summary(data$sep7c - data$sep7a)
 ##  -10.00   -4.25   -1.00   -0.44    4.00   10.00      67
 ```
 
+#### 24. Fréquence des situations d'urgence ORDERED
+
+```r
+status <- factor(data$conf_urg, order = T, levels = c("jamais", "rarement", 
+    "parfois", "souvent"))
+tapply(data$sep7a, status, mean, na.rm = TRUE)
+```
+
+```
+##   jamais rarement  parfois  souvent 
+##    37.44    41.88    44.92    53.50
+```
+
+```r
+boxplot(data$sep7a ~ status, main = "SEP 7 en fonction de la fréquence des situations d'urgence", 
+    ylab = "SEP 7", col = "orange")
+```
+
+![plot of chunk freq_sit_urg](figure/freq_sit_urg.png) 
+
+```r
+x <- lm(data$sep7a ~ status)
+summary(x)
+```
+
+```
+## 
+## Call:
+## lm(formula = data$sep7a ~ status)
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -20.444  -3.875   0.125   4.556  11.079 
+## 
+## Coefficients:
+##             Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)   44.435      0.894   49.70  < 2e-16 ***
+## status.L      11.452      2.020    5.67  2.7e-07 ***
+## status.Q       2.074      1.788    1.16     0.25    
+## status.C       1.547      1.521    1.02     0.31    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 
+## Residual standard error: 6.86 on 73 degrees of freedom
+##   (6 observations deleted due to missingness)
+## Multiple R-squared: 0.328,	Adjusted R-squared: 0.301 
+## F-statistic: 11.9 on 3 and 73 DF,  p-value: 1.99e-06
+```
+
+```r
+x <- aov(data$sep7a ~ status)
+summary(x)
+```
+
+```
+##             Df Sum Sq Mean Sq F value Pr(>F)    
+## status       3   1682     561    11.9  2e-06 ***
+## Residuals   73   3440      47                   
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 6 observations deleted due to missingness
+```
+
+#### 25.
+Application à la question 1
+---------------------------
+
+```r
+a <- lapply(1:nrow(data), function(x) {
+    z <- 0
+    z[1:8] <- 0
+    z[as.integer(data$Q1A[x])] <- 1
+    a <- rbind(z)
+})
+a <- do.call(rbind, a)
+Q1A <- apply(a, 2, sum)
+
+a <- lapply(1:nrow(data), function(x) {
+    z <- 0
+    z[1:8] <- 0
+    z[as.integer(data$Q1B[x])] <- 1
+    a <- rbind(z)
+})
+a <- do.call(rbind, a)
+Q1B <- apply(a, 2, sum)
+
+a <- lapply(1:nrow(data), function(x) {
+    z <- 0
+    z[1:8] <- 0
+    z[as.integer(data$Q1C[x])] <- 1
+    a <- rbind(z)
+})
+a <- do.call(rbind, a)
+Q1C <- apply(a, 2, sum)
+
+c <- rbind(Q1A, Q1B, Q1C)
+likert(c, main = "Question Q1 (avant / après)", xlab = "je pense que j'arrive à faire face aux pbs inattendus dans mon activité professionnelle")
+```
+
+![plot of chunk c1](figure/c1.png) 
+
+#### 26. Formation préalable à l'urgence
+
+On forme une nouvelle colonne *formationON* qui dimplifie la colonne *formation* en remplaçant toute formation par *OUI*.
+
+```r
+data$formationON <- as.character(data$formation)
+data$formationON[data$formationON != "NON" & data$formationON != "NA"] <- "OUI"
+data$formationON <- as.factor(data$formationON)
+summary(data$formationON)
+```
+
+```
+##  NON  OUI NA's 
+##   18   55   10
+```
+
+Calcul de la valeur *médiane* du SEP 7 avant, après et à 1 mois et des boxplot correspondants:
+
+```r
+tapply(data$sep7a, data$formationON, median, na.rm = T)
+```
+
+```
+##  NON  OUI 
+## 45.5 44.0
+```
+
+```r
+tapply(data$sep7b, data$formationON, median, na.rm = T)
+```
+
+```
+## NON OUI 
+##  47  46
+```
+
+```r
+tapply(data$sep7c, data$formationON, median, na.rm = T)
+```
+
+```
+## NON OUI 
+##  43  45
+```
+
+```r
+
+boxplot(data$sep7a ~ data$formationON, ylab = "SEP 7 avant", xlab = "Formation préalable à l'urgence", 
+    col = "orange")
+```
+
+![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-191.png) 
+
+```r
+boxplot(data$sep7b ~ data$formationON, ylab = "SEP 7 après", xlab = "Formation préalable à l'urgence", 
+    col = "yellow")
+```
+
+![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-192.png) 
+
+```r
+boxplot(data$sep7c ~ data$formationON, ylab = "SEP 7 à 1 mois", xlab = "Formation préalable à l'urgence", 
+    col = "pink")
+```
+
+![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-193.png) 
+
 
 
 

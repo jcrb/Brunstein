@@ -51,6 +51,13 @@ sep7b<-apply(ap,1,sum)
 print("SEP7 après la formation:")
 summary(sep7b)
 data$sep7b<-sep7b
+
+one_month<-seq(from=debut+2, to=fin, by=step)
+om<-data[,one_month]
+sep7c<-apply(om,1,sum)
+print("SEP7 après un mois:")
+summary(sep7c)
+data$sep7c<-sep7c
 ```
 Evolution du SEP7 (différence Avant- Après)
 ```{r echo=FALSE}
@@ -135,14 +142,20 @@ Les IDE SMUR se détachent du lot mais il n'y en a que deux.
 a<-data[,"A"]
 tapply(data$sep7a,as.factor(a),mean,na.rm=TRUE)
 boxplot(data$sep7a~as.factor(a),ylab="Score SEP 7 moyen",main="j'ai su trouver ma place au sein de l'équipe",xlab="1 = pas d'accord, 8 = tout à fait d'accord, NA = NSP")
+x<-lm(data$sep7a~as.factor(a))
+summary(x)
 
 a<-data[,"B"]
 tapply(data$sep7a,as.factor(a),mean,na.rm=TRUE)
 boxplot(data$sep7a~as.factor(a),ylab="Score SEP 7 moyen",main="j'étais satisfait de ma prise en charge",xlab="1 = pas d'accord, 8 = tout à fait d'accord, NA = NSP")
+x<-lm(data$sep7a~as.factor(a))
+summary(x)
 
 a<-data[,"C"]
 tapply(data$sep7a,as.factor(a),mean,na.rm=TRUE)
 boxplot(data$sep7a~as.factor(a),na.rm=TRUE,ylab="Score SEP 7 moyen",main="j'ai eu l'impression que le médecin à son arrivée\n était satisfait des actions entreprises",xlab="1 = pas d'accord, 8 = tout à fait d'accord, NA = NSP")
+x<-lm(data$sep7a~as.factor(a))
+summary(x)
 ```
 
 
@@ -298,6 +311,28 @@ boxplot(as.numeric(data$G)~data$diplome,ylab="Score question G")
 plot(as.numeric(data$sep7a)~as.numeric(data$G),xlab="lorsque j'ai participé à des MES\n j'ai pu décider des actions à entreprendre",ylab="SEP7 avant formation")
 plot(as.numeric(data$sep7b)~as.numeric(data$G),xlab="lorsque j'ai participé à des MES\n j'ai pu décider des actions à entreprendre",ylab="SEP7 après formation")
 ```
+#### 21. Sep avant et groupe de formation
+
+```{r}
+q<-tapply(data$sep7a,data$groupe,mean,na.rm=T)
+q
+boxplot(data$sep7a~data$groupe,ylab="SEP 7 avant formation",xlab="Groupe",col="orange")
+s<-aov(data$sep7a~data$groupe)
+summary(s)
+```
+#### 22. Evolution du SEP
+```{r}
+boxplot(data$sep7a,data$sep7b,data$sep7c,names=c("avant","après","à 1 mois"),ylab="SEP",main="Evolution du SEP",col="yellow")
+sep1<-summary(data$sep7a)
+sep2<-summary(data$sep7b)
+sep3<-summary(data$sep7c)
+rbind(sep1,sep2,sep3)
+
+boxplot(q,horizontal=T,main="Evolution du SEP à un mois",xlab="comparaison SEP à 1 mois - SEP initial",col="pink")
+summary(data$sep7c - data$sep7a)
+```
+
+
 
  
 

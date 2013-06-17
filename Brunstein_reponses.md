@@ -69,6 +69,15 @@ ddply(data, .(data$diplome), "nrow")
 ##    38.0    45.0    47.0    47.1    50.0    56.0       2
 ```
 
+```
+## [1] "SEP7 après un mois:"
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##    41.0    43.0    45.0    44.5    46.0    49.0      67
+```
+
 Evolution du SEP7 (différence Avant- Après)
 
 ```
@@ -241,6 +250,35 @@ Les IDE SMUR se détachent du lot mais il n'y en a que deux.
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-91.png) 
 
 ```
+## 
+## Call:
+## lm(formula = data$sep7a ~ as.factor(a))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -23.23  -3.80   0.20   4.76  13.77 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       22.00       6.89    3.19  0.00213 ** 
+## as.factor(a)2     17.00       7.95    2.14  0.03619 *  
+## as.factor(a)3     16.33       7.95    2.05  0.04389 *  
+## as.factor(a)4     17.00       7.70    2.21  0.03068 *  
+## as.factor(a)5     21.42       7.17    2.99  0.00392 ** 
+## as.factor(a)6     22.80       7.06    3.23  0.00191 ** 
+## as.factor(a)7     27.24       7.09    3.84  0.00027 ***
+## as.factor(a)8     28.23       7.15    3.95  0.00019 ***
+## as.factor(a)NA    14.50       7.70    1.88  0.06403 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 
+## Residual standard error: 6.89 on 68 degrees of freedom
+##   (6 observations deleted due to missingness)
+## Multiple R-squared: 0.37,	Adjusted R-squared: 0.296 
+## F-statistic: 4.99 on 8 and 68 DF,  p-value: 6.89e-05
+```
+
+```
 ##     1     2     3     4     5     6     7     8    NA 
 ## 22.00 41.33 41.33 38.40 43.67 47.30 48.70 54.12 36.50
 ```
@@ -248,11 +286,69 @@ Les IDE SMUR se détachent du lot mais il n'y en a que deux.
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-92.png) 
 
 ```
+## 
+## Call:
+## lm(formula = data$sep7a ~ as.factor(a))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -27.125  -3.304   0.667   3.667  10.500 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       22.00       6.46    3.41  0.00111 ** 
+## as.factor(a)2     19.33       7.46    2.59  0.01165 *  
+## as.factor(a)3     19.33       7.46    2.59  0.01165 *  
+## as.factor(a)4     16.40       6.77    2.42  0.01814 *  
+## as.factor(a)5     21.67       6.67    3.25  0.00180 ** 
+## as.factor(a)6     25.30       6.60    3.84  0.00028 ***
+## as.factor(a)7     26.70       6.77    3.94  0.00019 ***
+## as.factor(a)8     32.13       6.85    4.69  1.4e-05 ***
+## as.factor(a)NA    14.50       7.22    2.01  0.04859 *  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 
+## Residual standard error: 6.46 on 68 degrees of freedom
+##   (6 observations deleted due to missingness)
+## Multiple R-squared: 0.446,	Adjusted R-squared: 0.381 
+## F-statistic: 6.85 on 8 and 68 DF,  p-value: 1.44e-06
+```
+
+```
 ##     1     2     3     4     5     6     7     8    NA 
 ## 22.00 45.00 40.33 37.25 41.33 45.75 48.50 53.11 36.20
 ```
 
 ![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-93.png) 
+
+```
+## 
+## Call:
+## lm(formula = data$sep7a ~ as.factor(a))
+## 
+## Residuals:
+##    Min     1Q Median     3Q    Max 
+## -19.20  -3.25   0.25   3.89  12.25 
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       22.00       6.54    3.36  0.00128 ** 
+## as.factor(a)2     23.00       9.26    2.48  0.01542 *  
+## as.factor(a)3     18.33       7.56    2.43  0.01793 *  
+## as.factor(a)4     15.25       7.32    2.08  0.04091 *  
+## as.factor(a)5     19.33       6.81    2.84  0.00598 ** 
+## as.factor(a)6     23.75       6.68    3.56  0.00069 ***
+## as.factor(a)7     26.50       6.72    3.94  0.00019 ***
+## as.factor(a)8     31.11       6.90    4.51  2.6e-05 ***
+## as.factor(a)NA    14.20       7.17    1.98  0.05168 .  
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 
+## Residual standard error: 6.54 on 68 degrees of freedom
+##   (6 observations deleted due to missingness)
+## Multiple R-squared: 0.431,	Adjusted R-squared: 0.364 
+## F-statistic: 6.45 on 8 and 68 DF,  p-value: 3.24e-06
+```
 
 
 
@@ -262,12 +358,15 @@ Les IDE SMUR se détachent du lot mais il n'y en a que deux.
 ```r
 a <- data[data$diplome == "IDE", c("A", "sep7a", "exp_urg")]
 
+# suppression des lignes où 'A' = NA
+a <- a[a$A != "NA", ]
+
 tapply(a$sep7a, a$A, mean, na.rm = TRUE)
 ```
 
 ```
-##     2     3     4     5     6     7     8    NA 
-## 38.00 42.00 38.33 45.89 44.45 48.78 47.50 43.00
+##     2     3     4     5     6     7     8 
+## 38.00 42.00 38.33 45.89 44.45 48.78 47.50
 ```
 
 ```r
@@ -276,6 +375,39 @@ boxplot(a$sep7a ~ as.factor(a$A), ylab = "Score SEP 7 moyen", main = "j'ai su tr
 ```
 
 ![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+
+```r
+
+lm <- lm(a$sep7a ~ as.factor(a$A))
+summary(lm)
+```
+
+```
+## 
+## Call:
+## lm(formula = a$sep7a ~ as.factor(a$A))
+## 
+## Residuals:
+##     Min      1Q  Median      3Q     Max 
+## -20.500  -2.861   0.384   3.431  16.500 
+## 
+## Coefficients:
+##                 Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)       38.000      6.577    5.78  1.5e-06 ***
+## as.factor(a$A)3    4.000      9.301    0.43     0.67    
+## as.factor(a$A)4    0.333      7.594    0.04     0.97    
+## as.factor(a$A)5    7.889      6.932    1.14     0.26    
+## as.factor(a$A)6    6.455      6.869    0.94     0.35    
+## as.factor(a$A)7   10.778      6.932    1.55     0.13    
+## as.factor(a$A)8    9.500      6.976    1.36     0.18    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+## 
+## Residual standard error: 6.58 on 35 degrees of freedom
+##   (2 observations deleted due to missingness)
+## Multiple R-squared: 0.194,	Adjusted R-squared: 0.0557 
+## F-statistic:  1.4 on 6 and 35 DF,  p-value: 0.241
+```
 
 
 Avec ou sans expérience de l'urgence:
@@ -297,7 +429,7 @@ summary(a2$sep7a)
 
 ```
 ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    27.0    40.2    44.0    43.1    47.0    52.0       2
+##    27.0    40.0    44.0    43.1    47.0    52.0       2
 ```
 
 
@@ -424,6 +556,80 @@ summary(a2$sep7a)
 
 ![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-151.png) ![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-152.png) ![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-153.png) 
 
+#### 21. Sep avant et groupe de formation
+
+
+```r
+q <- tapply(data$sep7a, data$groupe, mean, na.rm = T)
+q
+```
+
+```
+##     1     2     3     4     5     6     7     8 
+## 44.00 43.58 44.44 48.67 50.27 41.22 44.08 44.33
+```
+
+```r
+boxplot(data$sep7a ~ data$groupe, ylab = "SEP 7 avant formation", xlab = "Groupe", 
+    col = "orange")
+```
+
+![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
+
+```r
+s <- aov(data$sep7a ~ data$groupe)
+summary(s)
+```
+
+```
+##             Df Sum Sq Mean Sq F value Pr(>F)
+## data$groupe  7    565    80.7    1.22    0.3
+## Residuals   69   4557    66.0               
+## 6 observations deleted due to missingness
+```
+
+#### 22. Evolution du SEP
+
+```r
+boxplot(data$sep7a, data$sep7b, data$sep7c, names = c("avant", "après", "à 1 mois"), 
+    ylab = "SEP", main = "Evolution du SEP", col = "yellow")
+```
+
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-171.png) 
+
+```r
+sep1 <- summary(data$sep7a)
+sep2 <- summary(data$sep7b)
+sep3 <- summary(data$sep7c)
+rbind(sep1, sep2, sep3)
+```
+
+```
+##      Min. 1st Qu. Median Mean 3rd Qu. Max. NA's
+## sep1   17      40     45 45.0      50   64    6
+## sep2   38      45     47 47.1      50   56    2
+## sep3   41      43     45 44.5      46   49   67
+```
+
+```r
+
+boxplot(q, horizontal = T, main = "Evolution du SEP à un mois", xlab = "comparaison SEP à 1 mois - SEP initial", 
+    col = "pink")
+```
+
+![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-172.png) 
+
+```r
+summary(data$sep7c - data$sep7a)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
+##  -10.00   -4.25   -1.00   -0.44    4.00   10.00      67
+```
+
+
+
 
  
 
@@ -431,12 +637,4 @@ questions:
 ==========
 faut il classifier les services d'activité par categorie medecine / chirurgie / urgence et soins continus
 
- 
-
-est ce que tu as le temps pour qu'on en discute la semaine prochaine?
-
-tu crois que tu peux me donner des résultats pour quand?
-
- 
-
-je sais que cela fait beaucoup en peu de temps
+data$service<-data[data$travail==""]<-""

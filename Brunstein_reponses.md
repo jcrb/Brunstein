@@ -20,44 +20,40 @@ Résultats commentés
 1. Pour les catégories professionnelles : rassembler dans autres ce qui n’est ni AS ni IDE. Mettre AP avec groupe AS.
 #### Origine socio-professionnelle:
 
-```r
-summary(data$diplome)
-```
-
-```
-##    AS Autre   IDE  NA's 
-##    30     6    45     2
-```
-
-```r
-plot(data$diplome, xlab = "Profession", ylab = "Nombre", main = "Catégories socio-professionnelles")
-```
-
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2.png) 
-
-```r
-ddply(data, .(data$diplome), "nrow")
-```
-
-```
-##   data$diplome nrow
-## 1           AS   30
-## 2        Autre    6
-## 3          IDE   45
-## 4         <NA>    2
-```
-
 
 #### 2a. évaluer le SEP au départ questions 1 à 7 au total
 
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet 'av' introuvable
+```
 
 ```
 ## [1] "SEP7 avant la formation:"
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##      17      40      45      45      50      64       6
+## Error: objet 'sep7a' introuvable
+```
+
+```
+## Error: objet 'sep7a' introuvable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet 'ap' introuvable
 ```
 
 ```
@@ -65,8 +61,19 @@ ddply(data, .(data$diplome), "nrow")
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    38.0    45.0    47.0    47.1    50.0    56.0       2
+## Error: objet 'sep7b' introuvable
+```
+
+```
+## Error: objet 'sep7b' introuvable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet 'om' introuvable
 ```
 
 ```
@@ -74,18 +81,34 @@ ddply(data, .(data$diplome), "nrow")
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    41.0    43.0    45.0    44.5    46.0    49.0      67
+## Error: objet 'sep7c' introuvable
+```
+
+```
+## Error: objet 'sep7c' introuvable
 ```
 
 Evolution du SEP7 (différence Avant- Après)
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##  -13.00   -3.00    1.00    2.21    7.00   28.00       6
+## Error: objet 'sep7b' introuvable
 ```
 
-![plot of chunk unnamed-chunk-3](figure/unnamed-chunk-3.png) 
+```
+## Error: objet 'sep7b' introuvable
+```
+
+```
+## Error: objet 's' introuvable
+```
+
+```
+## Error: objet 'h' introuvable
+```
+
+```
+## Error: objet 's' introuvable
+```
 
 #### 2b. évaluer le SEP au départ questions 1 à 7 selon les catégories professionnelles
 
@@ -94,22 +117,27 @@ Evolution du SEP7 (différence Avant- Après)
 ```
 
 ```
-##    AS Autre   IDE 
-## 44.96 41.50 45.44
+## Error: objet de type 'closure' non indiçable
 ```
 
 ```
-##     AS  Autre    IDE 
-##  9.978 11.203  6.611
+## Error: objet 'a' introuvable
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 ```
-##              Df Sum Sq Mean Sq F value Pr(>F)
-## data$diplome  2     82    41.2     0.6   0.55
-## Residuals    74   5040    68.1               
-## 6 observations deleted due to missingness
+## Error: objet 'sep7a' introuvable
+```
+
+```
+## Error: objet 'sep7a' introuvable
+```
+
+```
+## Error: objet 'b' introuvable
 ```
 
 ```
@@ -121,15 +149,39 @@ Evolution du SEP7 (différence Avant- Après)
 #### 3. évaluerle SEP questions _4 / 6/ 8 à part 
 
 ```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
 ## [1] "Q4"
 ```
 
 ```
-## [1] 5.475
+## Error: objet 'sep4a' introuvable
 ```
 
 ```
-## [1] 7.012
+## Error: objet 'sep4b' introuvable
 ```
 
 ```
@@ -137,11 +189,11 @@ Evolution du SEP7 (différence Avant- Après)
 ```
 
 ```
-## [1] 5.6
+## Error: objet 'sep6a' introuvable
 ```
 
 ```
-## [1] 5.716
+## Error: objet 'sep6b' introuvable
 ```
 
 ```
@@ -149,11 +201,11 @@ Evolution du SEP7 (différence Avant- Après)
 ```
 
 ```
-## [1] 7.275
+## Error: objet 'sep8a' introuvable
 ```
 
 ```
-## [1] 7.642
+## Error: objet 'sep8b' introuvable
 ```
 
 
@@ -162,12 +214,26 @@ Evolution du SEP7 (différence Avant- Après)
 
 ```r
 sep3a <- as.integer(data[, "Q3A"])
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 sep3b <- as.integer(data[, "Q3B"])
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 mean(sep3a, na.rm = T)
 ```
 
 ```
-## [1] 5.125
+## Error: objet 'sep3a' introuvable
 ```
 
 ```r
@@ -175,7 +241,7 @@ mean(sep3b, na.rm = T)
 ```
 
 ```
-## [1] 6.728
+## Error: objet 'sep3b' introuvable
 ```
 
 
@@ -186,25 +252,24 @@ mean(sep3b, na.rm = T)
 boxplot(data$sep7a ~ data$exp_urg, ylab = "SEP 7 avant", xlab = "Expérience de l'urgence")
 ```
 
-![plot of chunk unnamed-chunk-7](figure/unnamed-chunk-7.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 ```r
 a <- t.test(data$sep7a ~ data$exp_urg)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 a
 ```
 
 ```
-## 
-## 	Welch Two Sample t-test
-## 
-## data:  data$sep7a by data$exp_urg 
-## t = -3.696, df = 72.29, p-value = 0.000423
-## alternative hypothesis: true difference in means is not equal to 0 
-## 95 percent confidence interval:
-##  -9.709 -2.906 
-## sample estimates:
-## mean in group non mean in group oui 
-##             42.43             48.74
+## Error: objet 'a' introuvable
 ```
 
 
@@ -215,23 +280,43 @@ a
 
 ```r
 a <- as.character(data$formation)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 a[a == "AFGSU 1"] <- "AFGSU1"
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 a[a == "AFGSU 2"] <- "AFGSU2"
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 summary(as.factor(a))
 ```
 
 ```
-##         AFGSU        AFGSU1        AFGSU2          AFPS      IDE SMUR 
-##            10             3            17            11             2 
-##           NON           oui soins urgence          UVIH          NA's 
-##            18             3             6             3            10
+## Error: objet 'a' introuvable
 ```
 
 ```r
 boxplot(data$sep7a ~ a, las = 2, ylab = "SEP 7 avant")
 ```
 
-![plot of chunk unnamed-chunk-8](figure/unnamed-chunk-8.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 Les IDE SMUR se détachent du lot mais il n'y en a que deux.
 
@@ -243,111 +328,63 @@ Les IDE SMUR se détachent du lot mais il n'y en a que deux.
 
 
 ```
-##     1     2     3     4     5     6     7     8    NA 
-## 22.00 39.00 38.33 39.00 43.42 44.80 49.24 50.23 36.50
-```
-
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-91.png) 
-
-```
-## 
-## Call:
-## lm(formula = data$sep7a ~ as.factor(a))
-## 
-## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -23.23  -3.80   0.20   4.76  13.77 
-## 
-## Coefficients:
-##                Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)       22.00       6.89    3.19  0.00213 ** 
-## as.factor(a)2     17.00       7.95    2.14  0.03619 *  
-## as.factor(a)3     16.33       7.95    2.05  0.04389 *  
-## as.factor(a)4     17.00       7.70    2.21  0.03068 *  
-## as.factor(a)5     21.42       7.17    2.99  0.00392 ** 
-## as.factor(a)6     22.80       7.06    3.23  0.00191 ** 
-## as.factor(a)7     27.24       7.09    3.84  0.00027 ***
-## as.factor(a)8     28.23       7.15    3.95  0.00019 ***
-## as.factor(a)NA    14.50       7.70    1.88  0.06403 .  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-## 
-## Residual standard error: 6.89 on 68 degrees of freedom
-##   (6 observations deleted due to missingness)
-## Multiple R-squared: 0.37,	Adjusted R-squared: 0.296 
-## F-statistic: 4.99 on 8 and 68 DF,  p-value: 6.89e-05
+## Error: objet de type 'closure' non indiçable
 ```
 
 ```
-##     1     2     3     4     5     6     7     8    NA 
-## 22.00 41.33 41.33 38.40 43.67 47.30 48.70 54.12 36.50
-```
-
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-92.png) 
-
-```
-## 
-## Call:
-## lm(formula = data$sep7a ~ as.factor(a))
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -27.125  -3.304   0.667   3.667  10.500 
-## 
-## Coefficients:
-##                Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)       22.00       6.46    3.41  0.00111 ** 
-## as.factor(a)2     19.33       7.46    2.59  0.01165 *  
-## as.factor(a)3     19.33       7.46    2.59  0.01165 *  
-## as.factor(a)4     16.40       6.77    2.42  0.01814 *  
-## as.factor(a)5     21.67       6.67    3.25  0.00180 ** 
-## as.factor(a)6     25.30       6.60    3.84  0.00028 ***
-## as.factor(a)7     26.70       6.77    3.94  0.00019 ***
-## as.factor(a)8     32.13       6.85    4.69  1.4e-05 ***
-## as.factor(a)NA    14.50       7.22    2.01  0.04859 *  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-## 
-## Residual standard error: 6.46 on 68 degrees of freedom
-##   (6 observations deleted due to missingness)
-## Multiple R-squared: 0.446,	Adjusted R-squared: 0.381 
-## F-statistic: 6.85 on 8 and 68 DF,  p-value: 1.44e-06
+## Error: objet 'a' introuvable
 ```
 
 ```
-##     1     2     3     4     5     6     7     8    NA 
-## 22.00 45.00 40.33 37.25 41.33 45.75 48.50 53.11 36.20
+## Error: objet de type 'closure' non indiçable
 ```
 
-![plot of chunk unnamed-chunk-9](figure/unnamed-chunk-93.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 ```
-## 
-## Call:
-## lm(formula = data$sep7a ~ as.factor(a))
-## 
-## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -19.20  -3.25   0.25   3.89  12.25 
-## 
-## Coefficients:
-##                Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)       22.00       6.54    3.36  0.00128 ** 
-## as.factor(a)2     23.00       9.26    2.48  0.01542 *  
-## as.factor(a)3     18.33       7.56    2.43  0.01793 *  
-## as.factor(a)4     15.25       7.32    2.08  0.04091 *  
-## as.factor(a)5     19.33       6.81    2.84  0.00598 ** 
-## as.factor(a)6     23.75       6.68    3.56  0.00069 ***
-## as.factor(a)7     26.50       6.72    3.94  0.00019 ***
-## as.factor(a)8     31.11       6.90    4.51  2.6e-05 ***
-## as.factor(a)NA    14.20       7.17    1.98  0.05168 .  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-## 
-## Residual standard error: 6.54 on 68 degrees of freedom
-##   (6 observations deleted due to missingness)
-## Multiple R-squared: 0.431,	Adjusted R-squared: 0.364 
-## F-statistic: 6.45 on 8 and 68 DF,  p-value: 3.24e-06
+## Error: objet 'x' introuvable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet 'x' introuvable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet 'x' introuvable
 ```
 
 
@@ -357,16 +394,29 @@ Les IDE SMUR se détachent du lot mais il n'y en a que deux.
 
 ```r
 a <- data[data$diplome == "IDE", c("A", "sep7a", "exp_urg")]
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 
 # suppression des lignes où 'A' = NA
 a <- a[a$A != "NA", ]
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 
 tapply(a$sep7a, a$A, mean, na.rm = TRUE)
 ```
 
 ```
-##     2     3     4     5     6     7     8 
-## 38.00 42.00 38.33 45.89 44.45 48.78 47.50
+## Error: objet 'a' introuvable
 ```
 
 ```r
@@ -374,39 +424,25 @@ boxplot(a$sep7a ~ as.factor(a$A), ylab = "Score SEP 7 moyen", main = "j'ai su tr
     xlab = "1 = pas d'accord, 8 = tout à fait d'accord, NA = NSP")
 ```
 
-![plot of chunk unnamed-chunk-10](figure/unnamed-chunk-10.png) 
+```
+## Error: objet 'a' introuvable
+```
 
 ```r
 
 lm <- lm(a$sep7a ~ as.factor(a$A))
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 summary(lm)
 ```
 
 ```
-## 
-## Call:
-## lm(formula = a$sep7a ~ as.factor(a$A))
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -20.500  -2.861   0.384   3.431  16.500 
-## 
-## Coefficients:
-##                 Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)       38.000      6.577    5.78  1.5e-06 ***
-## as.factor(a$A)3    4.000      9.301    0.43     0.67    
-## as.factor(a$A)4    0.333      7.594    0.04     0.97    
-## as.factor(a$A)5    7.889      6.932    1.14     0.26    
-## as.factor(a$A)6    6.455      6.869    0.94     0.35    
-## as.factor(a$A)7   10.778      6.932    1.55     0.13    
-## as.factor(a$A)8    9.500      6.976    1.36     0.18    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-## 
-## Residual standard error: 6.58 on 35 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared: 0.194,	Adjusted R-squared: 0.0557 
-## F-statistic:  1.4 on 6 and 35 DF,  p-value: 0.241
+## Error: objet de type 'closure' non indiçable
 ```
 
 
@@ -414,13 +450,26 @@ Avec ou sans expérience de l'urgence:
 
 ```r
 a1 <- a[a$exp_urg == "oui", ]
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 a2 <- a[a$exp_urg == "non", ]
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 summary(a1$sep7a)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    37.0    45.0    49.0    48.6    51.5    64.0       2
+## Error: objet 'a1' introuvable
 ```
 
 ```r
@@ -428,8 +477,7 @@ summary(a2$sep7a)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    27.0    40.0    44.0    43.1    47.0    52.0       2
+## Error: objet 'a2' introuvable
 ```
 
 
@@ -451,78 +499,287 @@ summary(a2$sep7a)
 
 
 ```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```
+## Error: objet 'QD' introuvable
+```
+
+```
+## Error: The argument is not a data frame or no such file
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: objet '.data' introuvable
+```
+
+```
 ## [1] "Résumé des réponses au questions d à n évéluées après la formation"
 ```
 
 ```
-##    [,1] [,2] [,3] [,4] [,5] [,6] [,7] [,8]
-## QD    0    0    0    1    2    7   22   49
-## QE    0    0    1    0    1    5   16   57
-## QF    0    0    0    1    0    2   13   65
-## QG    0    0    0    2    2   11   15   51
-## QH    0    0    0    0    2    8   13   58
-## QI    0    0    0    0    1    6   10   64
-## QJ    0    0    0    0    3    1   12   65
-## QK    0    0    0    0    3    2   10   66
-## QL    0    0    0    1    9   28   23   16
-## QM    0    0    0    0    1   20   37   23
-## QN    0    0    0    0    1   12   32   36
+## function (..., recursive = FALSE)  .Primitive("c")
 ```
 
-![plot of chunk unnamed-chunk-12](figure/unnamed-chunk-12.png) 
+```
+## Error: objet '.data' introuvable
+```
+
+```
+## Error: l'argument n'est pas une matrice
+```
 
 
 #### 14. idem pour les aspects suivants par type de questions
 
 #### 15. évaluation questions D et E (vicariant)
-![plot of chunk unnamed-chunk-13](figure/unnamed-chunk-13.png) 
 
 ```
-## 
-## Call:
-## lm(formula = data$sep7b ~ x)
-## 
-## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -8.793 -2.793  0.207  3.207  8.207 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   36.625      4.484    8.17  4.4e-12 ***
-## x              0.698      0.297    2.35    0.021 *  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-## 
-## Residual standard error: 4.15 on 78 degrees of freedom
-##   (3 observations deleted due to missingness)
-## Multiple R-squared: 0.0662,	Adjusted R-squared: 0.0542 
-## F-statistic: 5.53 on 1 and 78 DF,  p-value: 0.0212
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet 'a' introuvable
 ```
 
 
 #### 16.évaluation questions H / I / J /K (persuasion verbale)  
-![plot of chunk unnamed-chunk-14](figure/unnamed-chunk-14.png) 
 
 ```
-## 
-## Call:
-## lm(formula = data$sep7b ~ x)
-## 
-## Residuals:
-##    Min     1Q Median     3Q    Max 
-## -8.846 -2.576  0.424  3.424  8.424 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   35.897      5.902    6.08    4e-08 ***
-## x              0.365      0.192    1.90    0.061 .  
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-## 
-## Residual standard error: 4.18 on 79 degrees of freedom
-##   (2 observations deleted due to missingness)
-## Multiple R-squared: 0.0439,	Adjusted R-squared: 0.0318 
-## F-statistic: 3.62 on 1 and 79 DF,  p-value: 0.0606
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet 'a' introuvable
 ```
 
 
@@ -536,37 +793,45 @@ summary(a2$sep7a)
 #### 20.évaluation G seul et  G /L / N par catégorie professionnelle ???
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##    4.00    7.00    8.00    7.37    8.00    8.00       2
+## Error: objet de type 'closure' non indiçable
 ```
 
 ```
-## $AS
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    4.00    6.00    7.00    6.87    8.00    8.00 
-## 
-## $Autre
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    7.00    7.25    8.00    7.67    8.00    8.00 
-## 
-## $IDE
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
-##    5.00    8.00    8.00    7.67    8.00    8.00
+## Error: objet de type 'closure' non indiçable
 ```
 
-![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-151.png) ![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-152.png) ![plot of chunk unnamed-chunk-15](figure/unnamed-chunk-153.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 #### 21. Sep avant et groupe de formation
 
 
 ```r
 q <- tapply(data$sep7a, data$groupe, mean, na.rm = T)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 q
 ```
 
 ```
-##     1     2     3     4     5     6     7     8 
-## 44.00 43.58 44.44 48.67 50.27 41.22 44.08 44.33
+## function (save = "default", status = 0, runLast = TRUE) 
+## .Internal(quit(save, status, runLast))
+## <bytecode: 0x2c89878>
+## <environment: namespace:base>
 ```
 
 ```r
@@ -574,18 +839,24 @@ boxplot(data$sep7a ~ data$groupe, ylab = "SEP 7 avant formation", xlab = "Groupe
     col = "orange")
 ```
 
-![plot of chunk unnamed-chunk-16](figure/unnamed-chunk-16.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 ```r
 s <- aov(data$sep7a ~ data$groupe)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 summary(s)
 ```
 
 ```
-##             Df Sum Sq Mean Sq F value Pr(>F)
-## data$groupe  7    565    80.7    1.22    0.3
-## Residuals   69   4557    66.0               
-## 6 observations deleted due to missingness
+## Error: objet 's' introuvable
 ```
 
 #### 22. Evolution du SEP
@@ -595,20 +866,40 @@ boxplot(data$sep7a, data$sep7b, data$sep7c, names = c("avant", "après", "à 1 m
     ylab = "SEP", main = "Evolution du SEP", col = "yellow")
 ```
 
-![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-171.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 ```r
 sep1 <- summary(data$sep7a)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 sep2 <- summary(data$sep7b)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 sep3 <- summary(data$sep7c)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 rbind(sep1, sep2, sep3)
 ```
 
 ```
-##      Min. 1st Qu. Median Mean 3rd Qu. Max. NA's
-## sep1   17      40     45 45.0      50   64    6
-## sep2   38      45     47 47.1      50   56    2
-## sep3   41      43     45 44.5      46   49   67
+## Error: objet 'sep1' introuvable
 ```
 
 ```r
@@ -617,15 +908,26 @@ boxplot(q, horizontal = T, main = "Evolution du SEP à un mois", xlab = "compara
     col = "pink")
 ```
 
-![plot of chunk unnamed-chunk-17](figure/unnamed-chunk-172.png) 
+```
+## Warning: is.na() appliqué à un objet de type 'closure' qui n'est ni une
+## liste, ni un vecteur
+```
+
+```
+## Warning: is.na() appliqué à un objet de type 'closure' qui n'est ni une
+## liste, ni un vecteur
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 ```r
 summary(data$sep7c - data$sep7a)
 ```
 
 ```
-##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.    NA's 
-##  -10.00   -4.25   -1.00   -0.44    4.00   10.00      67
+## Error: objet de type 'closure' non indiçable
 ```
 
 #### 24. Fréquence des situations d'urgence ORDERED
@@ -633,12 +935,18 @@ summary(data$sep7c - data$sep7a)
 ```r
 status <- factor(data$conf_urg, order = T, levels = c("jamais", "rarement", 
     "parfois", "souvent"))
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 tapply(data$sep7a, status, mean, na.rm = TRUE)
 ```
 
 ```
-##   jamais rarement  parfois  souvent 
-##    37.44    41.88    44.92    53.50
+## Error: objet 'status' introuvable
 ```
 
 ```r
@@ -646,49 +954,40 @@ boxplot(data$sep7a ~ status, main = "SEP 7 en fonction de la fréquence des situ
     ylab = "SEP 7", col = "orange")
 ```
 
-![plot of chunk freq_sit_urg](figure/freq_sit_urg.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 ```r
 x <- lm(data$sep7a ~ status)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 summary(x)
 ```
 
 ```
-## 
-## Call:
-## lm(formula = data$sep7a ~ status)
-## 
-## Residuals:
-##     Min      1Q  Median      3Q     Max 
-## -20.444  -3.875   0.125   4.556  11.079 
-## 
-## Coefficients:
-##             Estimate Std. Error t value Pr(>|t|)    
-## (Intercept)   44.435      0.894   49.70  < 2e-16 ***
-## status.L      11.452      2.020    5.67  2.7e-07 ***
-## status.Q       2.074      1.788    1.16     0.25    
-## status.C       1.547      1.521    1.02     0.31    
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-## 
-## Residual standard error: 6.86 on 73 degrees of freedom
-##   (6 observations deleted due to missingness)
-## Multiple R-squared: 0.328,	Adjusted R-squared: 0.301 
-## F-statistic: 11.9 on 3 and 73 DF,  p-value: 1.99e-06
+## Error: objet 'x' introuvable
 ```
 
 ```r
 x <- aov(data$sep7a ~ status)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 summary(x)
 ```
 
 ```
-##             Df Sum Sq Mean Sq F value Pr(>F)    
-## status       3   1682     561    11.9  2e-06 ***
-## Residuals   73   3440      47                   
-## ---
-## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-## 6 observations deleted due to missingness
+## Error: objet 'x' introuvable
 ```
 
 #### 25.
@@ -702,8 +1001,29 @@ a <- lapply(1:nrow(data), function(x) {
     z[as.integer(data$Q1A[x])] <- 1
     a <- rbind(z)
 })
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```r
 a <- do.call(rbind, a)
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 Q1A <- apply(a, 2, sum)
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 
 a <- lapply(1:nrow(data), function(x) {
     z <- 0
@@ -711,8 +1031,29 @@ a <- lapply(1:nrow(data), function(x) {
     z[as.integer(data$Q1B[x])] <- 1
     a <- rbind(z)
 })
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```r
 a <- do.call(rbind, a)
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 Q1B <- apply(a, 2, sum)
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 
 a <- lapply(1:nrow(data), function(x) {
     z <- 0
@@ -720,14 +1061,44 @@ a <- lapply(1:nrow(data), function(x) {
     z[as.integer(data$Q1C[x])] <- 1
     a <- rbind(z)
 })
+```
+
+```
+## Error: l'argument est de longueur nulle
+```
+
+```r
 a <- do.call(rbind, a)
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 Q1C <- apply(a, 2, sum)
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
 
 c <- rbind(Q1A, Q1B, Q1C)
+```
+
+```
+## Error: objet 'Q1A' introuvable
+```
+
+```r
 likert(c, main = "Question Q1 (avant / après)", xlab = "je pense que j'arrive à faire face aux pbs inattendus dans mon activité professionnelle")
 ```
 
-![plot of chunk c1](figure/c1.png) 
+```
+## Error: l'argument n'est pas une matrice
+```
 
 #### 26. Formation préalable à l'urgence
 
@@ -735,14 +1106,34 @@ On forme une nouvelle colonne *formationON* qui dimplifie la colonne *formation*
 
 ```r
 data$formationON <- as.character(data$formation)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 data$formationON[data$formationON != "NON" & data$formationON != "NA"] <- "OUI"
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 data$formationON <- as.factor(data$formationON)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
 summary(data$formationON)
 ```
 
 ```
-##  NON  OUI NA's 
-##   18   55   10
+## Error: objet de type 'closure' non indiçable
 ```
 
 Calcul de la valeur *médiane* du SEP 7 avant, après et à 1 mois et des boxplot correspondants:
@@ -752,8 +1143,7 @@ tapply(data$sep7a, data$formationON, median, na.rm = T)
 ```
 
 ```
-##  NON  OUI 
-## 45.5 44.0
+## Error: objet de type 'closure' non indiçable
 ```
 
 ```r
@@ -761,8 +1151,7 @@ tapply(data$sep7b, data$formationON, median, na.rm = T)
 ```
 
 ```
-## NON OUI 
-##  47  46
+## Error: objet de type 'closure' non indiçable
 ```
 
 ```r
@@ -770,8 +1159,7 @@ tapply(data$sep7c, data$formationON, median, na.rm = T)
 ```
 
 ```
-## NON OUI 
-##  43  45
+## Error: objet de type 'closure' non indiçable
 ```
 
 ```r
@@ -780,21 +1168,100 @@ boxplot(data$sep7a ~ data$formationON, ylab = "SEP 7 avant", xlab = "Formation p
     col = "orange")
 ```
 
-![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-191.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 ```r
 boxplot(data$sep7b ~ data$formationON, ylab = "SEP 7 après", xlab = "Formation préalable à l'urgence", 
     col = "yellow")
 ```
 
-![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-192.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
 
 ```r
 boxplot(data$sep7c ~ data$formationON, ylab = "SEP 7 à 1 mois", xlab = "Formation préalable à l'urgence", 
     col = "pink")
 ```
 
-![plot of chunk unnamed-chunk-19](figure/unnamed-chunk-193.png) 
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+#### 27. SEP et dernière formation urgence
+
+On récupère la colonne *date.derniere.formation.urgence* dans *resultats.csv* et on lincorpore dans le dataframe -data*
+
+```r
+q1 <- read.csv("resultats.csv", header = T, sep = "\t")
+data$last_form_urg <- q1$date.derniere.formation.urgence
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
+class(data$last_form_urg)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+Analyse de la colonne:
+
+```r
+summary(data$last_form_urg)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
+tapply(data$sep7a, as.factor(data$last_form_urg), mean, na.rm = TRUE)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+Recherche d'une corrélation avec le Sep7:
+
+```r
+a <- lm(data$sep7a ~ data$last_form_urg)
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
+summary(a)
+```
+
+```
+## Error: objet 'a' introuvable
+```
+
+```r
+plot(data$sep7a ~ data$last_form_urg, ylab = "SEP 7 Avant", xlab = "Dernière formation à l'urgence")
+```
+
+```
+## Error: objet de type 'closure' non indiçable
+```
+
+```r
+abline(a)
+```
+
+```
+## Error: objet 'a' introuvable
+```
 
 
 

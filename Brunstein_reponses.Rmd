@@ -10,7 +10,7 @@ Concusions: plus on divise léchantillon et plus il faut être prudent dans les 
 
 Résultats commentés
 -------------------
-```{r echo=FALSE,message=FALSE}
+```{r library,echo=FALSE,message=FALSE}
 library("HH")
 library("gplots")
 library("plyr")
@@ -24,7 +24,7 @@ load("Brunstein.Rdata")
 
 1. Pour les catégories professionnelles : rassembler dans autres ce qui n’est ni AS ni IDE. Mettre AP avec groupe AS.
 #### Origine socio-professionnelle:
-```{r}
+```{r elements}
 summary(data$diplome) 
 plot(data$diplome,xlab="Profession",ylab="Nombre",main="Catégories socio-professionnelles")
 ddply(data, .(data$diplome), "nrow")
@@ -379,6 +379,26 @@ tapply(data$sep7c,data$formationON,median,na.rm=T)
 boxplot(data$sep7a~data$formationON,ylab="SEP 7 avant",xlab="Formation préalable à l'urgence",col="orange")
 boxplot(data$sep7b~data$formationON,ylab="SEP 7 après",xlab="Formation préalable à l'urgence",col="yellow")
 boxplot(data$sep7c~data$formationON,ylab="SEP 7 à 1 mois",xlab="Formation préalable à l'urgence",col="pink")
+```
+#### 27. SEP et dernière formation urgence
+
+On récupère la colonne *date.derniere.formation.urgence* dans *resultats.csv* et on lincorpore dans le dataframe -data*
+```{r}
+q1<-read.csv("resultats.csv",header=T,sep="\t")
+data$last_form_urg<-q1$date.derniere.formation.urgence
+class(data$last_form_urg)
+```
+Analyse de la colonne:
+```{r}
+summary(data$last_form_urg)
+tapply(data$sep7a,as.factor(data$last_form_urg),mean,na.rm=TRUE)
+```
+Recherche d'une corrélation avec le Sep7:
+```{r}
+a<-lm(data$sep7a~data$last_form_urg)
+summary(a)
+plot(data$sep7a ~ data$last_form_urg,ylab="SEP 7 Avant",xlab="Dernière formation à l'urgence")
+abline(a)
 ```
 
 

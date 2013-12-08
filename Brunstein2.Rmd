@@ -41,6 +41,8 @@ Chargement des donnnées:
 ------------------------
 ```{r}
 load("Brunstein.Rdata")
+# correction d'une idiotie de la V4:
+data[data=='6,5']<-'6'
 ```
 
 Nouvelle présentation
@@ -197,9 +199,11 @@ Les questions avant/après vont de la colonne 21 à 47. Dans la version 3, il y 
 
 Il faut d'abord transformer les valeurs de character en numeric:
 ```{r calcul sep, warning=FALSE}
-debut<-21
-fin<-47
+debut<-20
+fin<-46
 step<-3
+names(data[debut:fin])
+
 for(i in debut:fin){data[,i]<-as.numeric(data[,i])}
 ```
 On crée une liste des question "avant":
@@ -223,10 +227,32 @@ ap<-data[,apres]
 b<-apply(ap,1,sum)
 summary(b)
 ```
+
+SEP à 1 mois
+```{r sep1mois}
+unMois <- seq(from=debut+2, to=fin, by=step)
+ap_1mois<-data[,unMois]
+c<-apply(ap_1mois,1,sum)
+summary(c)
+```
+
 Pour faciliter la compréhension on crée deux variables complémentaires, sepa (sep avant) et sepb (sep après):
 ```{r}
 data$sepa<-a
 data$sepb<-b
+data$sepc<-c
+
+sav <- summary(data$sepa)
+hist(data$sepa,main="SEP avant la formation",ylab="Nombre",xlab="SEP",col="lightblue")
+abline(v=sav[4], col="blue")
+
+sap <- summary(data$sepb)
+hist(data$sepb,main="SEP après la formation",ylab="Nombre",xlab="SEP",col="lightblue")
+abline(v=sap[4], col="blue")
+
+s1mois <- summary(data$sepc)
+hist(data$sepc,main="SEP à 1 mois",ylab="Nombre",xlab="SEP",col="lightblue")
+abline(v=s1mois[4], col="blue")
 ```
 L'étude de la différence sepb - sepa montre que si le globalement le SEP augmente après la formation (moyenne de 11 points), il régresse pour certains (-4) et augmente massivement pour d'autres (+42):
 ```{r}
@@ -244,13 +270,99 @@ round(sort(tapply(data$sepb - data$sepa,data$diplome,mean,na.rm=TRUE)),2)
 
 Le score SEP (Sentiment d'efficacité personnelle) a progressé après la formation.
 ```{r}
-boxplot(data$sepa,data$sepb,main="SEP avant et après la formation")
+boxplot(data$sepa,data$sepb, data$sepc, main="SEP avant, après la formation et à 1 mois",col="orange",names=c("Avant","Après","A 1 mois"))
 ```
 Et cette évolution est très significative:
 ```{r}
 t <- t.test(data$sepa,data$sepb,paired=TRUE)
 t
 ```
+A ce stade, *data* compte 3 colonnes supplémentaires 
+- sepa = sep avant formation
+- sepb = après
+- sepc = à 1 mois  
+Les 3 sont-ils différents ?  
+On effectuue une analyse de la variance entre ces 3 colonnes. Pour celà il est nécessaire de formater les données pour l'Anova qui attend une matrice de 2 colonnes, une colonne de valeur et une colonne de groupes. On va utiliser le package *reshape* pour cela.
+
+Etapes:
+- on crée un data frame **g** constitué par la colonne *Numéro* qui servira d'identifiant, et des colonnes *sepa*, *sepb* et *sepc* qui formeront les colonne des *valeurs* et des *groupe*.
+- puis on crée la matrice **md** avec la méthode *melt* de *reshape*
+- enfin on procède à l'Anova avec la méthode *aov*
+
+```{r sep_aov,message=FALSE}
+library("reshape")
+library("gplots")
+g <- data[,c(2,60:62)]
+head(g)
+md <- melt(g,id = "Numéro")
+head(md)
+a <- aov(value ~ variable, data = md)
+a
+summary(a)
+plotmeans(md$value ~ md$variable,xlab="groupes 'avant', 'après' et 'à 1 mois'",ylab="SEP moyen",main="Graphique des SEP moyens\navec l'intervalle de confiance à 95%")
+
+# si la fonction Tuckey ne fonctionne pas, désactiver la librairie HH (detach("package:HH"))
+print(TukeyHSD(a))
+plot(TukeyHSD(a),col="blue")
+#title(xlab="Différences entre le niveau moyen du SEP", main = "Intervalle de confiance à 95%")
+
+```
+La différence entre les trois groupes est fortement signigicative (i.e. au moins une moyenne diffère fortement des autres). Le test de Tuckey permet d'identifier les différences:
+- le sep après formation (sepb) est nettement supérieur au SEP avant formation (sepa) 
+- le sep à 1 mois (sepc) est nettement supérieur au SEP avant formation (sepa)
+- il n'y a pas de différence statistiquement significative entre les sepb et sepc, ce qui peut s'interpréter de 2 façons: 
+  - version optimiste: le bénéfice de la formation est conservé après 1 mois à un niveau qui n'est pas différent de celui observé juste après la formation.
+  - version prudente: l'effectif à 1 mois est insuffisant pour montrer une différence entre sepb et sepc. 
+- SEP moyen à 3 mois (n = 7 personnes, 5 IDE, 2 AS): 54.85. Il reste supérieur au SEP avant mais la taille de l'effectif rend toute interprétation illusoire.
+
+Groupe des AS
+-------------
+On forme une population d'AS constituée par les groupes 8,11,13,14,15
+```{r as}
+as <- data[data$Groupe %in% c(8,11,13:15),]
+for(i in debut:fin){as[,i]<-as.numeric(as[,i])}
+```
+on mesure le SEP avant, après et a 1 mois:
+
+```{r as_sep_avant}
+
+avant<-seq(from=debut, to=fin, by=step)
+av<-as[,avant]
+a<-apply(av,1,sum)
+summary(a)
+
+apres<-seq(from=debut+1, to=fin, by=step)
+ap<-as[,apres]
+b<-apply(ap,1,sum)
+summary(b)
+
+unMois <- seq(from=debut+2, to=fin, by=step)
+ap_1mois<-as[,unMois]
+c<-apply(ap_1mois,1,sum)
+summary(c)
+
+as$asa<-a
+as$asb<-b
+as$asc<-c
+
+asav <- summary(as$asa)
+hist(as$asa,main="SEP des AS avant la formation",ylab="Nombre",xlab="SEP",col="pink")
+abline(v=asav[4], col="blue")
+
+asap <- summary(as$asb)
+hist(as$asb,main="SEP des AS après la formation",ylab="Nombre",xlab="SEP",col="pink")
+abline(v=asap[4], col="blue")
+
+boxplot(as$asa,as$asb, main="AS - SEP avant et après la formation",col="pink",names=c("Avant","Après"))
+```
+Le SEP des AS progresse en moyenne de `r asap['Mean'] - asav['Mean']` points entre le début et la fin de la formation.
+
+Résumé:
+- [AS] SEP moyen avant formation: `r asav[4]`
+- [AS] SEP moyen après formation: `r asap[4]`
+- SEP moyen à 3 mois (n = 7 personnes, 5 IDE, 2 AS): 54,8571428571
+
+
 ### expérience professionnelle
 ```{r}
 summary(data$exp_urg)
@@ -404,8 +516,8 @@ Calcul du SEP7
 ==============
 Le SEP7 est le SEP calculé sur les 7 premières questions. Les questions vont de la colonne 21 à la colonne 42 pour les sept premières questions. Les réponses doivent d'abord être transformées en valeurs numériques. Puis elle sont divisées en 2 groupes, avant et après. Pour chaque question, les valeurs sont sommées pour calculer la valeur du SEP avant (sep7a) et après (sep7b) la formation.
 ```{r sep7}
-debut<-21
-fin<-42
+debut<-20
+fin<-46
 step<-3
 for(i in debut:fin){data[,i]<-as.numeric(data[,i])}
 avant<-seq(from=debut, to=fin, by=step)
@@ -452,8 +564,8 @@ Calcul du SEP9
 Le SEP9 est le SEP calculé sur les 9 premières questions. Les questions vont de la colonne 32 à la colonne 49 pour les neuf premières questions. Les réponses doivent d'abord être transformées en valeurs numériques. Puis elle sont divisées en 2 groupes, avant et après. Pour chaque question, les valeurs sont sommées pour calculer la valeur du SEP avant (sep9a) et après (sep9b) la formation.
 
 ```{r sep9}
-debut<-21
-fin<-47
+debut<-20
+fin<-46
 step<-3
 for(i in debut:fin){data[,i]<-as.numeric(data[,i])}
 avant<-seq(from=debut, to=fin, by=step)

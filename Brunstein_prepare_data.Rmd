@@ -13,9 +13,14 @@ getwd()
 3. 2013-04-20: nouvelle série de données (total 36 cas)
 4. 2013-05-15: résultats 3: 82 questionnaire. L'odre et le nom des colonnes a été totalement modifié => nécessite de reécrire la programme. Abandon du programme en cours et création de Brunstein2.
 5. 2013-05-21 Brunstein2: ne fonctionne qu'avec les données issues de *résultats enquête vs 3.0.xlsx*
+6. 2013-12-05 nouvelle version avec le fichier *résultats enquête vs 4.0 sept 2013.xlsx*
 
 Données transformées
 --------------------
+Création d'un fichier *resultats.csv* à partir du fichier original *résultats enquête vs 4.0 sept 2013.xlsx*:
+- suprression des colonnes BM1 à BQ1
+- suppression des lignes audela de 146
+
 Les fichiers XLS sont enregistrés au format txt.csv sous le nom de *resultats.csv*. Un nouveau fichier remplace le fichier courant auquel on ajoute le suffixe *-n*, n allant de 1 à *x* de sorte que *resultats.csv* reste toujours le fichier actif.
 
 ```{r message=FALSE}

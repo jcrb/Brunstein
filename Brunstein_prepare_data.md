@@ -9,7 +9,7 @@ date()
 ```
 
 ```
-## [1] "Mon Jun 17 22:34:44 2013"
+## [1] "Sat Dec  7 12:48:55 2013"
 ```
 
 ```r
@@ -17,7 +17,7 @@ getwd()
 ```
 
 ```
-## [1] "/home/jcb/Documents/CESU/Travaux/Brunstein/Brunstein"
+## [1] "/home/jcb/Documents/CESU/Brunstein"
 ```
 
 
@@ -26,9 +26,14 @@ getwd()
 3. 2013-04-20: nouvelle série de données (total 36 cas)
 4. 2013-05-15: résultats 3: 82 questionnaire. L'odre et le nom des colonnes a été totalement modifié => nécessite de reécrire la programme. Abandon du programme en cours et création de Brunstein2.
 5. 2013-05-21 Brunstein2: ne fonctionne qu'avec les données issues de *résultats enquête vs 3.0.xlsx*
+6. 2013-12-05 nouvelle version avec le fichier *résultats enquête vs 4.0 sept 2013.xlsx*
 
 Données transformées
 --------------------
+Création d'un fichier *resultats.csv* à partir du fichier original *résultats enquête vs 4.0 sept 2013.xlsx*:
+- suprression des colonnes BM1 à BQ1
+- suppression des lignes audela de 146
+
 Les fichiers XLS sont enregistrés au format txt.csv sous le nom de *resultats.csv*. Un nouveau fichier remplace le fichier courant auquel on ajoute le suffixe *-n*, n allant de 1 à *x* de sorte que *resultats.csv* reste toujours le fichier actif.
 
 
@@ -36,6 +41,13 @@ Les fichiers XLS sont enregistrés au format txt.csv sous le nom de *resultats.c
 # cartudo: file<-'~/Bureau/Brunstein'
 # file<-'~/Documents/CESU/Travaux/Brunstein-master' setwd(file)
 library("HH")
+```
+
+```
+## Error: there is no package called 'HH'
+```
+
+```r
 library("gplots")
 library(plyr)
 ```
@@ -60,142 +72,34 @@ data <- read.csv("resultats.csv", header = TRUE, sep = ",", na.strings = "",
     strip.white = TRUE, skip = 1, colClasses = "character")
 ```
 
-```
-## Error: more columns than column names
-```
-
 Meagling des données
 --------------------
 *! ATTENTION pb avec les caractères accentués sous windows*
+- Toutres les colones doivent avoir un nom
+- deux colonnes ne doivent pas avoir le même nom
 
 ```r
 data$groupe <- as.factor(data$Groupe)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$no <- as.integer(data$Numéro)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$diplome <- as.factor(data$Diplôme)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$date_diplome <- as.integer(as.integer(data$Date))
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$sexe <- as.factor(data$Sexe)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$travail <- as.factor(data$Lieu.exercice)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$exp_urg <- as.factor(data$experience.urgence.1...oui.2...non)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$conf_urg <- as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$last_urg_n <- as.factor(data$de.quand.date.dernière.situation.d.urgence)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$last_urg_t <- as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$formation <- as.factor(data$formation.urgence)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$date_formation <- as.factor(data$date.derniere.formation.urgence)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
 ```
 
 Regrouppement des métiers: on constitue 3 groupes: AS et AP, IDE, Tous les autres:
 
 ```r
 data$diplome <- as.character(data$diplome)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$diplome[data$diplome == "AP"] <- "AS"
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$diplome[data$diplome != "AS" & data$diplome != "IDE"] <- "Autre"
-```
-
-```
-## Error: objet de type 'closure' non indiçable
-```
-
-```r
 data$diplome <- as.factor(data$diplome)
-```
-
-```
-## Error: objet de type 'closure' non indiçable
 ```
 
 
@@ -203,10 +107,6 @@ Suppression des colonnes redondantes: correspond aux colonnes 2,4 à 18
 
 ```r
 data <- data[, c(-2, -4:-18)]
-```
-
-```
-## Error: objet de type 'closure' non indiçable
 ```
 
 
@@ -218,7 +118,36 @@ names(data)
 ```
 
 ```
-## NULL
+##  [1] "Groupe"                     "Numéro"                    
+##  [3] "B"                          "C"                         
+##  [5] "situation.depuis.formation" "A.après.formation"         
+##  [7] "B.après.formation"          "C.après.formation"         
+##  [9] "D"                          "E"                         
+## [11] "F"                          "G"                         
+## [13] "H"                          "I"                         
+## [15] "J"                          "K"                         
+## [17] "L"                          "M"                         
+## [19] "N"                          "Q1A"                       
+## [21] "Q1B"                        "Q1C"                       
+## [23] "Q2A"                        "Q2B"                       
+## [25] "Q2C"                        "Q3A"                       
+## [27] "Q3B"                        "Q3C"                       
+## [29] "Q4A"                        "Q4B"                       
+## [31] "Q4C"                        "Q5A"                       
+## [33] "Q5B"                        "Q5C"                       
+## [35] "Q6A"                        "Q6B"                       
+## [37] "Q6C"                        "Q7A"                       
+## [39] "Q7B"                        "Q7C"                       
+## [41] "Q8A"                        "Q8B"                       
+## [43] "Q8C"                        "Q9A"                       
+## [45] "Q9B"                        "Q9C"                       
+## [47] "Tel"                        "groupe"                    
+## [49] "no"                         "diplome"                   
+## [51] "date_diplome"               "sexe"                      
+## [53] "travail"                    "exp_urg"                   
+## [55] "conf_urg"                   "last_urg_n"                
+## [57] "last_urg_t"                 "formation"                 
+## [59] "date_formation"
 ```
 
 

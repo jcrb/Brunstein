@@ -3,6 +3,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=9" >
 
 <title>Mémoire V.Brunstein - Préparation des données</title>
 
@@ -185,13 +186,13 @@ hljs.initHighlightingOnLoad();
 <pre><code class="r">date()
 </code></pre>
 
-<pre><code>## [1] &quot;Mon Jun 17 22:34:44 2013&quot;
+<pre><code>## [1] &quot;Sat Dec  7 12:48:55 2013&quot;
 </code></pre>
 
 <pre><code class="r">getwd()
 </code></pre>
 
-<pre><code>## [1] &quot;/home/jcb/Documents/CESU/Travaux/Brunstein/Brunstein&quot;
+<pre><code>## [1] &quot;/home/jcb/Documents/CESU/Brunstein&quot;
 </code></pre>
 
 <ol>
@@ -200,16 +201,29 @@ hljs.initHighlightingOnLoad();
 <li>2013-04-20: nouvelle série de données (total 36 cas)</li>
 <li>2013-05-15: résultats 3: 82 questionnaire. L&#39;odre et le nom des colonnes a été totalement modifié =&gt; nécessite de reécrire la programme. Abandon du programme en cours et création de Brunstein2.</li>
 <li>2013-05-21 Brunstein2: ne fonctionne qu&#39;avec les données issues de <em>résultats enquête vs 3.0.xlsx</em></li>
+<li>2013-12-05 nouvelle version avec le fichier <em>résultats enquête vs 4.0 sept 2013.xlsx</em></li>
 </ol>
 
 <h2>Données transformées</h2>
+
+<p>Création d&#39;un fichier <em>resultats.csv</em> à partir du fichier original <em>résultats enquête vs 4.0 sept 2013.xlsx</em>:</p>
+
+<ul>
+<li>suprression des colonnes BM1 à BQ1</li>
+<li>suppression des lignes audela de 146</li>
+</ul>
 
 <p>Les fichiers XLS sont enregistrés au format txt.csv sous le nom de <em>resultats.csv</em>. Un nouveau fichier remplace le fichier courant auquel on ajoute le suffixe <em>-n</em>, n allant de 1 à <em>x</em> de sorte que <em>resultats.csv</em> reste toujours le fichier actif.</p>
 
 <pre><code class="r"># cartudo: file&lt;-&#39;~/Bureau/Brunstein&#39;
 # file&lt;-&#39;~/Documents/CESU/Travaux/Brunstein-master&#39; setwd(file)
 library(&quot;HH&quot;)
-library(&quot;gplots&quot;)
+</code></pre>
+
+<pre><code>## Error: there is no package called &#39;HH&#39;
+</code></pre>
+
+<pre><code class="r">library(&quot;gplots&quot;)
 library(plyr)
 </code></pre>
 
@@ -232,109 +246,35 @@ data &lt;- read.csv(&quot;resultats.csv&quot;, header = TRUE, sep = &quot;,&quot
     strip.white = TRUE, skip = 1, colClasses = &quot;character&quot;)
 </code></pre>
 
-<pre><code>## Error: more columns than column names
-</code></pre>
-
 <h2>Meagling des données</h2>
 
 <p><em>! ATTENTION pb avec les caractères accentués sous windows</em></p>
 
+<ul>
+<li>Toutres les colones doivent avoir un nom</li>
+<li>deux colonnes ne doivent pas avoir le même nom</li>
+</ul>
+
 <pre><code class="r">data$groupe &lt;- as.factor(data$Groupe)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$no &lt;- as.integer(data$Numéro)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$diplome &lt;- as.factor(data$Diplôme)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$date_diplome &lt;- as.integer(as.integer(data$Date))
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$sexe &lt;- as.factor(data$Sexe)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$travail &lt;- as.factor(data$Lieu.exercice)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$exp_urg &lt;- as.factor(data$experience.urgence.1...oui.2...non)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$conf_urg &lt;- as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$last_urg_n &lt;- as.factor(data$de.quand.date.dernière.situation.d.urgence)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$last_urg_t &lt;- as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$formation &lt;- as.factor(data$formation.urgence)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$date_formation &lt;- as.factor(data$date.derniere.formation.urgence)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+data$no &lt;- as.integer(data$Numéro)
+data$diplome &lt;- as.factor(data$Diplôme)
+data$date_diplome &lt;- as.integer(as.integer(data$Date))
+data$sexe &lt;- as.factor(data$Sexe)
+data$travail &lt;- as.factor(data$Lieu.exercice)
+data$exp_urg &lt;- as.factor(data$experience.urgence.1...oui.2...non)
+data$conf_urg &lt;- as.factor(data$confronté.situation.jamais...1.rarement...2.parfois...3.souvent...4)
+data$last_urg_n &lt;- as.factor(data$de.quand.date.dernière.situation.d.urgence)
+data$last_urg_t &lt;- as.factor(data$de.quand.date.dernière.situation.d.urgence.1)
+data$formation &lt;- as.factor(data$formation.urgence)
+data$date_formation &lt;- as.factor(data$date.derniere.formation.urgence)
 </code></pre>
 
 <p>Regrouppement des métiers: on constitue 3 groupes: AS et AP, IDE, Tous les autres:</p>
 
 <pre><code class="r">data$diplome &lt;- as.character(data$diplome)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$diplome[data$diplome == &quot;AP&quot;] &lt;- &quot;AS&quot;
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$diplome[data$diplome != &quot;AS&quot; &amp; data$diplome != &quot;IDE&quot;] &lt;- &quot;Autre&quot;
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
-<pre><code class="r">data$diplome &lt;- as.factor(data$diplome)
-</code></pre>
-
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
+data$diplome[data$diplome == &quot;AP&quot;] &lt;- &quot;AS&quot;
+data$diplome[data$diplome != &quot;AS&quot; &amp; data$diplome != &quot;IDE&quot;] &lt;- &quot;Autre&quot;
+data$diplome &lt;- as.factor(data$diplome)
 </code></pre>
 
 <p>Suppression des colonnes redondantes: correspond aux colonnes 2,4 à 18</p>
@@ -342,15 +282,41 @@ data &lt;- read.csv(&quot;resultats.csv&quot;, header = TRUE, sep = &quot;,&quot
 <pre><code class="r">data &lt;- data[, c(-2, -4:-18)]
 </code></pre>
 
-<pre><code>## Error: objet de type &#39;closure&#39; non indiçable
-</code></pre>
-
 <h2>Nouvelle présentation</h2>
 
 <pre><code class="r">names(data)
 </code></pre>
 
-<pre><code>## NULL
+<pre><code>##  [1] &quot;Groupe&quot;                     &quot;Numéro&quot;                    
+##  [3] &quot;B&quot;                          &quot;C&quot;                         
+##  [5] &quot;situation.depuis.formation&quot; &quot;A.après.formation&quot;         
+##  [7] &quot;B.après.formation&quot;          &quot;C.après.formation&quot;         
+##  [9] &quot;D&quot;                          &quot;E&quot;                         
+## [11] &quot;F&quot;                          &quot;G&quot;                         
+## [13] &quot;H&quot;                          &quot;I&quot;                         
+## [15] &quot;J&quot;                          &quot;K&quot;                         
+## [17] &quot;L&quot;                          &quot;M&quot;                         
+## [19] &quot;N&quot;                          &quot;Q1A&quot;                       
+## [21] &quot;Q1B&quot;                        &quot;Q1C&quot;                       
+## [23] &quot;Q2A&quot;                        &quot;Q2B&quot;                       
+## [25] &quot;Q2C&quot;                        &quot;Q3A&quot;                       
+## [27] &quot;Q3B&quot;                        &quot;Q3C&quot;                       
+## [29] &quot;Q4A&quot;                        &quot;Q4B&quot;                       
+## [31] &quot;Q4C&quot;                        &quot;Q5A&quot;                       
+## [33] &quot;Q5B&quot;                        &quot;Q5C&quot;                       
+## [35] &quot;Q6A&quot;                        &quot;Q6B&quot;                       
+## [37] &quot;Q6C&quot;                        &quot;Q7A&quot;                       
+## [39] &quot;Q7B&quot;                        &quot;Q7C&quot;                       
+## [41] &quot;Q8A&quot;                        &quot;Q8B&quot;                       
+## [43] &quot;Q8C&quot;                        &quot;Q9A&quot;                       
+## [45] &quot;Q9B&quot;                        &quot;Q9C&quot;                       
+## [47] &quot;Tel&quot;                        &quot;groupe&quot;                    
+## [49] &quot;no&quot;                         &quot;diplome&quot;                   
+## [51] &quot;date_diplome&quot;               &quot;sexe&quot;                      
+## [53] &quot;travail&quot;                    &quot;exp_urg&quot;                   
+## [55] &quot;conf_urg&quot;                   &quot;last_urg_n&quot;                
+## [57] &quot;last_urg_t&quot;                 &quot;formation&quot;                 
+## [59] &quot;date_formation&quot;
 </code></pre>
 
 <h2>Sauvegarde</h2>
